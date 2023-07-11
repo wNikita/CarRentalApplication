@@ -208,4 +208,15 @@
         <servlet-name>BookingDetails</servlet-name>
         <url-pattern>/booking-details</url-pattern>
     </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>BookingDetailsForAgencyAdmin</servlet-name>
+        <servlet-class>com.example.carrentalapplication.controller.agency.BookingDetailsForAgency</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>BookingDetailsForAgencyAdmin</servlet-name>
+        <url-pattern>/booking-agencyDetails</url-pattern>
+    </servlet-mapping>
 </web-app>

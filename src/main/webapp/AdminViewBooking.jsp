@@ -1,79 +1,80 @@
-<%@ page import="java.util.Map" %>
-<%@ page import="java.util.HashMap" %>
-<%@ page import="java.util.ArrayList" %>
+<%@ page import="com.example.carrentalapplication.model.Book" %>
 <%@ page import="java.util.List" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Booking Details</title>
+    <meta charset="UTF-8">
+    <title>Booking</title>
     <style>
-        /* Add some basic styles to the table */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f1f1f1;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
         table {
             border-collapse: collapse;
             width: 100%;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+
         th, td {
-            border: 1px solid black;
-            padding: 8px;
             text-align: left;
+            padding: 12px 15px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #e9e9e9;
         }
     </style>
 </head>
 <body>
-<h1>Order Details</h1>
-
+<h1>Booking</h1>
 <table>
-    <thead>
     <tr>
-        <th>Username</th>
-        <th>Email</th>
-        <th>Mobile</th>
-        <th>Date</th>
-        <th>Action</th>
+        <th>ID</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Total Rental Days</th>
+        <th>Total Cost</th>
+        <th>Car Name</th>
+        <th>Car Number</th>
+        <th>Booking Date</th>
+        <!-- Add more table headers as needed -->
     </tr>
-    </thead>
-    <tbody>
-    <!-- Loop through orders and display details -->
-    <%
-        // Sample data
-        List<Map<String, String>> orders = new ArrayList<>();
-        Map<String, String> order1 = new HashMap<>();
-        order1.put("username", "John Doe");
-        order1.put("email", "johndoe@example.com");
-        order1.put("mobile", "1234567890");
-        order1.put("date", "2023-07-10");
-        orders.add(order1);
-        Map<String, String> order2 = new HashMap<>();
-        order2.put("username", "Jane Smith");
-        order2.put("email", "janesmith@example.com");
-        order2.put("mobile", "9876543210");
-        order2.put("date", "2023-07-09");
-        orders.add(order2);
 
-        for (Map<String, String> order : orders) {
-            String username = order.get("username");
-            String email = order.get("email");
-            String mobile = order.get("mobile");
-            String date = order.get("date");
-    %>
+    <% List<Book> BookingDetails = (List<Book>) request.getAttribute("bookingDetails");
+
+        for (Book book : BookingDetails) { %>
     <tr>
-        <td><%= username %></td>
-        <td><%= email %></td>
-        <td><%= mobile %></td>
-        <td><%= date %></td>
-        <td>
-            <form action="order-details.jsp" method="post">
-                <input type="hidden" name="username" value="<%= username %>">
-                <input type="hidden" name="email" value="<%= email %>">
-                <input type="hidden" name="mobile" value="<%= mobile %>">
-                <input type="hidden" name="date" value="<%= date %>">
-                <button type="submit">View</button>
-            </form>
-        </td>
+        <td><%= book.getBookingId() %></td>
+        <td><%= book.getPickupDate() %></td>
+        <td><%= book.getReturnDate()%></td>
+        <td><%= book.getRentalDays()%></td>
+        <td><%= book.getTotalCost()%></td>
+        <td><%= book.getCarDetails().getName()%></td>
+        <td><%= book.getCarDetails().getRegistrationNumber()%></td>
+        <td><%=book.getCreatedDate()%></td>
+
     </tr>
     <% } %>
-    </tbody>
 </table>
-
 </body>
 </html>

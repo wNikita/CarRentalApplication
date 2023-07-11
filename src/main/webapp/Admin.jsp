@@ -67,7 +67,7 @@
     <a href="register-car">Add Car</a>
     <a href="view-car">View Car</a>
     <a href="view-agency">View Agency Profile</a>
-    <a href="AdminViewBooking.jsp" >My Booking</a>
+    <a href="booking-agencyDetails" >My Booking</a>
     <a href="user-profile">My Account</a>
 
     <a class="button right" href="logout">Logout</a>
