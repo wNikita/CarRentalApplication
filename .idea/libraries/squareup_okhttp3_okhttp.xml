@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="squareup.okhttp3.okhttp" type="repository">
+    <properties maven-id="com.squareup.okhttp3:okhttp:3.14.9" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/squareup/okhttp3/okhttp/3.14.9/okhttp-3.14.9.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/squareup/okio/okio/1.17.2/okio-1.17.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
