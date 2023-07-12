@@ -50,6 +50,9 @@
 <table>
     <tr>
         <th>ID</th>
+        <th>Name</th>
+        <th>EmailId</th>
+        <th>Mobile Number</th>
         <th>Start Date</th>
         <th>End Date</th>
         <th>Total Rental Days</th>
@@ -57,7 +60,7 @@
         <th>Car Name</th>
         <th>Car Number</th>
         <th>Booking Date</th>
-        <!-- Add more table headers as needed -->
+        <th>Actions</th>
     </tr>
 
     <% List<Book> BookingDetails = (List<Book>) request.getAttribute("bookingDetails");
@@ -65,6 +68,9 @@
         for (Book book : BookingDetails) { %>
     <tr>
         <td><%= book.getBookingId() %></td>
+        <td><%=book.getUser().getFirstName()%></td>
+        <td><%=book.getUser().getEmailId()%></td>
+        <td><%=book.getUser().getMobileNO()%></td>
         <td><%= book.getPickupDate() %></td>
         <td><%= book.getReturnDate()%></td>
         <td><%= book.getRentalDays()%></td>
@@ -72,6 +78,7 @@
         <td><%= book.getCarDetails().getName()%></td>
         <td><%= book.getCarDetails().getRegistrationNumber()%></td>
         <td><%=book.getCreatedDate()%></td>
+        <td><a href="#" class="view-button">View</a></td>
 
     </tr>
     <% } %>

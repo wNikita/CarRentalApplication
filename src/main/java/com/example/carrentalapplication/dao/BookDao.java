@@ -4,6 +4,7 @@ import com.example.carrentalapplication.dto.BookDTO;
 import com.example.carrentalapplication.exception.DAOException;
 import com.example.carrentalapplication.model.Book;
 import com.example.carrentalapplication.model.CarDetails;
+import com.example.carrentalapplication.model.User;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -84,8 +85,10 @@ public class BookDao {
         List<Book> book = new ArrayList<>();
 
         try {
-            String sql = "SELECT b.booking_Id,b.pickupDate,b.returnDate,b.rentaldays,b.totalcost,b.created_date," +
-                    " c.name, c.number FROM book b INNER JOIN car c ON b.car_id = c.car_id WHERE c.car_agency_id = ? ";
+            String sql = "SELECT b.booking_Id, b.pickupDate, b.returnDate, b.rentaldays, b.totalcost, b.created_date," +
+                    " c.name AS car_name, c.number AS car_number, u.first_name AS user_name, u.email_id," +
+                    " u.mobile_number FROM book b INNER JOIN car c ON b.car_id = c.car_id INNER JOIN user u " +
+                    "ON b.user_id = u.user_id WHERE c.car_agency_id = ?";
             PreparedStatement stmt = DBConnection.getInstance().getConnection().prepareStatement(sql);
             stmt.setInt(1, agencyId);
             ResultSet resultSet = stmt.executeQuery();
@@ -100,6 +103,11 @@ public class BookDao {
                 CarDetails carDetails = new CarDetails();
                 carDetails.setName(resultSet.getString(7));
                 carDetails.setRegistrationNumber(resultSet.getInt(8));
+                User user=new User();
+                user.setFirstName(resultSet.getString(9));
+                user.setEmailId(resultSet.getString(10));
+                user.setMobileNO(resultSet.getString(11));
+                book1.setUser(user);
                 book1.setCarDetails(carDetails);
                 book.add(book1);
             }

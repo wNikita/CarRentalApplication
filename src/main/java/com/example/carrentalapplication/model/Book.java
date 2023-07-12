@@ -18,6 +18,15 @@ public class Book {
     int bookingId;
     Date createdDate;
 CarDetails carDetails;
+User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public CarDetails getCarDetails() {
         return carDetails;
