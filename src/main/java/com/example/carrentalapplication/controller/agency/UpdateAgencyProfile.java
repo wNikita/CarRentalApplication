@@ -1,7 +1,6 @@
 package com.example.carrentalapplication.controller.agency;
 
 import com.example.carrentalapplication.Validation.AgencyValidation;
-import com.example.carrentalapplication.Validation.CarDetailsValidation;
 import com.example.carrentalapplication.dao.AddressDAO;
 import com.example.carrentalapplication.dao.AgencyDAO;
 import com.example.carrentalapplication.dto.AddressDetailsDTO;
@@ -20,8 +19,8 @@ import java.io.IOException;
 import java.util.List;
 
 public class UpdateAgencyProfile extends HttpServlet {
-    AgencyDAO agencyDAO = new AgencyDAO();
-    AddressDAO addressDAO = new AddressDAO();
+    private AgencyDAO agencyDAO = new AgencyDAO();
+    private AddressDAO addressDAO = new AddressDAO();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

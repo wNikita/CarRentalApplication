@@ -38,20 +38,20 @@ public class PaymentResult extends HttpServlet {
                 if (status) {
                     statusIsSuccess = true;
                     try {
-                       RazorpayClient razorpayClient = new RazorpayClient("rzp_test_QEtxzC00WQzK7n", "w3Qf6dDLepikuqqrAks4d4LD");
+                        RazorpayClient razorpayClient = new RazorpayClient("rzp_test_QEtxzC00WQzK7n", "w3Qf6dDLepikuqqrAks4d4LD");
                         Order order = razorpayClient.Orders.fetch(orderId);
                         Payment payment = razorpayClient.Payments.fetch(paymentId);
                         Payment payment1 = razorpay.Payments.capture(paymentId, options);
-                        request.setAttribute("paymentDetails",payment1);
-                        request.setAttribute("orderDetails",order);
-                        request.setAttribute("paymentDetails",payment);
-                        PaymentDao paymentDao=new PaymentDao();
-                        PaymentDetails paymentDetails1=new PaymentDetails();
+                        request.setAttribute("paymentDetails", payment1);
+                        request.setAttribute("orderDetails", order);
+                        request.setAttribute("paymentDetails", payment);
+                        PaymentDao paymentDao = new PaymentDao();
+                        PaymentDetails paymentDetails1 = new PaymentDetails();
                         paymentDetails1.setPaymentStatus(payment.get("method"));
-                        PaymentDetails paymentDetails=paymentDao.addPaymentDetails(paymentDetails1);
+                        PaymentDetails paymentDetails = paymentDao.addPaymentDetails(paymentDetails1);
 
                         BookDao bookDAO = new BookDao();
-                        bookDAO.updatePaymentId(orderId, paymentId,paymentDetails.getPaymentId());
+                        bookDAO.updatePaymentId(orderId, paymentId, paymentDetails.getPaymentId());
 
                     } catch (RazorpayException e) {
                         e.printStackTrace();
@@ -71,7 +71,6 @@ public class PaymentResult extends HttpServlet {
         } else {
             statusIsSuccess = false;
         }
-
 
 
         request.setAttribute("statusIsSuccess", statusIsSuccess);
