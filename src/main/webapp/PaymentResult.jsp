@@ -64,11 +64,17 @@
             <p>Payment Status: ${paymentDetails.get("status")}</p>
             <p>Currency: ${paymentDetails.get("currency")}</p>
 
+            <button onclick="redirectToHome()">OK</button> <!-- Add this button -->
 
         </div>
     </div>
 </div>
 
+<script>
+    function redirectToHome() {
+        window.location.href = "viewStateCity"; // Replace "home.html" with the URL of the desired page
+    }
+</script>
 
 </div>
 <% } %>
