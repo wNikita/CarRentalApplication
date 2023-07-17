@@ -29,6 +29,9 @@
           <element id="library" level="project" name="Maven: org.apache.httpcomponents.client5:httpclient5:5.2.1" />
           <element id="library" level="project" name="Maven: org.apache.httpcomponents.core5:httpcore5-h2:5.2" />
           <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.36" />
+          <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpclient:4.5.13" />
+          <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpcore:4.4.13" />
+          <element id="library" level="project" name="Maven: commons-logging:commons-logging:1.2" />
         </element>
       </element>
       <element id="directory" name="META-INF">
