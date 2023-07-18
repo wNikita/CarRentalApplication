@@ -71,9 +71,6 @@ public class SignUpServlet extends HttpServlet {
                     requestDispatcher.forward(req, resp);
                 }
 
-
-
-
                 else {
                     String code = Utility.generateVerificationCode();
                     userDTO.setVerificationCode(code);

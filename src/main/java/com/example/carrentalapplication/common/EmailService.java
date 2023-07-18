@@ -21,6 +21,9 @@ public class EmailService {
         properties.put("mail.smtp.host", "smtp.gmail.com");
         properties.put("mail.smtp.ssl.enable", true);
         properties.put("mail.smtp.auth", true);
+        properties.put("mail.smtp.port", "465");
+        properties.put("mail.smtp.ssl.protocols", "TLSv1.2");
+
         return properties;
     }
 
