@@ -56,10 +56,6 @@
             <p>Email: ${paymentDetails.get("email")}</p>
             <p>Contact: ${paymentDetails.get("contact")}</p>
             <p>Payment ID: ${paymentDetails.get("id")}</p>
-            <p>Payment Mode: ${paymentDetails.get("method")}</p>
-            <p>Card Holder Name: ${paymentDetails.get("name")}</p>
-            <p>Card Last 4 Digits: ${paymentDetails.get("last4")}</p>
-            <p>Card Type: ${paymentDetails.get("type")}</p>
             <p>Amount: ${orderDetails.get("amount")}</p>
             <p>Payment Status: ${paymentDetails.get("status")}</p>
             <p>Currency: ${paymentDetails.get("currency")}</p>

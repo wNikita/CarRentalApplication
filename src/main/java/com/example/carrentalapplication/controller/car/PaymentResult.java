@@ -41,8 +41,6 @@ public class PaymentResult extends HttpServlet {
                         RazorpayClient razorpayClient = new RazorpayClient("rzp_test_QEtxzC00WQzK7n", "w3Qf6dDLepikuqqrAks4d4LD");
                         Order order = razorpayClient.Orders.fetch(orderId);
                         Payment payment = razorpayClient.Payments.fetch(paymentId);
-                        Payment payment1 = razorpay.Payments.capture(paymentId, options);
-                        request.setAttribute("paymentDetails", payment1);
                         request.setAttribute("orderDetails", order);
                         request.setAttribute("paymentDetails", payment);
                         PaymentDao paymentDao = new PaymentDao();
