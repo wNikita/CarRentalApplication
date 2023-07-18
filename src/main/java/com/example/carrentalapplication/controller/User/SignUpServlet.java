@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
+import static java.lang.System.out;
+
 public class SignUpServlet extends HttpServlet {
 
     private EmailService emailService = new EmailService();
@@ -52,17 +54,30 @@ public class SignUpServlet extends HttpServlet {
             requestDispatcher.forward(req, resp);
         } else {
             try {
+                if(userDAO.checkEmailExists(userDTO.getEmailId())) {
+                    List<Error> errorList1 = UserValidation.emailValidate(userDTO);
+                    req.setAttribute("errorList", errorList1);
+                    fillSignUpMasterData(req);
 
-                String code = Utility.generateVerificationCode();
-                userDTO.setVerificationCode(code);
-                userDTO = userDAO.addUser(userDTO);
-                sendMail(userDTO);
+                    RequestDispatcher requestDispatcher = req.getRequestDispatcher("SignUp.jsp");
+                    requestDispatcher.forward(req, resp);
+
+                }
+
+
+
+                else {
+                    String code = Utility.generateVerificationCode();
+                    userDTO.setVerificationCode(code);
+                    userDTO = userDAO.addUser(userDTO);
+                    sendMail(userDTO);
 //            resp.sendRedirect("/verification?userId="+
 
-                req.setAttribute("userId", userDTO.getUserId());
-                // resp.sendRedirect("Verify.jsp");
-                RequestDispatcher requestDispatcher = req.getRequestDispatcher("Verify.jsp");
-                requestDispatcher.forward(req, resp);
+                    req.setAttribute("userId", userDTO.getUserId());
+                    // resp.sendRedirect("Verify.jsp");
+                    RequestDispatcher requestDispatcher = req.getRequestDispatcher("Verify.jsp");
+                    requestDispatcher.forward(req, resp);
+                }
             } catch (DAOException e) {
                 e.printStackTrace();
             }

@@ -2,7 +2,6 @@ package com.example.carrentalapplication.dao;
 
 import com.example.carrentalapplication.dto.UserDTO;
 import com.example.carrentalapplication.exception.DAOException;
-import com.example.carrentalapplication.model.CarDetails;
 import com.example.carrentalapplication.model.User;
 
 import java.sql.PreparedStatement;
@@ -33,8 +32,6 @@ public class UserDAO {
             while (rs.next()) {
                 userDTO.setUserId(String.valueOf(rs.getInt(1)));
             }
-        } catch (SQLException e) {
-            throw new DAOException("Exception while adding user", e);
         } catch (Exception ex) {
             throw new DAOException("Exception while adding user", ex);
         }
