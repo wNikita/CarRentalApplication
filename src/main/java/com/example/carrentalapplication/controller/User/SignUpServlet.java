@@ -55,14 +55,22 @@ public class SignUpServlet extends HttpServlet {
         } else {
             try {
                 if(userDAO.checkEmailExists(userDTO.getEmailId())) {
-                    List<Error> errorList1 = UserValidation.emailValidate(userDTO);
+                    List<Error> errorList1 = UserValidation.emailValidate();
                     req.setAttribute("errorList", errorList1);
                     fillSignUpMasterData(req);
 
                     RequestDispatcher requestDispatcher = req.getRequestDispatcher("SignUp.jsp");
                     requestDispatcher.forward(req, resp);
+                }else if (userDAO.checkMobileNumberExists(userDTO.getMobileNO()))
+                {
+                    List<Error> errorList1 = UserValidation.mobileNumberValidate();
+                    req.setAttribute("errorList", errorList1);
+                    fillSignUpMasterData(req);
 
+                    RequestDispatcher requestDispatcher = req.getRequestDispatcher("SignUp.jsp");
+                    requestDispatcher.forward(req, resp);
                 }
+
 
 
 

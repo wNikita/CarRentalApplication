@@ -43,11 +43,19 @@ public class UserValidation {
         }
         return errorList;
     }
-    public static  List<Error> emailValidate(UserDTO userDTO)
+    public static  List<Error> emailValidate()
     {
         List<Error> errorList = new ArrayList<>();
          {
             errorList.add(new Error("Email is already exist"));
+        } return errorList;
+    }
+
+    public static  List<Error> mobileNumberValidate()
+    {
+        List<Error> errorList = new ArrayList<>();
+        {
+            errorList.add(new Error("Mobile Number is already exist"));
         } return errorList;
     }
 }
