@@ -2,6 +2,7 @@ package com.example.carrentalapplication.controller.agency;
 
 import com.example.carrentalapplication.dao.AddressDAO;
 import com.example.carrentalapplication.dao.AgencyDAO;
+import com.example.carrentalapplication.dao.UserDAO;
 import com.example.carrentalapplication.exception.DAOException;
 import com.example.carrentalapplication.model.*;
 
@@ -38,6 +39,7 @@ public class AddAgencyServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         AddressDetails addressDetails = new AddressDetails();
+        UserDAO userDAO=new UserDAO();
         addressDetails.setAddressLine(req.getParameter("addressLine"));
         addressDetails.setPinCode(req.getParameter("pinCode"));
         int cityId = Integer.parseInt(req.getParameter("city"));
@@ -63,7 +65,9 @@ public class AddAgencyServlet extends HttpServlet {
         AgencyDAO agencyDAO = new AgencyDAO();
         try {
           agencyDAO.addAgency(user.getUserId(), agencyDetails, addressID);
-          RequestDispatcher requestDispatcher= req.getRequestDispatcher("Admin.jsp");
+            userDAO.manageLoginStatus(user.getEmailId(), true);
+
+            RequestDispatcher requestDispatcher= req.getRequestDispatcher("Admin.jsp");
           requestDispatcher.forward(req,resp);
             } catch (DAOException e) {
             e.printStackTrace();

@@ -61,7 +61,6 @@ public class LoginServlet extends HttpServlet {
             if (user.getRoleId() == Constant.ROLE_CAR_AGENCY) {
                 if (!user.isLogged()) {
                     resp.sendRedirect("agency-form");
-                    userDAO.manageLoginStatus(user.getEmailId(), true);
                 } else {
                     RequestDispatcher requestDispatcher= req.getRequestDispatcher("Admin.jsp");
                     requestDispatcher.forward(req,resp);
