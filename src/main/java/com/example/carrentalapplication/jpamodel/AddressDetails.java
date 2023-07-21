@@ -1,11 +1,24 @@
 package com.example.carrentalapplication.jpamodel;
 
-public class AddressDetails {
+import javax.persistence.Column;
+import javax.persistence.Table;
 
+@Table(name="")
+
+public class AddressDetails {
+    @Column(name="address_id ")
     private int addressID;
+
+    @Column(name="address_line")
     private String addressLine;
+
+    @Column(name="pin_code")
     private String pinCode;
+
+    @Column(name="")
     private State state;
+
+@Column(name="")
     private City city;
 
     public String getPinCode() {

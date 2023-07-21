@@ -5,12 +5,13 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="")
+@Table(name = "state")
 public class State {
-    @Column(name="")
- private int stateId;
-    @Column(name="")
 
+    @Column(name = "state_id")
+    private int stateId;
+
+    @Column(name = "state_name")
     private String stateName;
 
     public State() {

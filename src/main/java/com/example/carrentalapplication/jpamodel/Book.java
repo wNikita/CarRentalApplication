@@ -2,46 +2,46 @@ package com.example.carrentalapplication.jpamodel;
 
 
 import javax.persistence.Column;
+import javax.persistence.Table;
 import java.util.Date;
+@Table(name="")
 
 public class Book {
-    @Column(name="")
-
+    @Column(name="pickupDate")
     Date pickupDate;
-    @Column(name="")
 
+    @Column(name="returnDate")
     Date returnDate;
-    @Column(name="")
 
+    @Column(name="rentaldays")
     int rentalDays;
-    @Column(name="")
 
+    @Column(name="totalcost\t")
     int totalCost;
-    @Column(name="")
 
+    @Column(name="license")
     String license;
-    @Column(name="")
 
+    @Column(name="")
     int carId;
-    @Column(name="")
 
+    @Column(name="")
     int userId;
-    @Column(name="")
 
+    @Column(name="")
     String status;
-    @Column(name="")
 
+    @Column(name="")
     int paymentId;
-    @Column(name="")
 
+    @Column(name="razorpay_order_id")
     String razorpayOrderId;
-    @Column(name="")
 
+    @Column(name="razorpay_payment_id")
     String razorpayPaymentId;
-    @Column(name="")
 
-    int bookingId;
     @Column(name="")
+    int bookingId;
 
     Date createdDate;
 CarDetails carDetails;

@@ -1,48 +1,51 @@
 package com.example.carrentalapplication.jpamodel;
 
 import javax.persistence.Column;
+import javax.persistence.Table;
+
+@Table(name="")
 
 public class CarDetails implements  Comparable<CarDetails>{
-    @Column(name="")
+    @Column(name="car_id ")
     private Integer carId;
 
-    @Column(name="")
+    @Column(name="name")
     private String name;
 
-    @Column(name="")
+    @Column(name="number")
     private Integer registrationNumber;
 
-    @Column(name="")
+    @Column(name="color")
     private String color;
 
-    @Column(name="")
+    @Column(name="model")
     private Integer model;
 
-    @Column(name="")
+    @Column(name="fuel_type")
     private String fuelType;
 
-    @Column(name="")
+    @Column(name="transmission_type")
     private String transmissionType;
 
-    @Column(name="")
+    @Column(name="insurance_no")
     private Integer insurancePolicyNumber;
 
-    @Column(name="")
+    @Column(name="no_of_seats")
     private Integer noOfSeats;
 
-    @Column(name="")
+    @Column(name="km_travelled\t")
     private Integer kmTravelled;
 
-    @Column(name="")
+    @Column(name="rental_rate_per_day")
     private Integer chargePerDay;
 
-    @Column(name="")
+    @Column(name="car_agency_id ")
     private Integer agencyId;
 
     @Column(name="")
     private City city;
 
-    @Column(name="")
+    @Column(name="image")
     private String image;
 
     public String getImage() {

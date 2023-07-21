@@ -4,11 +4,10 @@ package com.example.carrentalapplication.jpamodel;
 import javax.persistence.Column;
 
 public class City {
-    @Column(name="")
-
+    @Column(name="city_id")
     public int cityId;
-    @Column(name="")
 
+    @Column(name="city_name")
     public String cityName;
 
     public City() {

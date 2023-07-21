@@ -3,25 +3,27 @@ package com.example.carrentalapplication.jpamodel;
 import com.example.carrentalapplication.jpamodel.AddressDetails;
 
 import javax.persistence.Column;
+import javax.persistence.Table;
+
+@Table(name="")
 
 public class AgencyDetails {
-    @Column(name="")
-
+    @Column(name="agency_Name")
     private String agencyName;
-    @Column(name="")
 
+    @Column(name="GST_Number")
     private String GSTNumber;
-    @Column(name="")
 
+    @Column(name="mobile_number")
     private  String mobileNumber;
-    @Column(name="")
 
+    @Column(name="")
     private int agencyDetailsId;
-    @Column(name="")
 
+    @Column(name="")
     private int userId;
-    @Column(name="")
 
+    @Column(name="")
     private AddressDetails addressDetails;
 
     public String getMobileNumber() {

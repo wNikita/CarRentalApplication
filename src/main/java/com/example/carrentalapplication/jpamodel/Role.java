@@ -3,13 +3,13 @@ package com.example.carrentalapplication.jpamodel;
 import javax.persistence.Column;
 import javax.persistence.Table;
 
-@Table(name="")
+@Table(name="role")
 
 public class Role {
-    @Column(name="")
+    @Column(name="role_id")
 
     int roleId;
-    @Column(name="")
+    @Column(name="role_name")
 
     String roleName;
 
