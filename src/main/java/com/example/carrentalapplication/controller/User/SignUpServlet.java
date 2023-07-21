@@ -1,6 +1,6 @@
 package com.example.carrentalapplication.controller.User;
 
-import com.example.carrentalapplication.Validation.UserValidation;
+import com.example.carrentalapplication.validation.UserValidation;
 import com.example.carrentalapplication.common.EmailService;
 import com.example.carrentalapplication.common.Utility;
 import com.example.carrentalapplication.dao.RoleDao;
@@ -8,7 +8,6 @@ import com.example.carrentalapplication.dao.UserDAO;
 import com.example.carrentalapplication.dto.UserDTO;
 import com.example.carrentalapplication.exception.DAOException;
 import com.example.carrentalapplication.model.Role;
-import com.example.carrentalapplication.model.User;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,8 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
-
-import static java.lang.System.out;
 
 public class SignUpServlet extends HttpServlet {
 

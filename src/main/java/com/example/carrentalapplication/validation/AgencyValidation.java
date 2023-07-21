@@ -1,7 +1,6 @@
-package com.example.carrentalapplication.Validation;
+package com.example.carrentalapplication.validation;
 
 import com.example.carrentalapplication.dto.AgencyDetailsDTO;
-import com.example.carrentalapplication.model.AgencyDetails;
 
 import java.util.ArrayList;
 import java.util.List;

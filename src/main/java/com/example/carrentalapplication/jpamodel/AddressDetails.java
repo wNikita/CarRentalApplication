@@ -1,11 +1,14 @@
 package com.example.carrentalapplication.jpamodel;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
-
-@Table(name="")
+@Entity
+@Table(name="address")
 
 public class AddressDetails {
+    @Id
     @Column(name="address_id ")
     private int addressID;
 

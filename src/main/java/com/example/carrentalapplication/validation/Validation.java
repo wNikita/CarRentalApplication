@@ -1,4 +1,4 @@
-package com.example.carrentalapplication.Validation;
+package com.example.carrentalapplication.validation;
 
 public class Validation {
     public static boolean isEmpty(String val) {
