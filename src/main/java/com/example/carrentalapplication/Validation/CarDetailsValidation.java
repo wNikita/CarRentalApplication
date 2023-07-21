@@ -1,4 +1,4 @@
-package com.example.carrentalapplication.validation;
+package com.example.carrentalapplication.Validation;
 
 import com.example.carrentalapplication.dto.CarDetailsDTO;
 

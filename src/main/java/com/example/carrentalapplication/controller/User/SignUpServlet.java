@@ -1,6 +1,6 @@
 package com.example.carrentalapplication.controller.User;
 
-import com.example.carrentalapplication.validation.UserValidation;
+import com.example.carrentalapplication.Validation.UserValidation;
 import com.example.carrentalapplication.common.EmailService;
 import com.example.carrentalapplication.common.Utility;
 import com.example.carrentalapplication.dao.RoleDao;

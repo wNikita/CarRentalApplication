@@ -1,6 +1,6 @@
 package com.example.carrentalapplication.controller.car;
 
-import com.example.carrentalapplication.validation.CarDetailsValidation;
+import com.example.carrentalapplication.Validation.CarDetailsValidation;
 import com.example.carrentalapplication.dao.CarDAO;
 import com.example.carrentalapplication.dto.CarDetailsDTO;
 import com.example.carrentalapplication.exception.DAOException;

@@ -1,7 +1,5 @@
 package com.example.carrentalapplication.controller.User;
 
-import com.example.carrentalapplication.dao.UserDAO;
-import com.example.carrentalapplication.exception.DAOException;
 import com.example.carrentalapplication.model.User;
 
 import javax.servlet.RequestDispatcher;
