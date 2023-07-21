@@ -1,6 +1,6 @@
 package com.example.carrentalapplication.controller.agency;
 
-import com.example.carrentalapplication.Validation.AgencyValidation;
+import com.example.carrentalapplication.validation.AgencyValidation;
 import com.example.carrentalapplication.dao.AddressDAO;
 import com.example.carrentalapplication.dao.AgencyDAO;
 import com.example.carrentalapplication.dto.AddressDetailsDTO;

@@ -1,6 +1,6 @@
 package com.example.carrentalapplication.controller.car;
 
-import com.example.carrentalapplication.Validation.CarDetailsValidation;
+import com.example.carrentalapplication.validation.CarDetailsValidation;
 import com.example.carrentalapplication.dao.CarDAO;
 import com.example.carrentalapplication.dto.CarDetailsDTO;
 import com.example.carrentalapplication.exception.DAOException;
@@ -16,8 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.*;
 import java.util.List;
-
-import static java.awt.SystemColor.window;
 
 @MultipartConfig
 public class UpdateCarServlet extends HttpServlet {

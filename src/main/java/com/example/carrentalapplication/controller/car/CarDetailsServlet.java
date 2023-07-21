@@ -1,6 +1,5 @@
 package com.example.carrentalapplication.controller.car;
 
-import com.example.carrentalapplication.Validation.CarDetailsValidation;
 import com.example.carrentalapplication.dao.BookDao;
 import com.example.carrentalapplication.dao.CarDAO;
 import com.example.carrentalapplication.dto.BookDTO;
@@ -16,11 +15,9 @@ import javax.servlet.*;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.*;
 import java.io.*;
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 @MultipartConfig
 public class CarDetailsServlet extends HttpServlet {

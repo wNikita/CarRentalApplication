@@ -1,6 +1,6 @@
 package com.example.carrentalapplication.controller.car;
 
-import com.example.carrentalapplication.Validation.CarDetailsValidation;
+import com.example.carrentalapplication.validation.CarDetailsValidation;
 import com.example.carrentalapplication.dao.AgencyDAO;
 import com.example.carrentalapplication.dao.CarDAO;
 import com.example.carrentalapplication.dto.CarDetailsDTO;
@@ -8,13 +8,10 @@ import com.example.carrentalapplication.exception.DAOException;
 import com.example.carrentalapplication.model.AgencyDetails;
 import com.example.carrentalapplication.model.CarDetails;
 import com.example.carrentalapplication.model.User;
-import jdk.nashorn.internal.ir.RuntimeNode;
-import org.omg.CORBA.Request;
 
 import javax.servlet.*;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.*;
-import javax.xml.ws.Response;
 import java.io.*;
 
 import java.util.List;
