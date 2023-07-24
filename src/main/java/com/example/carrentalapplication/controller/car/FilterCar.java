@@ -39,12 +39,10 @@ public class FilterCar extends HttpServlet {
 
                 req.setAttribute("carDetails", filteredCars);
             }
-            //request.getRequestDispatcher("car-details.jsp").forward(request, response);
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("ViewCar.jsp");
             requestDispatcher.forward(req, resp);
         } catch (DAOException e) {
             e.printStackTrace();
-            // Handle DAOException appropriately
         }
     }
 }

@@ -51,17 +51,14 @@ public class UpdateUserProfile extends HttpServlet {
             List<Error> errorList = UserValidation.validateUser(userDTO);
             if (!errorList.isEmpty()) {
                 request.setAttribute("errorList", errorList);
-//            RequestDispatcher requestDispatcher = req.getRequestDispatcher("update-car?carId"+carId);
-//            requestDispatcher.forward(req, resp);
+
                 response.sendRedirect("user-update?userID=" + user.getUserId());
             } else {
                 userDAO.updateUser(user, user.getUserId());
-                // Redirect to the profile page or display a success message
                 RequestDispatcher requestDispatcher = request.getRequestDispatcher("Admin.jsp");
                 requestDispatcher.forward(request, response);
             }
         } catch (DAOException e) {
-            // Handle the exception and display an error message
             e.printStackTrace();
         }
     }

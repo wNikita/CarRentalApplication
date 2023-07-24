@@ -73,10 +73,8 @@ public class SignUpServlet extends HttpServlet {
                     userDTO.setVerificationCode(code);
                     userDTO = userDAO.addUser(userDTO);
                     sendMail(userDTO);
-//            resp.sendRedirect("/verification?userId="+
 
                     req.setAttribute("userId", userDTO.getUserId());
-                    // resp.sendRedirect("Verify.jsp");
                     RequestDispatcher requestDispatcher = req.getRequestDispatcher("Verify.jsp");
                     requestDispatcher.forward(req, resp);
                 }

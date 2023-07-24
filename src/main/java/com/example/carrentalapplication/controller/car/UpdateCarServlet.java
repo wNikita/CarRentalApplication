@@ -67,7 +67,6 @@ public class UpdateCarServlet extends HttpServlet {
             req.setAttribute("carDetails",carDetailsDTO);
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("UpdateCar.jsp");
             requestDispatcher.forward(req, resp);
-            // resp.sendRedirect("update-car?carId="+carId);
         } else {
             try {
                 carDAO.UpdateCar(carId, carDetailsDTO);

@@ -8,12 +8,10 @@ import java.io.IOException;
 
 public class LogOutServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Invalidate the current user's session
         request.getSession().invalidate();
-        // Set response headers to prevent caching of the login page
-        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1
-        response.setHeader("Pragma", "no-cache"); // HTTP 1.0
-        response.setHeader("Expires", "0"); // Proxies
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        response.setHeader("Pragma", "no-cache");
+        response.setHeader("Expires", "0");
 
         // Redirect the user to the login page
         response.sendRedirect("Login.jsp");

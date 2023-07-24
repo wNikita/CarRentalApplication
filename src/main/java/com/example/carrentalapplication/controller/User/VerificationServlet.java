@@ -41,8 +41,6 @@ public class VerificationServlet extends HttpServlet {
                 try {
                     userDAO.updateUserIsVerified(true, user.getEmailId());
                     resp.sendRedirect("Login.jsp");
-//                    RequestDispatcher requestDispatcher= req.getRequestDispatcher("login");
-//                    requestDispatcher.forward(req,resp);
 
                 }catch (DAOException e) {
                     e.printStackTrace();

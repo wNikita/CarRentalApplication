@@ -30,9 +30,8 @@ public class SortingData extends HttpServlet {
         HttpSession httpSession = req.getSession();
         httpSession.setAttribute("AgencyUser", agencyDetails1);
 
-        String sortOrder = req.getParameter("sort"); // Get the selected sort order from the request
+        String sortOrder = req.getParameter("sort");
 
-        // Fetch the car data from the database based on the selected sort order
         List<CarDetails> carList = null;
         if ("name_asc".equals(sortOrder)) {
             try {
