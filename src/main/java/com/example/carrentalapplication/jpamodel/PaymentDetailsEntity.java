@@ -1,18 +1,16 @@
 package com.example.carrentalapplication.jpamodel;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-@Entity
-@Table(name="payment")
+import javax.persistence.*;
 
-public class PaymentDetails {
+@Entity
+@Table(name = "payment")
+
+public class PaymentDetailsEntity {
     @Id
-    @Column(name="Payment_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     int paymentId;
 
-    @Column(name="Payment_name")
+    @Column(name = "Payment_name",nullable = false)
     String paymentStatus;
 
     public int getPaymentId() {

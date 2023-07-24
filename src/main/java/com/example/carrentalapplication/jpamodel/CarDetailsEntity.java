@@ -3,51 +3,49 @@ package com.example.carrentalapplication.jpamodel;
 import javax.persistence.*;
 
 @Entity
-@Table(name="")
+@Table(name = "car")
 
-public class CarDetails implements  Comparable<CarDetails>{
+public class CarDetailsEntity implements Comparable<CarDetailsEntity> {
     @Id
-    @Column(name="car_id ")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer carId;
 
-    @Column(name="name")
+    @Column(name = "name",length = 10,nullable = false)
     private String name;
 
-    @Column(name="number")
+    @Column(name = "number",length = 10,nullable = false)
     private Integer registrationNumber;
 
-    @Column(name="color")
+    @Column(name = "color",length = 10,nullable = false)
     private String color;
 
-    @Column(name="model")
+    @Column(name = "model",length = 15,nullable = false)
     private Integer model;
 
-    @Column(name="fuel_type")
+    @Column(name = "fuel_type",length = 20,nullable = false)
     private String fuelType;
 
-    @Column(name="transmission_type")
+    @Column(name = "transmission_type",length = 20,nullable = false)
     private String transmissionType;
 
-    @Column(name="insurance_no")
+    @Column(name = "insurance_no",length = 25,nullable = false)
     private Integer insurancePolicyNumber;
 
-    @Column(name="no_of_seats")
+    @Column(name = "no_of_seats",length = 10,nullable = false)
     private Integer noOfSeats;
 
-    @Column(name="km_travelled\t")
+    @Column(name = "km_travelled",length = 20,nullable = false)
     private Integer kmTravelled;
 
-    @Column(name="rental_rate_per_day")
+    @Column(name = "rental_rate_per_day",length = 10,nullable = false)
     private Integer chargePerDay;
 
-    @Column(name="car_agency_id ")
+    @Column(name = "car_agency_id ",length = 20,nullable = false)
     private Integer agencyId;
 
-    @Column(name="")
-    @OneToOne
-    private City city;
 
-    @Column(name="image")
+
+    @Column(name = "image")
     private String image;
 
     public String getImage() {
@@ -58,13 +56,7 @@ public class CarDetails implements  Comparable<CarDetails>{
         this.image = image;
     }
 
-    public City getCity() {
-        return city;
-    }
 
-    public void setCity(City city) {
-        this.city = city;
-    }
 
     public Integer getCarId() {
         return carId;
@@ -97,8 +89,6 @@ public class CarDetails implements  Comparable<CarDetails>{
     public void setTransmissionType(String transmissionType) {
         this.transmissionType = transmissionType;
     }
-
-
 
 
     public String getName() {
@@ -166,7 +156,7 @@ public class CarDetails implements  Comparable<CarDetails>{
     }
 
     @Override
-    public int compareTo(CarDetails o) {
+    public int compareTo(CarDetailsEntity o) {
         return getName().compareTo(o.getName());
     }
 }

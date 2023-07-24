@@ -1,49 +1,48 @@
 package com.example.carrentalapplication.jpamodel;
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
-public class User {
+@Table(name="user")
+public class UserEntity {
 
     @Id
-    @Column(name="user_Id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="user_id")
     private int userId;
 
-    @Column(name="first_name")
+    @Column(name = "first_name",length = 20,nullable = false)
     private String firstName;
 
-    @Column(name="last_name")
+    @Column(name = "last_name",length = 20,nullable = false)
     private String lastName;
 
-    @Column(name="password")
+    @Column(name = "password",length = 15,nullable = false)
     private String password;
 
-    @Column(name="address")
+    @Column(name = "address",length = 20,nullable = false)
     private String address;
 
-    @Column(name="email_id")
+    @Column(name = "email_id",length = 20,nullable = false)
     private String emailId;
 
-    @Column(name="mobile_number")
-    private String MobileNO;
+    @Column(name = "mobile_number", length = 20, nullable = true)
+    private String mobileNumber;
 
-    @Column(name="role_id")
+    @Column(name = "role_id",length = 20,nullable = false)
     private int RoleId;
 
-    @Column(name="role_name")
-    private String roleName;
 
-    @Column(name="verification_code")
+
+    @Column(name = "verification_code",nullable = false)
     private String verificationCode;
 
-    @Column(name="is_account_verified")
+    @Column(name = "is_account_verified",nullable = false)
     private boolean isVerified;
 
 
-    @Column(name="is_logged")
+    @Column(name = "is_logged",nullable = false)
     private boolean isLogged;
 
 
@@ -62,6 +61,7 @@ public class User {
     public void setUserId(int userId) {
         this.userId = userId;
     }
+
 
     public int getRoleId() {
         return RoleId;
@@ -88,13 +88,7 @@ public class User {
     }
 
 
-    public String getRoleName() {
-        return roleName;
-    }
 
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
-    }
 
     public String getFirstName() {
         return firstName;
@@ -133,16 +127,14 @@ public class User {
     }
 
     public String setEmailId(String emailId) {
-        return   this.emailId = emailId;
+        return this.emailId = emailId;
     }
 
-    public String getMobileNO() {
-        return MobileNO;
+    public String getMobileNumber() {
+        return mobileNumber;
     }
 
-    public void setMobileNO(String mobileNO) {
-        MobileNO = mobileNO;
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
     }
-
-
 }

@@ -4,30 +4,28 @@ package com.example.carrentalapplication.jpamodel;
 import javax.persistence.*;
 
 @Entity
-@Table(name="agency")
+@Table(name = "agency")
 
-public class AgencyDetails {
+public class AgencyDetailsEntity {
     @Id
-    @Column(name="")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int agencyDetailsId;
 
-    @Column(name="agency_Name")
+    @Column(name = "agency_Name", length = 30, nullable = false)
     private String agencyName;
 
-    @Column(name="GST_Number")
+    @Column(name = "GST_Number", length = 10, nullable = false)
     private String GSTNumber;
 
-    @Column(name="mobile_number")
-    private  String mobileNumber;
+    @Column(name = "mobile_number", length = 12, nullable = false)
+    private String mobileNumber;
 
 
-
-    @Column(name="")
+    @Column(name = "user_id")
     private int userId;
 
-    @Column(name="")
-    @OneToOne
-    private AddressDetails addressDetails;
+    @Column(name = "address_id")
+    private int addressId;
 
     public String getMobileNumber() {
         return mobileNumber;
@@ -37,15 +35,13 @@ public class AgencyDetails {
         this.mobileNumber = mobileNumber;
     }
 
-    public AddressDetails getAddressDetails() {
-        return addressDetails;
+    public int getAddressId() {
+        return addressId;
     }
 
-    public void setAddressDetails(AddressDetails addressDetails) {
-        this.addressDetails = addressDetails;
+    public void setAddressId(int addressId) {
+        this.addressId = addressId;
     }
-
-
 
     public int getUserId() {
         return userId;

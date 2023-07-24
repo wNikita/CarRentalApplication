@@ -1,29 +1,27 @@
 package com.example.carrentalapplication.jpamodel;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "state")
-public class State {
-@Id
-    @Column(name = "state_id")
+public class StateEntity {
+    @Id
+//    @Column(name = "state_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int stateId;
 
-    @Column(name = "state_name")
+    @Column(name = "state_name",nullable = false)
     private String stateName;
 
-    public State() {
+    public StateEntity() {
     }
 
-    public State(int stateId, String stateName) {
+    public StateEntity(int stateId, String stateName) {
         this.stateId = stateId;
         this.stateName = stateName;
     }
 
-    public State(int stateID) {
+    public StateEntity(int stateID) {
     }
 
     public String getStateName() {

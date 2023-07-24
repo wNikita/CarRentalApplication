@@ -1,5 +1,6 @@
 
 <%@ page import="com.example.carrentalapplication.model.User" %>
+<%@ page import="com.example.carrentalapplication.jpamodel.UserEntity" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -77,7 +78,7 @@
 
 <body>
 <div class="panel">
-    <h1>Welcome to Car Rental System, <%= ((User) session.getAttribute("CurrentUser")).getFirstName() %>!</h1>
+    <h1>Welcome to Car Rental System, <%= ((UserEntity) session.getAttribute("CurrentUser")).getFirstName() %>!</h1>
 </div>
 </body>
 </html>

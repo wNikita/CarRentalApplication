@@ -1,62 +1,57 @@
 package com.example.carrentalapplication.jpamodel;
 
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
-@Table(name="")
 
-public class Book {
-@Id
-    @Column(name="")
+@Table(name = "book")
+
+public class BookEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     int bookingId;
 
-    @Column(name="pickupDate")
+    @Column(name = "pickupDate",nullable = false)
     Date pickupDate;
 
-    @Column(name="returnDate")
+    @Column(name = "returnDate",nullable = false)
     Date returnDate;
 
-    @Column(name="rentaldays")
+    @Column(name = "rentaldays",nullable = false,length = 10)
     int rentalDays;
 
-    @Column(name="totalcost\t")
+    @Column(name = "totalcost",nullable = false,length = 10)
     int totalCost;
 
-    @Column(name="license")
+    @Column(name = "license",nullable = false)
     String license;
 
-    @Column(name="")
+    @Column(name = "car_id ",nullable = false)
     int carId;
 
-    @Column(name="")
+    @Column(name = "user_id ",nullable = false)
     int userId;
 
-    @Column(name="")
-    String status;
 
-    @Column(name="")
+    @Column(name = "payment_id ")
     int paymentId;
 
-    @Column(name="razorpay_order_id")
+    @Column(name = "razorpay_order_id")
     String razorpayOrderId;
 
-    @Column(name="razorpay_payment_id")
+    @Column(name = "razorpay_payment_id")
     String razorpayPaymentId;
 
 
-
     Date createdDate;
-CarDetails carDetails;
+    CarDetailsEntity carDetails;
 
 
-
-    public CarDetails getCarDetails() {
+    public CarDetailsEntity getCarDetails() {
         return carDetails;
     }
 
-    public void setCarDetails(CarDetails carDetails) {
+    public void setCarDetails(CarDetailsEntity carDetails) {
         this.carDetails = carDetails;
     }
 
@@ -148,13 +143,7 @@ CarDetails carDetails;
         this.userId = userId;
     }
 
-    public String getStatus() {
-        return status;
-    }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
 
     public int getPaymentId() {
         return paymentId;

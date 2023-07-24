@@ -1,4 +1,6 @@
 <%@ page import="com.example.carrentalapplication.model.User" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.example.carrentalapplication.jpamodel.UserEntity" %>
 <!-- profile.jsp -->
 
 <!DOCTYPE html>
@@ -44,13 +46,14 @@
 <div class="profile-details">
 
     <%
-        User user = (User) request.getAttribute("user");
-    %>
-    <p><b>First Name:</b> <%= user.getFirstName() %></p>
-    <p><b>Last Name:</b> <%= user.getLastName() %></p>
-    <p><b>Mobile Number:</b> <%= user.getMobileNO() %></p>
-    <p><b>Address:</b> <%= user.getAddress() %></p>
-    <p><b>Email:</b> <%= user.getEmailId() %></p>
+        List<UserEntity> user = (List<UserEntity> )request.getAttribute("user");
+    for (UserEntity user1 : user) { %>
+    <p><b>First Name:</b> <%= user1.getFirstName() %></p>
+    <p><b>Last Name:</b> <%= user1.getLastName() %></p>
+    <p><b>Mobile Number:</b> <%= user1.getMobileNumber() %></p>
+    <p><b>Address:</b> <%= user1.getAddress() %></p>
+    <p><b>Email:</b> <%= user1.getEmailId() %></p>
+    <% } %>
 
     <div class="button-container">
         <form action="user-update">

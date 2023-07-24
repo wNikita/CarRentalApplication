@@ -2,15 +2,163 @@ package com.example.carrentalapplication.dao;
 
 import com.example.carrentalapplication.dto.UserDTO;
 import com.example.carrentalapplication.exception.DAOException;
+import com.example.carrentalapplication.jpamodel.UserEntity;
 import com.example.carrentalapplication.model.User;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 public class UserDAO {
 
+
+    public UserEntity registerUser(UserEntity userEntity) throws DAOException {
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
+            EntityManager em = emf.createEntityManager();
+            em.getTransaction().begin();
+            em.persist(userEntity);
+            em.getTransaction().commit();
+            return userEntity;
+        } catch (Exception ex) {
+            throw new DAOException("Exception while adding user", ex);
+        }
+    }
+
+    public UserEntity userUpdate(UserEntity userEntity, int userId) throws DAOException {
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
+            EntityManager em = emf.createEntityManager();
+            em.getTransaction().begin();
+            UserEntity user = em.find(userEntity.getClass(), userId);
+            if (user != null) {
+                user.setFirstName(userEntity.getFirstName());
+                user.setLastName(userEntity.getLastName());
+                user.setMobileNumber(userEntity.getMobileNumber());
+                user.setEmailId(userEntity.getEmailId());
+                user.setAddress(userEntity.getAddress());
+                em.merge(user);
+            }
+            em.getTransaction().commit();
+            return userEntity;
+        } catch (Exception ex) {
+            throw new DAOException("Exception while adding user", ex);
+        }
+    }
+
+    public void userUpdateIsVerified(boolean isVerified, int userId) throws DAOException {
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
+            EntityManager em = emf.createEntityManager();
+            em.getTransaction().begin();
+            em.createNativeQuery("update user set is_account_verified=:isVerified where user_id=:user_id")
+                    .setParameter("isVerified", isVerified)
+                    .setParameter("user_id", userId).executeUpdate();
+            em.getTransaction().commit();
+        } catch (Exception ex) {
+            throw new DAOException("Exception while adding user", ex);
+        }
+    }
+
+    public void userLoginStatus(String username, Boolean is_logged) throws DAOException {
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
+            EntityManager em = emf.createEntityManager();
+            em.getTransaction().begin();
+            em.createNativeQuery("UPDATE user SET is_logged=:login WHERE email_id = :email_id")
+                    .setParameter("login", is_logged)
+                    .setParameter("email_id", username).executeUpdate();
+            em.getTransaction().commit();
+        } catch (Exception ex) {
+            throw new DAOException("Exception while adding user", ex);
+        }
+    }
+    public void updateOfVerificationCode(String verificationCode,int userId) throws DAOException {
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
+            EntityManager em = emf.createEntityManager();
+            em.getTransaction().begin();
+            em.createNativeQuery("UPDATE user SET verification_code =:verficationCode WHERE user_id = :userId")
+                    .setParameter("verficationCode", verificationCode)
+                    .setParameter("userId", userId).executeUpdate();
+            em.getTransaction().commit();
+        } catch (Exception ex) {
+            throw new DAOException("Exception while adding user", ex);
+        }
+    }
+    public List<UserEntity> getUserDataById(int userid) throws DAOException {
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
+            EntityManager em = emf.createEntityManager();
+            em.getTransaction().begin();
+            Query query = em.createQuery("Select s from UserEntity s where s.userId=:userid");
+            query.setParameter("userid", userid);
+            List<UserEntity> list = query.getResultList();
+            em.getTransaction().commit();
+            return list;
+        } catch (Exception ex) {
+            throw new DAOException("Exception while adding user", ex);
+        }
+    }
+
+    public List<UserEntity> loginCredentials(String emailId,String password) throws DAOException {
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
+            EntityManager em = emf.createEntityManager();
+            em.getTransaction().begin();
+            Query query = em.createQuery("Select s from UserEntity s where s.emailId=:email_id AND s.password =:password");
+            query.setParameter("email_id",emailId);
+            query.setParameter("password",password);
+            List<UserEntity> list = query.getResultList();
+            em.getTransaction().commit();
+            return list;
+        } catch (Exception ex) {
+            throw new DAOException("Exception while adding user", ex);
+        }
+    }
+
+    public boolean checkEmailExist(String emailId) throws DAOException {
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
+            EntityManager em = emf.createEntityManager();
+            em.getTransaction().begin();
+            Query query = em.createQuery("Select s from UserEntity s where s.emailId=:email_id ");
+            query.setParameter("email_id",emailId);
+            List<UserEntity> list = query.getResultList();
+            if(list!=null)
+            {
+                return true;
+            }
+            em.getTransaction().commit();
+            return false;
+        } catch (Exception ex) {
+            throw new DAOException("Exception while adding user", ex);
+        }
+    }
+    public boolean checkMobileNumberExist(String mobileNumber) throws DAOException {
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
+            EntityManager em = emf.createEntityManager();
+            em.getTransaction().begin();
+            Query query = em.createQuery("Select s from UserEntity s where s.mobileNumber=:mobileNumber ");
+            query.setParameter("mobileNumber",mobileNumber);
+            List<UserEntity> list = query.getResultList();
+            if(list!=null)
+            {
+                return true;
+            }
+            em.getTransaction().commit();
+            return false;
+        } catch (Exception ex) {
+            throw new DAOException("Exception while adding user", ex);
+        }
+    }
     public UserDTO addUser(UserDTO userDTO) throws DAOException {
         try {
             String insertQuery = "insert into user(first_name,last_name,password,address,email_id,mobile_number," +
@@ -30,7 +178,7 @@ public class UserDAO {
             // user.setUserId(stmt.getGeneratedKeys().getInt(1));
             ResultSet rs = stmt.getGeneratedKeys();
             while (rs.next()) {
-                userDTO.setUserId(String.valueOf(rs.getInt(1)));
+                userDTO.setUserId((rs.getInt(1)));
             }
         } catch (Exception ex) {
             throw new DAOException("Exception while adding user", ex);
@@ -144,7 +292,7 @@ public class UserDAO {
         try {
             String query = "select * from user where user_id=?";
             PreparedStatement stmt = DBConnection.getInstance().getConnection().prepareStatement(query);
-             stmt.setInt(1, UserId);
+            stmt.setInt(1, UserId);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 user = new User();
@@ -176,25 +324,6 @@ public class UserDAO {
             e.printStackTrace();
         }
     }
-//public User updateVerificationCode(String verificationCode, int userId) {
-//    User user = null;
-//    try {
-//        String sql = "UPDATE user SET verification_code = ? WHERE user_id = ?";
-//        PreparedStatement stmt = DBConnection.getInstance().getConnection().prepareStatement(sql);
-//        stmt.setString(1, verificationCode);
-//        stmt.setInt(2, userId);
-//        int rowsAffected = stmt.executeUpdate();
-//
-//        if (rowsAffected > 0)
-//            user.setVerificationCode(verificationCode);
-//        }
-//    } catch (SQLException e) {
-//        e.printStackTrace();
-//    }
-//
-//    return user;
-//}
-
 
 }
 

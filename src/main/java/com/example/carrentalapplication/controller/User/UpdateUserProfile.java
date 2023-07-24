@@ -4,6 +4,7 @@ import com.example.carrentalapplication.Validation.UserValidation;
 import com.example.carrentalapplication.dao.UserDAO;
 import com.example.carrentalapplication.dto.UserDTO;
 import com.example.carrentalapplication.exception.DAOException;
+import com.example.carrentalapplication.jpamodel.UserEntity;
 import com.example.carrentalapplication.model.User;
 
 import javax.servlet.RequestDispatcher;
@@ -48,13 +49,20 @@ public class UpdateUserProfile extends HttpServlet {
             userDTO.setAddress(address);
             userDTO.setMobileNO(mobileNumber);
             userDTO.setEmailId(email);
-            List<Error> errorList = UserValidation.validateUser(userDTO);
+            List<Error> errorList = UserValidation.validateUpdateUser(userDTO);
             if (!errorList.isEmpty()) {
                 request.setAttribute("errorList", errorList);
 
                 response.sendRedirect("user-update?userID=" + user.getUserId());
             } else {
-                userDAO.updateUser(user, user.getUserId());
+                UserEntity userEntity=new UserEntity();
+                userEntity.setFirstName(userDTO.getFirstName());
+                userEntity.setLastName(userDTO.getLastName());
+                userEntity.setAddress(userDTO.getAddress());
+                userEntity.setMobileNumber(userDTO.getMobileNO());
+                userEntity.setEmailId(userDTO.getEmailId());
+                userDAO.userUpdate(userEntity,user.getUserId());
+//                userDAO.updateUser(user, user.getUserId());
                 RequestDispatcher requestDispatcher = request.getRequestDispatcher("Admin.jsp");
                 requestDispatcher.forward(request, response);
             }

@@ -1,19 +1,16 @@
 package com.example.carrentalapplication.jpamodel;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+
 @Entity
-@Table(name="role")
+@Table(name = "role")
 
-public class Role {
+public class RoleEntity {
     @Id
-    @Column(name="role_id")
-
+    @GeneratedValue(strategy = GenerationType.AUTO)
     int roleId;
-    @Column(name="role_name")
 
+    @Column(name = "role_name",nullable = false)
     String roleName;
 
     public int getRoleId() {

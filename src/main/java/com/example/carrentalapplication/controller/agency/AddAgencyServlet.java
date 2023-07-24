@@ -65,8 +65,8 @@ public class AddAgencyServlet extends HttpServlet {
         AgencyDAO agencyDAO = new AgencyDAO();
         try {
           agencyDAO.addAgency(user.getUserId(), agencyDetails, addressID);
-            userDAO.manageLoginStatus(user.getEmailId(), true);
-
+//            userDAO.manageLoginStatus(user.getEmailId(), true);
+                userDAO.userLoginStatus(user.getEmailId(),true);
             RequestDispatcher requestDispatcher= req.getRequestDispatcher("Admin.jsp");
           requestDispatcher.forward(req,resp);
             } catch (DAOException e) {

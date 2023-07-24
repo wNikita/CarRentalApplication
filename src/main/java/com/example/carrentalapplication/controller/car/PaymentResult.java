@@ -69,8 +69,6 @@ public class PaymentResult extends HttpServlet {
         } else {
             statusIsSuccess = false;
         }
-
-
         request.setAttribute("statusIsSuccess", statusIsSuccess);
         request.getRequestDispatcher("PaymentResult.jsp").forward(request, response);
     }

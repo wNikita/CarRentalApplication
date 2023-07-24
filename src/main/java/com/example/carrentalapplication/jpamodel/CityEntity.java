@@ -1,28 +1,26 @@
 package com.example.carrentalapplication.jpamodel;
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
-public class City {
+public class CityEntity {
     @Id
-    @Column(name="city_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public int cityId;
 
-    @Column(name="city_name")
+    @Column(name = "city_name",nullable = false)
     public String cityName;
 
-    public City() {
+    public CityEntity() {
     }
 
-    public City(int cityId, String cityName) {
+    public CityEntity(int cityId, String cityName) {
         this.cityId = cityId;
         this.cityName = cityName;
     }
 
-    public City(int cityID) {
+    public CityEntity(int cityID) {
     }
 
     public int getCityId() {

@@ -1,28 +1,25 @@
 package com.example.carrentalapplication.jpamodel;
 
 import javax.persistence.*;
-
 @Entity
-@Table(name="address")
+@Table(name = "address")
+public class AddressDetailsEntity {
 
-public class AddressDetails {
     @Id
-    @Column(name="address_id ")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int addressID;
 
-    @Column(name="address_line")
+    @Column(name = "address_line", length = 30, nullable = false)
     private String addressLine;
 
-    @Column(name="pin_code")
+    @Column(name = "pin_code", length = 7, nullable = false)
     private String pinCode;
 
-    @Column(name="")
-    @OneToOne
-    private State state;
+//    @Column(name = "state_id ")
 
-@Column(name="")
-@OneToOne
-    private City city;
+
+    @Column(name = "city_id ")
+    private int cityId;
 
     public String getPinCode() {
         return pinCode;
@@ -32,22 +29,13 @@ public class AddressDetails {
         this.pinCode = pinCode;
     }
 
-    public State getState() {
-        return state;
+    public int getCityId() {
+        return cityId;
     }
 
-    public void setState(State state) {
-        this.state = state;
+    public void setCityId(int cityId) {
+        this.cityId = cityId;
     }
-
-    public City getCity() {
-        return city;
-    }
-
-    public void setCity(City city) {
-        this.city = city;
-    }
-
 
     public int getAddressID() {
         return addressID;

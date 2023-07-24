@@ -4,6 +4,7 @@ import com.example.carrentalapplication.common.EmailService;
 import com.example.carrentalapplication.common.Utility;
 import com.example.carrentalapplication.dao.UserDAO;
 import com.example.carrentalapplication.exception.DAOException;
+import com.example.carrentalapplication.jpamodel.UserEntity;
 import com.example.carrentalapplication.model.User;
 
 import javax.servlet.RequestDispatcher;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 
 public class MailSender extends HttpServlet {
 
@@ -21,16 +23,18 @@ UserDAO userDAO=new UserDAO();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
-        User user = (User) session.getAttribute("CurrentUser");
+        UserEntity user = (UserEntity) session.getAttribute("CurrentUser");
+        String verificationCode=req.getParameter("code");
         if(user!=null) {
             String code = Utility.generateVerificationCode();
-            userDAO.updateVerificationCode(code,user.getUserId());
 
             try {
+                userDAO.updateOfVerificationCode(code,user.getUserId());
                 User user2 = userDAO.getUserById(user.getUserId());
                 sendMail(user2);
                 req.setAttribute("userID",user2.getUserId());
-                RequestDispatcher requestDispatcher= req.getRequestDispatcher("verification?userId=");
+                req.setAttribute("code",verificationCode);
+                RequestDispatcher requestDispatcher= req.getRequestDispatcher("verification?userId="+user2.getUserId());
                 requestDispatcher.forward(req,resp);
 
             } catch (DAOException e) {
@@ -42,12 +46,14 @@ UserDAO userDAO=new UserDAO();
             int userId = Integer.parseInt(req.getParameter("userId"));
             try {
                 String code = Utility.generateVerificationCode();
-                userDAO.updateVerificationCode(code,userId);
+                userDAO.updateOfVerificationCode(code,user.getUserId());
                 User user2=userDAO.getUserById(userId);
                 sendMail(user2);
                 req.setAttribute("userId",user2.getUserId());
-                RequestDispatcher requestDispatcher= req.getRequestDispatcher("Verify.jsp");
+                req.setAttribute("code",verificationCode);
+                RequestDispatcher requestDispatcher= req.getRequestDispatcher("verification"+userId);
                 requestDispatcher.forward(req,resp);
+//                resp.sendRedirect("verification");
             } catch (DAOException e) {
                 e.printStackTrace();
             }

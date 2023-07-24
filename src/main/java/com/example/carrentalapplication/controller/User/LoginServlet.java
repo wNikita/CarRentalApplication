@@ -5,6 +5,7 @@ import com.example.carrentalapplication.common.Constant;
 import com.example.carrentalapplication.dao.UserDAO;
 import com.example.carrentalapplication.dto.UserDTO;
 import com.example.carrentalapplication.exception.DAOException;
+import com.example.carrentalapplication.jpamodel.UserEntity;
 import com.example.carrentalapplication.model.User;
 
 import javax.servlet.RequestDispatcher;
@@ -27,7 +28,6 @@ public class LoginServlet extends HttpServlet {
 
         userDTO.setEmailId(req.getParameter("email"));
         userDTO.setPassword(req.getParameter("password"));
-
         List<Error> errorList = UserValidation.UserValidate(userDTO);
         if (!errorList.isEmpty()) {
             req.setAttribute("errorList", errorList);
@@ -35,9 +35,11 @@ public class LoginServlet extends HttpServlet {
             requestDispatcher.forward(req, resp);
         } else {
             try {
-                User user = userDAO.getUserByCredentials(userDTO.getEmailId(), userDTO.getPassword());
-                if (user != null) {
+              //  User user = userDAO.getUserByCredentials(userDTO.getEmailId(), userDTO.getPassword());
+               List<UserEntity> user2=  userDAO.loginCredentials(userDTO.getEmailId(),userDTO.getPassword());
+                if (user2 != null) {
                     HttpSession session = req.getSession();
+                    for (UserEntity user : user2)
                     session.setAttribute("CurrentUser", user);
                     checkUser(req, resp);
                 } else {
@@ -54,7 +56,7 @@ public class LoginServlet extends HttpServlet {
     private void checkUser(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 
         HttpSession session = req.getSession();
-        User user = (User) session.getAttribute("CurrentUser");
+        UserEntity user = (UserEntity) session.getAttribute("CurrentUser");
 
         if (user.isVerified()) {
             if (user.getRoleId() == Constant.ROLE_CAR_AGENCY) {

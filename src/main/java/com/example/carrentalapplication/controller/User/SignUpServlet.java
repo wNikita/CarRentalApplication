@@ -7,6 +7,7 @@ import com.example.carrentalapplication.dao.RoleDao;
 import com.example.carrentalapplication.dao.UserDAO;
 import com.example.carrentalapplication.dto.UserDTO;
 import com.example.carrentalapplication.exception.DAOException;
+import com.example.carrentalapplication.jpamodel.UserEntity;
 import com.example.carrentalapplication.model.Role;
 
 import javax.servlet.RequestDispatcher;
@@ -32,7 +33,7 @@ public class SignUpServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        UserDTO userDTO=new UserDTO();
+        UserDTO userDTO = new UserDTO();
 
         userDTO.setFirstName(req.getParameter("firstname"));
         userDTO.setLastName(req.getParameter("lastname"));
@@ -51,30 +52,37 @@ public class SignUpServlet extends HttpServlet {
             requestDispatcher.forward(req, resp);
         } else {
             try {
-                if(userDAO.checkEmailExists(userDTO.getEmailId())) {
+                if (userDAO.checkEmailExist(userDTO.getEmailId())) {
                     List<Error> errorList1 = UserValidation.emailValidate();
                     req.setAttribute("errorList", errorList1);
                     fillSignUpMasterData(req);
 
                     RequestDispatcher requestDispatcher = req.getRequestDispatcher("SignUp.jsp");
                     requestDispatcher.forward(req, resp);
-                }else if (userDAO.checkMobileNumberExists(userDTO.getMobileNO()))
-                {
+                } else if (userDAO.checkMobileNumberExist(userDTO.getMobileNO())) {
                     List<Error> errorList1 = UserValidation.mobileNumberValidate();
                     req.setAttribute("errorList", errorList1);
                     fillSignUpMasterData(req);
 
                     RequestDispatcher requestDispatcher = req.getRequestDispatcher("SignUp.jsp");
                     requestDispatcher.forward(req, resp);
-                }
-
-                else {
+                } else {
                     String code = Utility.generateVerificationCode();
                     userDTO.setVerificationCode(code);
-                    userDTO = userDAO.addUser(userDTO);
                     sendMail(userDTO);
 
-                    req.setAttribute("userId", userDTO.getUserId());
+                    UserEntity user = new UserEntity();
+                    user.setFirstName(userDTO.getFirstName());
+                    user.setLastName(userDTO.getLastName());
+                    user.setAddress(userDTO.getAddress());
+                    user.setPassword(userDTO.getPassword());
+                    user.setMobileNumber(userDTO.getMobileNO());
+                    user.setEmailId(userDTO.getEmailId());
+                    user.setRoleId(Integer.parseInt(userDTO.getRoleId()));
+                    user.setVerificationCode(userDTO.getVerificationCode());
+                    userDAO.registerUser(user);
+//                    userDTO = userDAO.addUser(userDTO);
+                    req.setAttribute("userId", user.getUserId());
                     RequestDispatcher requestDispatcher = req.getRequestDispatcher("Verify.jsp");
                     requestDispatcher.forward(req, resp);
                 }
@@ -84,6 +92,7 @@ public class SignUpServlet extends HttpServlet {
 
         }
     }
+
     private void sendMail(UserDTO userDTO) {
         StringBuilder mailContent = new StringBuilder();
         mailContent.append("<H1>")

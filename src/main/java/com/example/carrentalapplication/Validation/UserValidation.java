@@ -58,4 +58,27 @@ public class UserValidation {
             errorList.add(new Error("Mobile Number is already exist"));
         } return errorList;
     }
+
+    public static List<Error> validateUpdateUser(UserDTO userDTO) {
+        List<Error> errorList = new ArrayList<>();
+        if (Validation.isEmpty(userDTO.getFirstName())) {
+            errorList.add(new Error("Please enter First name"));
+        }
+        if (Validation.isEmpty(userDTO.getLastName())) {
+            errorList.add(new Error("Please enter Last name"));
+        }
+        if (Validation.isEmpty(userDTO.getMobileNO())) {
+            errorList.add(new Error("Please enter mobile number"));
+        }
+        if(Validation.isEmpty(userDTO.getEmailId()))
+        {
+            errorList.add(new Error("Please enter Email"));
+        }
+        if(Validation.isEmpty(userDTO.getAddress()))
+        {
+            errorList.add(new Error("Please enter address"));
+        }
+
+        return errorList;
+    }
 }

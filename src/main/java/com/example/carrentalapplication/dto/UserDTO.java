@@ -1,7 +1,9 @@
 package com.example.carrentalapplication.dto;
 
-public class UserDTO {
 
+
+public class UserDTO {
+    private int userId;
     private String firstName;
     private String lastName;
     private String password;
@@ -9,10 +11,8 @@ public class UserDTO {
     private String emailId;
     private String MobileNO;
     private String RoleId;
-    private String roleName;
     private String verificationCode;
     private boolean isVerified;
-    private String userId;
     private boolean isLogged;
 
     public String getFirstName() {
@@ -71,13 +71,6 @@ public class UserDTO {
         RoleId = roleId;
     }
 
-    public String getRoleName() {
-        return roleName;
-    }
-
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
-    }
 
     public String getVerificationCode() {
         return verificationCode;
@@ -95,11 +88,11 @@ public class UserDTO {
         isVerified = verified;
     }
 
-    public String getUserId() {
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 
