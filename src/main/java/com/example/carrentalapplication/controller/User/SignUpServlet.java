@@ -9,7 +9,6 @@ import com.example.carrentalapplication.dto.UserDTO;
 import com.example.carrentalapplication.exception.DAOException;
 import com.example.carrentalapplication.jpamodel.RoleEntity;
 import com.example.carrentalapplication.jpamodel.UserEntity;
-import com.example.carrentalapplication.model.Role;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -109,7 +108,7 @@ public class SignUpServlet extends HttpServlet {
     private void fillSignUpMasterData(HttpServletRequest request) {
         RoleDao roleDao = new RoleDao();
         try {
-            List<Role> roles = roleDao.getRole();
+            List<RoleEntity> roles = roleDao.getRoleData();
             request.setAttribute("Role", roles);
         } catch (DAOException e) {
             e.printStackTrace();

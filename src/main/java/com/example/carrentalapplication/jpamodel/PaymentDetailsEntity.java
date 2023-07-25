@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 public class PaymentDetailsEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int paymentId;
 
     @Column(name = "Payment_name",nullable = false,length = 20)

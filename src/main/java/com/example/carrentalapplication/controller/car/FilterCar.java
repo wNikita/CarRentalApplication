@@ -3,6 +3,7 @@ package com.example.carrentalapplication.controller.car;
 import com.example.carrentalapplication.dao.AgencyDAO;
 import com.example.carrentalapplication.dao.CarDAO;
 import com.example.carrentalapplication.exception.DAOException;
+import com.example.carrentalapplication.jpamodel.UserEntity;
 import com.example.carrentalapplication.model.AgencyDetails;
 import com.example.carrentalapplication.model.CarDetails;
 import com.example.carrentalapplication.model.User;
@@ -24,7 +25,7 @@ public class FilterCar extends HttpServlet {
         CarDAO carDAO = new CarDAO();
 
         HttpSession session = req.getSession();
-        User user = (User) session.getAttribute("CurrentUser");
+        UserEntity user = (UserEntity) session.getAttribute("CurrentUser");
         AgencyDetails agencyDetails1 = agencyDAO.viewAgencyDetails(user.getUserId());
         try {
             String fuelTypeFilter = req.getParameter("fuelType");

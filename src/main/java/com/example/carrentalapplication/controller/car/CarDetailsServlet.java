@@ -4,6 +4,7 @@ import com.example.carrentalapplication.dao.BookDao;
 import com.example.carrentalapplication.dao.CarDAO;
 import com.example.carrentalapplication.dto.BookDTO;
 import com.example.carrentalapplication.exception.DAOException;
+import com.example.carrentalapplication.jpamodel.UserEntity;
 import com.example.carrentalapplication.model.CarDetails;
 import com.example.carrentalapplication.model.User;
 import com.razorpay.Order;
@@ -56,7 +57,7 @@ public class CarDetailsServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
-        User user = (User) session.getAttribute("CurrentUser");
+        UserEntity user = (UserEntity) session.getAttribute("CurrentUser");
         ServletContext servletContext = getServletContext();
         Part imagePart = req.getPart("licenseImage");
 

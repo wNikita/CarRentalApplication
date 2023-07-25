@@ -28,16 +28,16 @@ EmailService emailService=new EmailService();
         String verificationCode=req.getParameter("code");
         if(user!=null) {
             String code = Utility.generateVerificationCode();
-
             try {
                 userDAO.updateOfVerificationCode(code,user.getUserId());
-                User user2 = userDAO.getUserById(user.getUserId());
-                sendMail(user2);
-                req.setAttribute("userID",user2.getUserId());
-                req.setAttribute("code",verificationCode);
-                RequestDispatcher requestDispatcher= req.getRequestDispatcher("verification?userId="+user2.getUserId());
-                requestDispatcher.forward(req,resp);
-
+                List<UserEntity> user1 = userDAO.getUserDataById(user.getUserId());
+                for (UserEntity user2:user1) {
+                    sendMail(user2);
+                    req.setAttribute("userID",user2.getUserId() );
+                    req.setAttribute("code", verificationCode);
+                    RequestDispatcher requestDispatcher = req.getRequestDispatcher("verification?userId=" + user2.getUserId());
+                    requestDispatcher.forward(req, resp);
+                }
             } catch (DAOException e) {
                 e.printStackTrace();
             }
@@ -47,22 +47,23 @@ EmailService emailService=new EmailService();
             int userId = Integer.parseInt(req.getParameter("userId"));
             try {
                 String code = Utility.generateVerificationCode();
-                userDAO.updateOfVerificationCode(code,user.getUserId());
-                User user2=userDAO.getUserById(userId);
-                sendMail(user2);
-                req.setAttribute("userId",user2.getUserId());
-                req.setAttribute("code",verificationCode);
-                RequestDispatcher requestDispatcher= req.getRequestDispatcher("verification"+userId);
-                requestDispatcher.forward(req,resp);
+                userDAO.updateOfVerificationCode(code, userId);
+                List<UserEntity> user1 = userDAO.getUserDataById(userId);
+                for (UserEntity user2 : user1) {
+                    sendMail(user2);
+                    req.setAttribute("userId", user2.getUserId());
+                    req.setAttribute("code", verificationCode);
+                    RequestDispatcher requestDispatcher = req.getRequestDispatcher("verification?"+userId);
+                    requestDispatcher.forward(req, resp);
 //                resp.sendRedirect("verification");
+                }
             } catch (DAOException e) {
                 e.printStackTrace();
             }
         }
-
     }
 
-    private void sendMail(User user) {
+    private void sendMail(UserEntity user) {
         StringBuilder mailContent = new StringBuilder();
         mailContent.append("<H1>")
                 .append("Hi, ").append(user.getFirstName()).append(" ").append(user.getLastName())

@@ -22,9 +22,10 @@ public class VerificationServlet extends HttpServlet {
         HttpSession session = req.getSession();
         UserEntity user = (UserEntity) session.getAttribute("CurrentUser");
         String VerifyCode = req.getParameter("code");
+        if(user!=null){
         if (user.isVerified()) {
             resp.sendRedirect("login");
-        } else {
+        } }else {
             req.setAttribute("code", VerifyCode);
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("Verify.jsp");
             requestDispatcher.forward(req, resp);
@@ -40,9 +41,9 @@ public class VerificationServlet extends HttpServlet {
         String verifyCode = req.getParameter("code");
         UserEntity user = (UserEntity) session.getAttribute("CurrentUser");
         try {
-           List<UserEntity> user2= userDAO.getUserDataById(user.getUserId());
+            if (user != null) {
+            List<UserEntity> user2= userDAO.getUserDataById(user.getUserId());
            for(UserEntity userEntity:user2)
-            if (userEntity != null) {
                 if (verifyCode.equals(userEntity.getVerificationCode())) {
                     try {
                         userDAO.userUpdateIsVerified(true, userEntity.getUserId());
@@ -57,9 +58,10 @@ public class VerificationServlet extends HttpServlet {
             } else
                 try {
                     int userId = Integer.parseInt(req.getParameter("userId"));
-                    User user1 = userDAO.getUserById(userId);
-                    if (user1.getVerificationCode().equals(verifyCode)) {
-                        userDAO.userUpdateIsVerified(true, user1.getUserId());
+                    List<UserEntity> user1 = userDAO.getUserDataById(userId);
+                    for (UserEntity userEntity1:user1)
+                    if (userEntity1.getVerificationCode().equals(verifyCode)) {
+                        userDAO.userUpdateIsVerified(true, userEntity1.getUserId());
                         //    userDAO.updateUserIsVerified(true, user1.getEmailId());
                         resp.sendRedirect("Login.jsp");
                     } else {

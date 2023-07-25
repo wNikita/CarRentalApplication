@@ -3,6 +3,7 @@ package com.example.carrentalapplication.controller.agency;
 import com.example.carrentalapplication.dao.AddressDAO;
 import com.example.carrentalapplication.dao.AgencyDAO;
 import com.example.carrentalapplication.exception.DAOException;
+import com.example.carrentalapplication.jpamodel.UserEntity;
 import com.example.carrentalapplication.model.*;
 
 import javax.servlet.RequestDispatcher;
@@ -21,7 +22,7 @@ public class ViewAgencyProfile extends HttpServlet {
         AgencyDAO agencyDAO = new AgencyDAO();
 
         HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("CurrentUser");
+        UserEntity user = (UserEntity) session.getAttribute("CurrentUser");
 
         AgencyDetails agencyDetails = null;
         try {

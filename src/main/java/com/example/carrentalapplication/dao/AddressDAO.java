@@ -1,12 +1,18 @@
 package com.example.carrentalapplication.dao;
 
 
-
 import com.example.carrentalapplication.exception.DAOException;
+import com.example.carrentalapplication.jpamodel.CityEntity;
+import com.example.carrentalapplication.jpamodel.StateEntity;
+import com.example.carrentalapplication.jpamodel.UserEntity;
 import com.example.carrentalapplication.model.AddressDetails;
 import com.example.carrentalapplication.model.City;
 import com.example.carrentalapplication.model.State;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,7 +21,36 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddressDAO {
+    public List<StateEntity> getAllState() throws DAOException {
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
+            EntityManager em = emf.createEntityManager();
+            em.getTransaction().begin();
+            Query query = em.createQuery("Select s from StateEntity s");
+            List<StateEntity> list = query.getResultList();
+            em.getTransaction().commit();
+            return list;
+        } catch (Exception e) {
+            throw new DAOException("Something went wrong", e);
+        }
+    }
 
+//    public List<CityEntity> getAllCityByState(int stateId) throws DAOException {
+//        try {
+//            EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
+//            EntityManager em = emf.createEntityManager();
+//            em.getTransaction().begin();
+//            Query query = em.createQuery("Select s from CityEntity s where stateId");
+//            query.setParameter("stateId",stateId);
+//            List<CityEntity> list = query.getResultList();
+//            em.getTransaction().commit();
+//            return list;
+//        } catch (Exception e) {
+//            throw new DAOException("Something went wrong", e);
+//        }
+//
+//
+//    }
 
     public List<State> getState() throws DAOException {
         try {

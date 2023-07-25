@@ -41,7 +41,7 @@ public class UpdateUserProfile extends HttpServlet {
 
         try {
             HttpSession session = request.getSession();
-            User user = (User) session.getAttribute("CurrentUser");
+            UserEntity user = (UserEntity) session.getAttribute("CurrentUser");
 
 
             // Update the user profile

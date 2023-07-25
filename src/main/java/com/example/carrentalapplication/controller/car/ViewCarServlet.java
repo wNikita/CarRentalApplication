@@ -3,6 +3,7 @@ package com.example.carrentalapplication.controller.car;
 import com.example.carrentalapplication.dao.AgencyDAO;
 import com.example.carrentalapplication.dao.CarDAO;
 import com.example.carrentalapplication.exception.DAOException;
+import com.example.carrentalapplication.jpamodel.UserEntity;
 import com.example.carrentalapplication.model.*;
 
 import javax.servlet.RequestDispatcher;
@@ -20,7 +21,7 @@ public class ViewCarServlet extends HttpServlet {
         AgencyDAO agencyDAO=new AgencyDAO();
 
         HttpSession session = req.getSession();
-        User user = (User) session.getAttribute("CurrentUser");
+        UserEntity user = (UserEntity) session.getAttribute("CurrentUser");
         AgencyDetails agencyDetails1=agencyDAO.viewAgencyDetails(user.getUserId());
 
         CarDAO carDAO=new CarDAO();

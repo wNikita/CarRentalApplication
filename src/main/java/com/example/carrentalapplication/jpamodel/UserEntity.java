@@ -8,7 +8,7 @@ import javax.persistence.*;
 public class UserEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private int userId;
 
@@ -32,6 +32,7 @@ public class UserEntity {
 
     //    @Column(name = "role_id",length = 20,nullable = false)
     @OneToOne
+    @JoinColumn(name="role_id")
     private RoleEntity roleEntity;
 
     public RoleEntity getRoleEntity() {

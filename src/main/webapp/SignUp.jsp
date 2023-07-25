@@ -1,5 +1,6 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.example.carrentalapplication.model.Role" %>
+<%@ page import="com.example.carrentalapplication.jpamodel.RoleEntity" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -76,8 +77,8 @@
 
             <select name="role" id="role">
                 <%
-                    List<Role> rolesList = (List<Role>) request.getAttribute("Role");
-                    for (Role role : rolesList) {
+                    List<RoleEntity> rolesList = (List<RoleEntity>) request.getAttribute("Role");
+                    for (RoleEntity role : rolesList) {
                 %>
                 <option value="none" selected disabled hidden>Select Role</option>
                 <option value="<%= role.getRoleId() %>"><%= role.getRoleName() %></option>

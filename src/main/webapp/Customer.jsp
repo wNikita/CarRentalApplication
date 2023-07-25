@@ -1,7 +1,8 @@
 <%@ page import="com.example.carrentalapplication.model.State" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.example.carrentalapplication.model.City" %>
-<%@ page import="com.example.carrentalapplication.model.User" %><%--<!DOCTYPE html>--%>
+<%@ page import="com.example.carrentalapplication.model.User" %>
+<%@ page import="com.example.carrentalapplication.jpamodel.UserEntity" %><%--<!DOCTYPE html>--%>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
         crossorigin="anonymous">
@@ -24,7 +25,7 @@
 <body>
 <div  class="welcome-message">
 <%--    <h1>Welcome to Car Rental System</h1>--%>
-    <h1>Welcome to Car Rental System, <%= ((User) session.getAttribute("CurrentUser")).getFirstName() %>!</h1>
+    <h1>Welcome to Car Rental System, <%= ((UserEntity) session.getAttribute("CurrentUser")).getFirstName() %>!</h1>
 
 
 </div>

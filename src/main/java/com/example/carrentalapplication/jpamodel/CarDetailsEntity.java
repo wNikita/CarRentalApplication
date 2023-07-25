@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 public class CarDetailsEntity implements Comparable<CarDetailsEntity> {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer carId;
 
     @Column(name = "name",length = 10,nullable = false)

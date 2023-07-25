@@ -5,6 +5,7 @@ import com.example.carrentalapplication.dao.AgencyDAO;
 import com.example.carrentalapplication.dao.CarDAO;
 import com.example.carrentalapplication.dto.CarDetailsDTO;
 import com.example.carrentalapplication.exception.DAOException;
+import com.example.carrentalapplication.jpamodel.UserEntity;
 import com.example.carrentalapplication.model.AgencyDetails;
 import com.example.carrentalapplication.model.CarDetails;
 import com.example.carrentalapplication.model.User;
@@ -24,7 +25,7 @@ public class AddCarServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         AgencyDAO agencyDAO = new AgencyDAO();
         HttpSession session = req.getSession();
-        User user = (User) session.getAttribute("CurrentUser");
+        UserEntity user = (UserEntity) session.getAttribute("CurrentUser");
 
         AgencyDetails agencyDetails1 = agencyDAO.viewAgencyDetails(user.getUserId());
         HttpSession httpSession = req.getSession();

@@ -4,6 +4,7 @@ import com.example.carrentalapplication.dao.AddressDAO;
 import com.example.carrentalapplication.dao.AgencyDAO;
 import com.example.carrentalapplication.dao.UserDAO;
 import com.example.carrentalapplication.exception.DAOException;
+import com.example.carrentalapplication.jpamodel.UserEntity;
 import com.example.carrentalapplication.model.*;
 
 import javax.servlet.RequestDispatcher;
@@ -55,7 +56,7 @@ public class AddAgencyServlet extends HttpServlet {
             e.printStackTrace();
         }
         HttpSession session = req.getSession();
-        User user = (User) session.getAttribute("CurrentUser");
+        UserEntity user = (UserEntity) session.getAttribute("CurrentUser");
 
         int addressID = addressDetails.getAddressID();
         AgencyDetails agencyDetails = new AgencyDetails();

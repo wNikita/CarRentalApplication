@@ -8,7 +8,7 @@ import javax.persistence.*;
 
 public class AgencyDetailsEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int agencyDetailsId;
 
     @Column(name = "agency_Name", length = 30, nullable = false)

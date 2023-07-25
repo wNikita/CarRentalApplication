@@ -7,6 +7,7 @@ import com.example.carrentalapplication.dto.AddressDetailsDTO;
 import com.example.carrentalapplication.dto.AgencyDetailsDTO;
 import com.example.carrentalapplication.dto.CityDTO;
 import com.example.carrentalapplication.exception.DAOException;
+import com.example.carrentalapplication.jpamodel.UserEntity;
 import com.example.carrentalapplication.model.*;
 
 import javax.servlet.RequestDispatcher;
@@ -26,7 +27,7 @@ public class UpdateAgencyProfile extends HttpServlet {
         AddressDAO addressDAO = new AddressDAO();
 
         HttpSession session = req.getSession();
-        User user = (User) session.getAttribute("CurrentUser");
+        UserEntity user = (UserEntity) session.getAttribute("CurrentUser");
 
         AgencyDetails agencyDetails = null;
         try {

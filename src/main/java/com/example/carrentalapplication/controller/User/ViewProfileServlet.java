@@ -19,7 +19,7 @@ public class ViewProfileServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("CurrentUser");
+        UserEntity user = (UserEntity) session.getAttribute("CurrentUser");
         UserDAO userDAO=new UserDAO();
         try {
 //            User user1=userDAO.getUserById(user.getUserId());
