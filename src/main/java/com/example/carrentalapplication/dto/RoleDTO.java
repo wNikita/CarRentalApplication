@@ -2,9 +2,9 @@ package com.example.carrentalapplication.dto;
 
 public class RoleDTO {
 
-    String roleId;
+    private String roleId;
 
-    String roleName;
+    private String roleName;
 
     public String getRoleId() {
         return roleId;

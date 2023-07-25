@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class LogOutServlet extends HttpServlet {
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getSession().invalidate();
         response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");

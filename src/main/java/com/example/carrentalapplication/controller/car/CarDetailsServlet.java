@@ -19,31 +19,32 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
+
 @MultipartConfig
 public class CarDetailsServlet extends HttpServlet {
-    CarDAO carDAO = new CarDAO();
-
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException {
+        CarDAO carDAO = new CarDAO();
 
         String carID = req.getParameter("carId");
-        String PickupDate=req.getParameter("pickUpDate");
-        String ReturnDate=req.getParameter("returnDate");
+        String PickupDate = req.getParameter("pickUpDate");
+        String ReturnDate = req.getParameter("returnDate");
         CarDetails carDetails = null;
         try {
             carDetails = carDAO.getAllCarDetails(carID);
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-            req.setAttribute("carDetails",carDetails);
-            req.setAttribute("PickupDate",PickupDate);
-            req.setAttribute("ReturnDate",ReturnDate);
-            Date startDate =sdf.parse(PickupDate);
+            req.setAttribute("carDetails", carDetails);
+            req.setAttribute("PickupDate", PickupDate);
+            req.setAttribute("ReturnDate", ReturnDate);
+            Date startDate = sdf.parse(PickupDate);
             Date endDate = sdf.parse(ReturnDate);
 
             long differenceInMillis = endDate.getTime() - startDate.getTime();
             long differenceInDays = TimeUnit.MILLISECONDS.toDays(differenceInMillis);
-            req.setAttribute("TotalNumberOfDays",differenceInDays);
+            req.setAttribute("TotalNumberOfDays", differenceInDays);
             double totalCharge = differenceInDays * carDetails.getChargePerDay();
-            req.setAttribute("totalCharge",totalCharge);
+            req.setAttribute("totalCharge", totalCharge);
         } catch (DAOException ex) {
             ex.printStackTrace();
         } catch (ParseException e) {
@@ -60,47 +61,46 @@ public class CarDetailsServlet extends HttpServlet {
         Part imagePart = req.getPart("licenseImage");
 
 
-            String imageFileName = getFileName(imagePart);
-            String uploadDirectory = uploadFileAndGetImagePath(imagePart, imageFileName, servletContext);
+        String imageFileName = getFileName(imagePart);
+        String uploadDirectory = uploadFileAndGetImagePath(imagePart, imageFileName, servletContext);
 
-            BookDTO bookDTO = new BookDTO();
+        BookDTO bookDTO = new BookDTO();
 
-            bookDTO.setPickupDateDTO(req.getParameter("pickUpDate"));
-            bookDTO.setReturnDateDTO(req.getParameter("returnDate"));
-            bookDTO.setLicenseDTO(uploadDirectory);
-            bookDTO.setRentalDaysDTO(req.getParameter("totalNumberOfDays"));
-            bookDTO.setTotalCostDTO(req.getParameter("totalCharge"));
-            bookDTO.setCarIdDTO(req.getParameter("carId"));
-            bookDTO.setUserIdDTO(user.getUserId());
-            BookDao bookDao = new BookDao();
-            try {
-                RazorpayClient    razorpay = new RazorpayClient("rzp_test_QEtxzC00WQzK7n", "w3Qf6dDLepikuqqrAks4d4LD");
+        bookDTO.setPickupDateDTO(req.getParameter("pickUpDate"));
+        bookDTO.setReturnDateDTO(req.getParameter("returnDate"));
+        bookDTO.setLicenseDTO(uploadDirectory);
+        bookDTO.setRentalDaysDTO(req.getParameter("totalNumberOfDays"));
+        bookDTO.setTotalCostDTO(req.getParameter("totalCharge"));
+        bookDTO.setCarIdDTO(req.getParameter("carId"));
+        bookDTO.setUserIdDTO(user.getUserId());
+        BookDao bookDao = new BookDao();
+        try {
+            RazorpayClient razorpay = new RazorpayClient("rzp_test_QEtxzC00WQzK7n", "w3Qf6dDLepikuqqrAks4d4LD");
 
-                JSONObject orderRequest = new JSONObject();
-                double totalCost = Double.parseDouble(bookDTO.getTotalCostDTO()); // Assuming this returns the amount in rupees
+            JSONObject orderRequest = new JSONObject();
+            double totalCost = Double.parseDouble(bookDTO.getTotalCostDTO()); // Assuming this returns the amount in rupees
 
-                int amountInPaise = (int) (totalCost * 100); // Convert rupees to paise
+            int amountInPaise = (int) (totalCost * 100); // Convert rupees to paise
 
-                orderRequest.put("amount", amountInPaise); // amount in the smallest currency unit
-                orderRequest.put("currency", "INR");
+            orderRequest.put("amount", amountInPaise); // amount in the smallest currency unit
+            orderRequest.put("currency", "INR");
 
-                Order order = razorpay.Orders.create(orderRequest);
-                String orderId = order.get("id");
-                req.setAttribute("razorpay_order_id",orderId);
-                req.setAttribute("TotalAmount",bookDTO.getTotalCostDTO());
-                bookDTO.setRazorpayOrderId(orderId);
-                bookDao.BookCar(bookDTO);
+            Order order = razorpay.Orders.create(orderRequest);
+            String orderId = order.get("id");
+            req.setAttribute("razorpay_order_id", orderId);
+            req.setAttribute("TotalAmount", bookDTO.getTotalCostDTO());
+            bookDTO.setRazorpayOrderId(orderId);
+            bookDao.BookCar(bookDTO);
 
-                RequestDispatcher requestDispatcher= req.getRequestDispatcher("Payment.jsp");
-                requestDispatcher.forward(req,resp);
-            } catch (DAOException e) {
-                e.printStackTrace();
-            } catch (RazorpayException e) {
-                e.printStackTrace();
-            }
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher("Payment.jsp");
+            requestDispatcher.forward(req, resp);
+        } catch (DAOException e) {
+            e.printStackTrace();
+        } catch (RazorpayException e) {
+            e.printStackTrace();
+        }
 
     }
-
 
 
     public static String getFileName(Part part) {

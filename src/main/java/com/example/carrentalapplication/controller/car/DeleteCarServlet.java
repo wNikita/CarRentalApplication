@@ -10,9 +10,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class DeleteCarServlet extends HttpServlet {
-    private  CarDAO carDAO=new CarDAO();
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+          CarDAO carDAO=new CarDAO();
+
         int carId = Integer.parseInt(req.getParameter("carId"));
         try {
             carDAO.deleteCar(carId);

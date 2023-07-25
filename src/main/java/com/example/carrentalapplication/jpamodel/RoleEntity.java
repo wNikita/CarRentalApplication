@@ -8,10 +8,10 @@ import javax.persistence.*;
 public class RoleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    int roleId;
+    private int roleId;
 
-    @Column(name = "role_name",nullable = false)
-    String roleName;
+    @Column(name = "role_name", nullable = false, length = 20)
+    private String roleName;
 
     public int getRoleId() {
         return roleId;

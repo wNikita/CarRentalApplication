@@ -10,7 +10,7 @@ public class StateEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int stateId;
 
-    @Column(name = "state_name",nullable = false)
+    @Column(name = "state_name",nullable = false,length = 20)
     private String stateName;
 
     public StateEntity() {

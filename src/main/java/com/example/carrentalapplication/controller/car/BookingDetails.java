@@ -22,12 +22,12 @@ public class BookingDetails extends HttpServlet {
         HttpSession session = req.getSession();
         User user = (User) session.getAttribute("CurrentUser");
 
-        BookDao bookDao=new BookDao();
+        BookDao bookDao = new BookDao();
         try {
-            List<Book> book=bookDao.BookingData(user.getUserId());
-            req.setAttribute("bookingDetails",book);
-            RequestDispatcher requestDispatcher= req.getRequestDispatcher("BookingDetails.jsp");
-            requestDispatcher.forward(req,resp);
+            List<Book> book = bookDao.BookingData(user.getUserId());
+            req.setAttribute("bookingDetails", book);
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher("BookingDetails.jsp");
+            requestDispatcher.forward(req, resp);
         } catch (DAOException e) {
             e.printStackTrace();
         }

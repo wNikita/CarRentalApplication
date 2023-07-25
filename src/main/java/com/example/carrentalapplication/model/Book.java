@@ -4,21 +4,21 @@ import java.util.Date;
 
 public class Book {
 
-    Date pickupDate;
-    Date returnDate;
-    int rentalDays;
-    int totalCost;
-    String license;
-    int carId;
-    int userId;
-    String status;
-    int paymentId;
-    String razorpayOrderId;
-    String razorpayPaymentId;
-    int bookingId;
-    Date createdDate;
-CarDetails carDetails;
-User user;
+    private Date pickupDate;
+    private Date returnDate;
+    private int rentalDays;
+    private int totalCost;
+    private String license;
+    private int carId;
+    private int userId;
+    private String status;
+    private int paymentId;
+    private String razorpayOrderId;
+    private String razorpayPaymentId;
+    private int bookingId;
+    private Date createdDate;
+    private CarDetails carDetails;
+    private User user;
 
     public User getUser() {
         return user;

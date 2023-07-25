@@ -2,8 +2,8 @@ package com.example.carrentalapplication.model;
 
 public class PaymentDetails {
 
-    int paymentId;
-    String paymentStatus;
+    private int paymentId;
+    private String paymentStatus;
 
     public int getPaymentId() {
         return paymentId;

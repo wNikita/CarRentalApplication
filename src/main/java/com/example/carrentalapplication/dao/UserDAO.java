@@ -127,15 +127,13 @@ public class UserDAO {
         try {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
             EntityManager em = emf.createEntityManager();
-            em.getTransaction().begin();
-            Query query = em.createQuery("Select s from UserEntity s where s.emailId=:email_id ");
+            Query query = em.createQuery("Select s.emailId from UserEntity s where s.emailId=:email_id ");
             query.setParameter("email_id",emailId);
             List<UserEntity> list = query.getResultList();
-            if(list!=null)
+            if(list.size()!=0)
             {
                 return true;
             }
-            em.getTransaction().commit();
             return false;
         } catch (Exception ex) {
             throw new DAOException("Exception while adding user", ex);
@@ -145,15 +143,13 @@ public class UserDAO {
         try {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
             EntityManager em = emf.createEntityManager();
-            em.getTransaction().begin();
-            Query query = em.createQuery("Select s from UserEntity s where s.mobileNumber=:mobileNumber ");
+            Query query = em.createQuery("Select s.mobileNumber from UserEntity s where s.mobileNumber=:mobileNumber ");
             query.setParameter("mobileNumber",mobileNumber);
             List<UserEntity> list = query.getResultList();
-            if(list!=null)
+            if(list.size()!=0)
             {
                 return true;
             }
-            em.getTransaction().commit();
             return false;
         } catch (Exception ex) {
             throw new DAOException("Exception while adding user", ex);

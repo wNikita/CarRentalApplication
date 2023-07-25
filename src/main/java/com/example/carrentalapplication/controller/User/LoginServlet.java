@@ -6,7 +6,6 @@ import com.example.carrentalapplication.dao.UserDAO;
 import com.example.carrentalapplication.dto.UserDTO;
 import com.example.carrentalapplication.exception.DAOException;
 import com.example.carrentalapplication.jpamodel.UserEntity;
-import com.example.carrentalapplication.model.User;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -19,12 +18,11 @@ import java.util.List;
 
 public class LoginServlet extends HttpServlet {
 
-    UserDAO userDAO = new UserDAO();
-    User user1=new User();
-    UserDTO userDTO=new UserDTO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        UserDAO userDAO = new UserDAO();
+        UserDTO userDTO = new UserDTO();
 
         userDTO.setEmailId(req.getParameter("email"));
         userDTO.setPassword(req.getParameter("password"));
@@ -35,12 +33,12 @@ public class LoginServlet extends HttpServlet {
             requestDispatcher.forward(req, resp);
         } else {
             try {
-              //  User user = userDAO.getUserByCredentials(userDTO.getEmailId(), userDTO.getPassword());
-               List<UserEntity> user2=  userDAO.loginCredentials(userDTO.getEmailId(),userDTO.getPassword());
+                //  User user = userDAO.getUserByCredentials(userDTO.getEmailId(), userDTO.getPassword());
+                List<UserEntity> user2 = userDAO.loginCredentials(userDTO.getEmailId(), userDTO.getPassword());
                 if (user2 != null) {
                     HttpSession session = req.getSession();
                     for (UserEntity user : user2)
-                    session.setAttribute("CurrentUser", user);
+                        session.setAttribute("CurrentUser", user);
                     checkUser(req, resp);
                 } else {
                     req.setAttribute("errorMsg", "Wrong credentials");
@@ -59,19 +57,19 @@ public class LoginServlet extends HttpServlet {
         UserEntity user = (UserEntity) session.getAttribute("CurrentUser");
 
         if (user.isVerified()) {
-            if (user.getRoleId() == Constant.ROLE_CAR_AGENCY) {
+            if (user.getRoleEntity().getRoleId() == Constant.ROLE_CAR_AGENCY) {
                 if (!user.isLogged()) {
                     resp.sendRedirect("agency-form");
                 } else {
-                    RequestDispatcher requestDispatcher= req.getRequestDispatcher("Admin.jsp");
-                    requestDispatcher.forward(req,resp);
+                    RequestDispatcher requestDispatcher = req.getRequestDispatcher("Admin.jsp");
+                    requestDispatcher.forward(req, resp);
                 }
             } else {
                 resp.sendRedirect("viewStateCity");
             }
         } else {
-            RequestDispatcher requestDispatcher= req.getRequestDispatcher("Verify.jsp");
-            requestDispatcher.forward(req,resp);
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher("Verify.jsp");
+            requestDispatcher.forward(req, resp);
         }
 
     }

@@ -7,10 +7,10 @@ import javax.persistence.*;
 public class CityEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public int cityId;
+    private int cityId;
 
-    @Column(name = "city_name",nullable = false)
-    public String cityName;
+    @Column(name = "city_name",nullable = false,length = 20)
+    private String cityName;
 
     public CityEntity() {
     }

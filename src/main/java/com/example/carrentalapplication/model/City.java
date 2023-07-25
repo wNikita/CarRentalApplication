@@ -3,8 +3,8 @@ package com.example.carrentalapplication.model;
 
 public class City {
 
-    public int cityId;
-    public String cityName;
+    private int cityId;
+    private String cityName;
 
     public City() {
     }

@@ -15,9 +15,10 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 public class ViewAgencyProfile extends HttpServlet {
-    AgencyDAO agencyDAO = new AgencyDAO();
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-         // Replace with your own DAO class
+        // Replace with your own DAO class
+        AgencyDAO agencyDAO = new AgencyDAO();
 
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("CurrentUser");

@@ -18,11 +18,12 @@ import java.io.IOException;
 import java.util.List;
 
 public class SortingData extends HttpServlet {
-    AgencyDAO agencyDAO = new AgencyDAO();
-    CarDAO carDAO = new CarDAO();
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        AgencyDAO agencyDAO = new AgencyDAO();
+        CarDAO carDAO = new CarDAO();
         HttpSession session = req.getSession();
         User user = (User) session.getAttribute("CurrentUser");
 

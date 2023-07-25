@@ -13,9 +13,9 @@ import java.io.IOException;
 import java.util.List;
 
 public class SearchCar extends HttpServlet {
-CarDAO carDAO=new CarDAO();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        CarDAO carDAO=new CarDAO();
 
         int cityId = Integer.parseInt(req.getParameter("city"));
         String PickUpDate=req.getParameter("startDate");

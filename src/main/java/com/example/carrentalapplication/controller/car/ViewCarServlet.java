@@ -15,9 +15,10 @@ import java.io.*;
 import java.util.List;
 
 public class ViewCarServlet extends HttpServlet {
-        AgencyDAO agencyDAO=new AgencyDAO();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        AgencyDAO agencyDAO=new AgencyDAO();
+
         HttpSession session = req.getSession();
         User user = (User) session.getAttribute("CurrentUser");
         AgencyDetails agencyDetails1=agencyDAO.viewAgencyDetails(user.getUserId());

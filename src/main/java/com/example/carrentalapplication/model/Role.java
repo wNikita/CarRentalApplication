@@ -2,8 +2,8 @@ package com.example.carrentalapplication.model;
 
 public class Role {
 
-    int roleId;
-    String roleName;
+    private int roleId;
+    private String roleName;
 
     public int getRoleId() {
         return roleId;

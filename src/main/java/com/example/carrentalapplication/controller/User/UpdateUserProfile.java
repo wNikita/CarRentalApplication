@@ -17,21 +17,22 @@ import java.io.IOException;
 import java.util.List;
 
 public class UpdateUserProfile extends HttpServlet {
-    UserDAO userDAO = new UserDAO();
-    UserDTO userDTO = new UserDTO();
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
         User user = (User) session.getAttribute("CurrentUser");
 
-        req.setAttribute("user",user);
+        req.setAttribute("user", user);
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("UpdateUserProfile.jsp");
         requestDispatcher.forward(req, resp);
     }
 
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        UserDAO userDAO = new UserDAO();
+        UserDTO userDTO = new UserDTO();
         String firstname = request.getParameter("firstname");
         String lastname = request.getParameter("lastname");
         String address = request.getParameter("address");
@@ -55,13 +56,13 @@ public class UpdateUserProfile extends HttpServlet {
 
                 response.sendRedirect("user-update?userID=" + user.getUserId());
             } else {
-                UserEntity userEntity=new UserEntity();
+                UserEntity userEntity = new UserEntity();
                 userEntity.setFirstName(userDTO.getFirstName());
                 userEntity.setLastName(userDTO.getLastName());
                 userEntity.setAddress(userDTO.getAddress());
                 userEntity.setMobileNumber(userDTO.getMobileNO());
                 userEntity.setEmailId(userDTO.getEmailId());
-                userDAO.userUpdate(userEntity,user.getUserId());
+                userDAO.userUpdate(userEntity, user.getUserId());
 //                userDAO.updateUser(user, user.getUserId());
                 RequestDispatcher requestDispatcher = request.getRequestDispatcher("Admin.jsp");
                 requestDispatcher.forward(request, response);

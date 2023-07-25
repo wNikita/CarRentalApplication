@@ -23,16 +23,16 @@ public class BookingDetailsForAgency extends HttpServlet {
         HttpSession session = req.getSession();
         User user = (User) session.getAttribute("CurrentUser");
         try {
-        AgencyDAO agencyDAO=new AgencyDAO();
-        AgencyDetails agencyDetails=agencyDAO.getAgenciesByUserId(user.getUserId());
+            AgencyDAO agencyDAO = new AgencyDAO();
+            AgencyDetails agencyDetails = agencyDAO.getAgenciesByUserId(user.getUserId());
 
-        BookDao bookDao=new BookDao();
+            BookDao bookDao = new BookDao();
 
-           List<Book> bookList= bookDao.BookingDataForAgencyAdmin(agencyDetails.getAgencyDetailsId());
-           req.setAttribute("bookingDetails",bookList);
+            List<Book> bookList = bookDao.BookingDataForAgencyAdmin(agencyDetails.getAgencyDetailsId());
+            req.setAttribute("bookingDetails", bookList);
 
-            RequestDispatcher requestDispatcher= req.getRequestDispatcher("AdminViewBooking.jsp");
-            requestDispatcher.forward(req,resp);
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher("AdminViewBooking.jsp");
+            requestDispatcher.forward(req, resp);
         } catch (DAOException e) {
             e.printStackTrace();
         }

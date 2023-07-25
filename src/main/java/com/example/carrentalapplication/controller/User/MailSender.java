@@ -19,9 +19,10 @@ import java.util.List;
 public class MailSender extends HttpServlet {
 
 EmailService emailService=new EmailService();
-UserDAO userDAO=new UserDAO();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        UserDAO userDAO=new UserDAO();
+
         HttpSession session = req.getSession();
         UserEntity user = (UserEntity) session.getAttribute("CurrentUser");
         String verificationCode=req.getParameter("code");

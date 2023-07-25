@@ -14,9 +14,10 @@ import java.io.IOException;
 import java.util.List;
 
 public class ViewStateCity extends HttpServlet {
-    AddressDAO addressDAO=new AddressDAO();
-
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        AddressDAO addressDAO = new AddressDAO();
+
         try {
             List<State> states = addressDAO.getState();
             req.setAttribute("states", states);

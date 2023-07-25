@@ -19,8 +19,6 @@ public class AddressDAO {
 
     public List<State> getState() throws DAOException {
         try {
-
-
             List<State> stateList = new ArrayList<>();
             String query = "select state_id,state_name from state";
             Statement stmt = DBConnection.getInstance().getConnection().createStatement();

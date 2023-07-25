@@ -8,10 +8,10 @@ import javax.persistence.*;
 public class PaymentDetailsEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    int paymentId;
+    private int paymentId;
 
-    @Column(name = "Payment_name",nullable = false)
-    String paymentStatus;
+    @Column(name = "Payment_name",nullable = false,length = 20)
+    private String paymentStatus;
 
     public int getPaymentId() {
         return paymentId;

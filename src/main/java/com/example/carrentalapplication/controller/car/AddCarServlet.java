@@ -19,13 +19,10 @@ import java.util.List;
 @MultipartConfig
 public class AddCarServlet extends HttpServlet {
 
-    AgencyDAO agencyDAO = new AgencyDAO();
-    CarDetails carDetails = new CarDetails();
-    CarDetailsDTO carDetailsDTO=new CarDetailsDTO();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        AgencyDAO agencyDAO = new AgencyDAO();
         HttpSession session = req.getSession();
         User user = (User) session.getAttribute("CurrentUser");
 
@@ -39,6 +36,7 @@ public class AddCarServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        CarDetailsDTO carDetailsDTO = new CarDetailsDTO();
 
         ServletContext servletContext = getServletContext();
         Part imagePart = req.getPart("image");
@@ -46,7 +44,7 @@ public class AddCarServlet extends HttpServlet {
         if (imagePart.getSize() == 0) {
             // Display an error message
             carDetailsDTO.setImage(String.valueOf(imagePart));
-            validationCar(req,resp);
+            validationCar(req, resp);
         } else {
             String imageFileName = getFileName(imagePart);
             String uploadDirectory = uploadFileAndGetImagePath(imagePart, imageFileName, servletContext);
@@ -74,27 +72,30 @@ public class AddCarServlet extends HttpServlet {
             carDetailsDTO.setColor(req.getParameter("carColor"));
             carDetailsDTO.setAgencyId(agencyDetails.getAgencyDetailsId());
             carDetailsDTO.setImage(uploadDirectory);
-            validationCar(req,resp);
+            validationCar(req, resp);
 
         }
     }
-        public void validationCar(ServletRequest req, ServletResponse resp) throws ServletException, IOException {
-            List<Error> errorList = CarDetailsValidation.validateCarDetails(carDetailsDTO);
-            if (!errorList.isEmpty()) {
-                req.setAttribute("errorList", errorList);
-                RequestDispatcher requestDispatcher = req.getRequestDispatcher("AddCar.jsp");
+
+    public void validationCar(ServletRequest req, ServletResponse resp) throws ServletException, IOException {
+        CarDetailsDTO carDetailsDTO = new CarDetailsDTO();
+
+        List<Error> errorList = CarDetailsValidation.validateCarDetails(carDetailsDTO);
+        if (!errorList.isEmpty()) {
+            req.setAttribute("errorList", errorList);
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher("AddCar.jsp");
+            requestDispatcher.forward(req, resp);
+        } else {
+            CarDAO carDAO = new CarDAO();
+            try {
+                carDAO.add(carDetailsDTO);
+                RequestDispatcher requestDispatcher = req.getRequestDispatcher("Admin.jsp");
                 requestDispatcher.forward(req, resp);
-            } else {
-                CarDAO carDAO = new CarDAO();
-                try {
-                    carDAO.add(carDetailsDTO);
-                    RequestDispatcher requestDispatcher = req.getRequestDispatcher("Admin.jsp");
-                    requestDispatcher.forward(req, resp);
-                } catch (DAOException e) {
-                    e.printStackTrace();
-                }
+            } catch (DAOException e) {
+                e.printStackTrace();
             }
         }
+    }
 
 
     public static String getFileName(Part part) {

@@ -4,45 +4,52 @@ package com.example.carrentalapplication.jpamodel;
 import javax.persistence.*;
 
 @Entity
-@Table(name="user")
+@Table(name = "user")
 public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="user_id")
+    @Column(name = "user_id")
     private int userId;
 
-    @Column(name = "first_name",length = 20,nullable = false)
+    @Column(name = "first_name", length = 20, nullable = false)
     private String firstName;
 
-    @Column(name = "last_name",length = 20,nullable = false)
+    @Column(name = "last_name", length = 20, nullable = false)
     private String lastName;
 
-    @Column(name = "password",length = 15,nullable = false)
+    @Column(name = "password", length = 15, nullable = false)
     private String password;
 
-    @Column(name = "address",length = 20,nullable = false)
+    @Column(name = "address", length = 20, nullable = false)
     private String address;
 
-    @Column(name = "email_id",length = 20,nullable = false)
+    @Column(name = "email_id", length = 20, nullable = false)
     private String emailId;
 
     @Column(name = "mobile_number", length = 20, nullable = true)
     private String mobileNumber;
 
-    @Column(name = "role_id",length = 20,nullable = false)
-    private int RoleId;
+    //    @Column(name = "role_id",length = 20,nullable = false)
+    @OneToOne
+    private RoleEntity roleEntity;
 
+    public RoleEntity getRoleEntity() {
+        return roleEntity;
+    }
 
+    public void setRoleEntity(RoleEntity roleEntity) {
+        this.roleEntity = roleEntity;
+    }
 
-    @Column(name = "verification_code",nullable = false)
+    @Column(name = "verification_code", nullable = false)
     private String verificationCode;
 
-    @Column(name = "is_account_verified",nullable = false)
+    @Column(name = "is_account_verified", nullable = false)
     private boolean isVerified;
 
 
-    @Column(name = "is_logged",nullable = false)
+    @Column(name = "is_logged", nullable = false)
     private boolean isLogged;
 
 
@@ -63,14 +70,6 @@ public class UserEntity {
     }
 
 
-    public int getRoleId() {
-        return RoleId;
-    }
-
-    public void setRoleId(int roleId) {
-        RoleId = roleId;
-    }
-
     public boolean isVerified() {
         return isVerified;
     }
@@ -86,8 +85,6 @@ public class UserEntity {
     public void setVerificationCode(String verificationCode) {
         this.verificationCode = verificationCode;
     }
-
-
 
 
     public String getFirstName() {

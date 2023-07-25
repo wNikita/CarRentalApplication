@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.util.List;
 
 public class VerificationServlet extends HttpServlet {
-    private UserDAO userDAO = new UserDAO();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -35,6 +34,7 @@ public class VerificationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
+         UserDAO userDAO = new UserDAO();
 
 
         String verifyCode = req.getParameter("code");

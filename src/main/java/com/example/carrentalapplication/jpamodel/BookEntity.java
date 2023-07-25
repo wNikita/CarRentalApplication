@@ -9,38 +9,38 @@ import java.util.Date;
 public class BookEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    int bookingId;
+    private int bookingId;
 
-    @Column(name = "pickupDate",nullable = false)
-    Date pickupDate;
+    @Column(name = "pickupDate", nullable = false)
+    private Date pickupDate;
 
-    @Column(name = "returnDate",nullable = false)
-    Date returnDate;
+    @Column(name = "returnDate", nullable = false)
+    private Date returnDate;
 
-    @Column(name = "rentaldays",nullable = false,length = 10)
-    int rentalDays;
+    @Column(name = "rentaldays", nullable = false, length = 10)
+    private int rentalDays;
 
-    @Column(name = "totalcost",nullable = false,length = 10)
-    int totalCost;
+    @Column(name = "totalcost", nullable = false, length = 10)
+    private int totalCost;
 
-    @Column(name = "license",nullable = false)
-    String license;
+    @Column(name = "license", nullable = false)
+    private String license;
 
-    @Column(name = "car_id ",nullable = false)
-    int carId;
+    @Column(name = "car_id ", nullable = false)
+    private int carId;
 
-    @Column(name = "user_id ",nullable = false)
-    int userId;
+    @Column(name = "user_id ", nullable = false)
+    private int userId;
 
 
     @Column(name = "payment_id ")
-    int paymentId;
+    private int paymentId;
 
     @Column(name = "razorpay_order_id")
-    String razorpayOrderId;
+    private String razorpayOrderId;
 
     @Column(name = "razorpay_payment_id")
-    String razorpayPaymentId;
+    private String razorpayPaymentId;
 
 
     Date createdDate;
@@ -142,7 +142,6 @@ public class BookEntity {
     public void setUserId(int userId) {
         this.userId = userId;
     }
-
 
 
     public int getPaymentId() {

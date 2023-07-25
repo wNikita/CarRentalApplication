@@ -17,11 +17,12 @@ import java.util.List;
 
 public class AddAgencyServlet extends HttpServlet {
 
-    AddressDAO addressDAO = new AddressDAO();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
+            AddressDAO addressDAO = new AddressDAO();
+
             List<State> states = addressDAO.getState();
             req.setAttribute("states", states);
             if (req.getParameter("stateID") != null) {
@@ -39,7 +40,7 @@ public class AddAgencyServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         AddressDetails addressDetails = new AddressDetails();
-        UserDAO userDAO=new UserDAO();
+        UserDAO userDAO = new UserDAO();
         addressDetails.setAddressLine(req.getParameter("addressLine"));
         addressDetails.setPinCode(req.getParameter("pinCode"));
         int cityId = Integer.parseInt(req.getParameter("city"));
@@ -64,12 +65,12 @@ public class AddAgencyServlet extends HttpServlet {
 
         AgencyDAO agencyDAO = new AgencyDAO();
         try {
-          agencyDAO.addAgency(user.getUserId(), agencyDetails, addressID);
+            agencyDAO.addAgency(user.getUserId(), agencyDetails, addressID);
 //            userDAO.manageLoginStatus(user.getEmailId(), true);
-                userDAO.userLoginStatus(user.getEmailId(),true);
-            RequestDispatcher requestDispatcher= req.getRequestDispatcher("Admin.jsp");
-          requestDispatcher.forward(req,resp);
-            } catch (DAOException e) {
+            userDAO.userLoginStatus(user.getEmailId(), true);
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher("Admin.jsp");
+            requestDispatcher.forward(req, resp);
+        } catch (DAOException e) {
             e.printStackTrace();
         }
 

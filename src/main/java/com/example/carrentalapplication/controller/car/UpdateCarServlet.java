@@ -19,13 +19,12 @@ import java.util.List;
 
 @MultipartConfig
 public class UpdateCarServlet extends HttpServlet {
-    private CarDAO carDAO = new CarDAO();
-    private CarDetailsDTO carDetailsDTO=new CarDetailsDTO();
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-
+         CarDAO carDAO = new CarDAO();
 
         String carId = req.getParameter("carId");
         try {
@@ -40,6 +39,9 @@ public class UpdateCarServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        CarDetailsDTO carDetailsDTO=new CarDetailsDTO();
+
+
         ServletContext servletContext = getServletContext();
         Part imagePart = req.getPart("image");
         String imageFileName = getFileName(imagePart);

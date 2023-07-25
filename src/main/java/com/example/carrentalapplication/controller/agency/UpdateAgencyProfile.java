@@ -19,11 +19,12 @@ import java.io.IOException;
 import java.util.List;
 
 public class UpdateAgencyProfile extends HttpServlet {
-    private AgencyDAO agencyDAO = new AgencyDAO();
-    private AddressDAO addressDAO = new AddressDAO();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        AgencyDAO agencyDAO = new AgencyDAO();
+        AddressDAO addressDAO = new AddressDAO();
+
         HttpSession session = req.getSession();
         User user = (User) session.getAttribute("CurrentUser");
 
@@ -55,7 +56,7 @@ public class UpdateAgencyProfile extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String agencyId = request.getParameter("agencyId");
-        String cityId=request.getParameter("city");
+        String cityId = request.getParameter("city");
         AgencyDetailsDTO agencyDetailsDTO = new AgencyDetailsDTO();
         agencyDetailsDTO.setAgencyDetailsId(request.getParameter("agencyId"));
         agencyDetailsDTO.setAgencyName(request.getParameter("agencyName"));
@@ -68,20 +69,20 @@ public class UpdateAgencyProfile extends HttpServlet {
         List<Error> errorList = AgencyValidation.AgencyValidate(agencyDetailsDTO);
         if (!errorList.isEmpty()) {
             request.setAttribute("errorList", errorList);
-            request.setAttribute("agency",agencyDetailsDTO);
-            RequestDispatcher requestDispatcher=request.getRequestDispatcher("UpdateAgencyProfile.jsp");
-            requestDispatcher.forward(request,response);
+            request.setAttribute("agency", agencyDetailsDTO);
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("UpdateAgencyProfile.jsp");
+            requestDispatcher.forward(request, response);
         } else {
-        CityDTO cityDTO = new CityDTO();
-        cityDTO.setCityId(cityId);
-        agencyDetailsDTO.getAddressDetailsDTO().setCity(cityDTO);
+            CityDTO cityDTO = new CityDTO();
+            cityDTO.setCityId(cityId);
+            agencyDetailsDTO.getAddressDetailsDTO().setCity(cityDTO);
 
 
             AgencyDAO agencyDAO = new AgencyDAO();
             try {
                 agencyDAO.updateAgency(agencyDetailsDTO, agencyId);
                 agencyDAO.updateAddress(addressDetailsDTO, agencyId);
-                agencyDAO.updateCity(agencyId,addressDetailsDTO.getCity().getCityId());
+                agencyDAO.updateCity(agencyId, addressDetailsDTO.getCity().getCityId());
                 RequestDispatcher requestDispatcher = request.getRequestDispatcher("Admin.jsp");
                 requestDispatcher.forward(request, response);
             } catch (DAOException e) {

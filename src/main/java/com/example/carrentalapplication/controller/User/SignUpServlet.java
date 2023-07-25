@@ -7,6 +7,7 @@ import com.example.carrentalapplication.dao.RoleDao;
 import com.example.carrentalapplication.dao.UserDAO;
 import com.example.carrentalapplication.dto.UserDTO;
 import com.example.carrentalapplication.exception.DAOException;
+import com.example.carrentalapplication.jpamodel.RoleEntity;
 import com.example.carrentalapplication.jpamodel.UserEntity;
 import com.example.carrentalapplication.model.Role;
 
@@ -20,11 +21,8 @@ import java.util.List;
 
 public class SignUpServlet extends HttpServlet {
 
-    private EmailService emailService = new EmailService();
 
     @Override
-
-
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         fillSignUpMasterData(req);
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("SignUp.jsp");
@@ -72,13 +70,17 @@ public class SignUpServlet extends HttpServlet {
                     sendMail(userDTO);
 
                     UserEntity user = new UserEntity();
+
+                    RoleEntity roleEntity = new RoleEntity();
+                    roleEntity.setRoleId(Integer.parseInt(userDTO.getRoleId()));
                     user.setFirstName(userDTO.getFirstName());
                     user.setLastName(userDTO.getLastName());
                     user.setAddress(userDTO.getAddress());
                     user.setPassword(userDTO.getPassword());
                     user.setMobileNumber(userDTO.getMobileNO());
                     user.setEmailId(userDTO.getEmailId());
-                    user.setRoleId(Integer.parseInt(userDTO.getRoleId()));
+//                    user.setRoleId(Integer.parseInt(userDTO.getRoleId()));
+                    user.setRoleEntity(roleEntity);
                     user.setVerificationCode(userDTO.getVerificationCode());
                     userDAO.registerUser(user);
 //                    userDTO = userDAO.addUser(userDTO);
@@ -94,6 +96,8 @@ public class SignUpServlet extends HttpServlet {
     }
 
     private void sendMail(UserDTO userDTO) {
+        EmailService emailService = new EmailService();
+
         StringBuilder mailContent = new StringBuilder();
         mailContent.append("<H1>")
                 .append("Hi, ").append(userDTO.getFirstName()).append(" ").append(userDTO.getLastName())
@@ -104,7 +108,11 @@ public class SignUpServlet extends HttpServlet {
 
     private void fillSignUpMasterData(HttpServletRequest request) {
         RoleDao roleDao = new RoleDao();
-        List<Role> roles = roleDao.getRole();
-        request.setAttribute("Role", roles);
+        try {
+            List<Role> roles = roleDao.getRole();
+            request.setAttribute("Role", roles);
+        } catch (DAOException e) {
+            e.printStackTrace();
+        }
     }
 }
