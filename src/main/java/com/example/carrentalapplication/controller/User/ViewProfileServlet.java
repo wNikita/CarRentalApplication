@@ -20,17 +20,17 @@ public class ViewProfileServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = request.getSession();
         UserEntity user = (UserEntity) session.getAttribute("CurrentUser");
-        UserDAO userDAO=new UserDAO();
+        UserDAO userDAO = new UserDAO();
         try {
 //            User user1=userDAO.getUserById(user.getUserId());
-            List<UserEntity> userEntities=userDAO.getUserDataById(user.getUserId());
-            request.setAttribute("user",userEntities);
+            List<UserEntity> userEntities = userDAO.getUserDataById(user.getUserId());
+            request.setAttribute("user", userEntities);
         } catch (DAOException e) {
             e.printStackTrace();
         }
 
-        RequestDispatcher requestDispatcher= request.getRequestDispatcher("UserProfile.jsp");
-        requestDispatcher.forward(request,resp);
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("UserProfile.jsp");
+        requestDispatcher.forward(request, resp);
     }
 
 }

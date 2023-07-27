@@ -40,8 +40,8 @@ public class AddressDAO {
 //            EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
 //            EntityManager em = emf.createEntityManager();
 //            em.getTransaction().begin();
-//            Query query = em.createQuery("Select s from CityEntity s where stateId");
-//            query.setParameter("stateId",stateId);
+//            Query query = em.createQuery("Select s from CityEntity s where s.");
+//            query.setParameter("stateId", stateId);
 //            List<CityEntity> list = query.getResultList();
 //            em.getTransaction().commit();
 //            return list;

@@ -12,6 +12,7 @@ public class CityEntity {
     @Column(name = "city_name",nullable = false,length = 20)
     private String cityName;
 
+
     public CityEntity() {
     }
 

@@ -5,16 +5,16 @@ import com.example.carrentalapplication.model.CarDetails;
 
 public class BookDTO {
 
-    String pickupDateDTO;
-    String returnDateDTO;
-    String rentalDaysDTO;
-    String totalCostDTO;
-    String licenseDTO;
-    String  carIdDTO;
-    int userIdDTO;
-    String razorpayOrderId;
-    String razorpayPaymentId;
-    CarDetails carDetails;
+    private String pickupDateDTO;
+    private String returnDateDTO;
+    private String rentalDaysDTO;
+    private String totalCostDTO;
+    private String licenseDTO;
+    private String  carIdDTO;
+    private int userIdDTO;
+    private String razorpayOrderId;
+    private String razorpayPaymentId;
+    private CarDetails carDetails;
 
     public CarDetails getCarDetails() {
         return carDetails;

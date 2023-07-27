@@ -3,18 +3,52 @@ package com.example.carrentalapplication.dao;
 import com.example.carrentalapplication.dto.AddressDetailsDTO;
 import com.example.carrentalapplication.dto.AgencyDetailsDTO;
 import com.example.carrentalapplication.exception.DAOException;
+import com.example.carrentalapplication.jpamodel.AgencyDetailsEntity;
+import com.example.carrentalapplication.jpamodel.UserEntity;
 import com.example.carrentalapplication.model.AddressDetails;
 import com.example.carrentalapplication.model.AgencyDetails;
 import com.example.carrentalapplication.model.City;
 import com.example.carrentalapplication.model.State;
 
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 
 public class AgencyDAO {
+
+    public void registerAgency(AgencyDetailsEntity agencyDetailsEntity) throws DAOException {
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
+            EntityManager em = emf.createEntityManager();
+            em.getTransaction().begin();
+            em.persist(agencyDetailsEntity);
+            em.getTransaction().commit();
+        } catch (Exception ex) {
+            throw new DAOException("Exception while adding user", ex);
+        }
+    }
+
+    public List<AgencyDetailsEntity> viewAgencyByUserId(int userId) throws DAOException {
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
+            EntityManager em = emf.createEntityManager();
+            em.getTransaction().begin();
+            Query query = em.createQuery("Select s from AgencyDetailsEntity s where s.user.userId=:userId");
+            query.setParameter("userId", userId);
+            List<AgencyDetailsEntity> list = query.getResultList();
+            em.getTransaction().commit();
+            return list;
+        } catch (Exception ex) {
+            throw new DAOException("Exception while adding user", ex);
+        }
+    }
 
     public void addAgency(int UserId, AgencyDetails agencyDetails, int addressId) throws DAOException {
         try {

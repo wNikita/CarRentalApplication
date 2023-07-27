@@ -1,9 +1,9 @@
 package com.example.carrentalapplication.dto;
 
 public class StateDTO {
- private String stateId;
+    private String stateId;
 
- private String stateName;
+    private String stateName;
 
     public String getStateId() {
         return stateId;

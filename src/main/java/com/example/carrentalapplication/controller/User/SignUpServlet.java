@@ -67,25 +67,7 @@ public class SignUpServlet extends HttpServlet {
                     String code = Utility.generateVerificationCode();
                     userDTO.setVerificationCode(code);
                     sendMail(userDTO);
-
-                    UserEntity user = new UserEntity();
-
-                    RoleEntity roleEntity = new RoleEntity();
-                    roleEntity.setRoleId(Integer.parseInt(userDTO.getRoleId()));
-                    user.setFirstName(userDTO.getFirstName());
-                    user.setLastName(userDTO.getLastName());
-                    user.setAddress(userDTO.getAddress());
-                    user.setPassword(userDTO.getPassword());
-                    user.setMobileNumber(userDTO.getMobileNO());
-                    user.setEmailId(userDTO.getEmailId());
-//                    user.setRoleId(Integer.parseInt(userDTO.getRoleId()));
-                    user.setRoleEntity(roleEntity);
-                    user.setVerificationCode(userDTO.getVerificationCode());
-                    userDAO.registerUser(user);
-//                    userDTO = userDAO.addUser(userDTO);
-                    req.setAttribute("userId", user.getUserId());
-                    RequestDispatcher requestDispatcher = req.getRequestDispatcher("Verify.jsp");
-                    requestDispatcher.forward(req, resp);
+                    setUserDetails(userDTO, req, resp);
                 }
             } catch (DAOException e) {
                 e.printStackTrace();
@@ -111,6 +93,34 @@ public class SignUpServlet extends HttpServlet {
             List<RoleEntity> roles = roleDao.getRoleData();
             request.setAttribute("Role", roles);
         } catch (DAOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setUserDetails(UserDTO userDTO, HttpServletRequest req, HttpServletResponse resp) {
+        try {
+
+
+            UserDAO userDAO = new UserDAO();
+            UserEntity user = new UserEntity();
+
+            RoleEntity roleEntity = new RoleEntity();
+            roleEntity.setRoleId(Integer.parseInt(userDTO.getRoleId()));
+            user.setFirstName(userDTO.getFirstName());
+            user.setLastName(userDTO.getLastName());
+            user.setAddress(userDTO.getAddress());
+            user.setPassword(userDTO.getPassword());
+            user.setMobileNumber(userDTO.getMobileNO());
+            user.setEmailId(userDTO.getEmailId());
+//                    user.setRoleId(Integer.parseInt(userDTO.getRoleId()));
+            user.setRoleEntity(roleEntity);
+            user.setVerificationCode(userDTO.getVerificationCode());
+            userDAO.registerUser(user);
+//                    userDTO = userDAO.addUser(userDTO);
+            req.setAttribute("userId", user.getUserId());
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher("Verify.jsp");
+            requestDispatcher.forward(req, resp);
+        } catch (DAOException | ServletException | IOException e) {
             e.printStackTrace();
         }
     }

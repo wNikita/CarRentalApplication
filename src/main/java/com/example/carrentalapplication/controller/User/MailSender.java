@@ -18,22 +18,23 @@ import java.util.List;
 
 public class MailSender extends HttpServlet {
 
-EmailService emailService=new EmailService();
+    EmailService emailService = new EmailService();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        UserDAO userDAO=new UserDAO();
+        UserDAO userDAO = new UserDAO();
 
         HttpSession session = req.getSession();
         UserEntity user = (UserEntity) session.getAttribute("CurrentUser");
-        String verificationCode=req.getParameter("code");
-        if(user!=null) {
+        String verificationCode = req.getParameter("code");
+        if (user != null) {
             String code = Utility.generateVerificationCode();
             try {
-                userDAO.updateOfVerificationCode(code,user.getUserId());
+                userDAO.updateOfVerificationCode(code, user.getUserId());
                 List<UserEntity> user1 = userDAO.getUserDataById(user.getUserId());
-                for (UserEntity user2:user1) {
+                for (UserEntity user2 : user1) {
                     sendMail(user2);
-                    req.setAttribute("userID",user2.getUserId() );
+                    req.setAttribute("userID", user2.getUserId());
                     req.setAttribute("code", verificationCode);
                     RequestDispatcher requestDispatcher = req.getRequestDispatcher("verification?userId=" + user2.getUserId());
                     requestDispatcher.forward(req, resp);
@@ -42,8 +43,7 @@ EmailService emailService=new EmailService();
                 e.printStackTrace();
             }
 
-        }
-        else {
+        } else {
             int userId = Integer.parseInt(req.getParameter("userId"));
             try {
                 String code = Utility.generateVerificationCode();
@@ -53,7 +53,7 @@ EmailService emailService=new EmailService();
                     sendMail(user2);
                     req.setAttribute("userId", user2.getUserId());
                     req.setAttribute("code", verificationCode);
-                    RequestDispatcher requestDispatcher = req.getRequestDispatcher("verification?"+userId);
+                    RequestDispatcher requestDispatcher = req.getRequestDispatcher("verification?" + userId);
                     requestDispatcher.forward(req, resp);
 //                resp.sendRedirect("verification");
                 }

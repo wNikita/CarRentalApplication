@@ -24,6 +24,14 @@ public class AgencyDetailsEntity {
     @Column(name = "user_id")
     private int userId;
 
+//    @OneToOne
+//    @JoinColumn(name = "user_id")
+//    private UserEntity user;
+
+//    @OneToOne
+//    @JoinColumn(name = "address_id")
+//    private AddressDetailsEntity addressDetailsEntity;
+
     @Column(name = "address_id")
     private int addressId;
 
@@ -74,4 +82,20 @@ public class AgencyDetailsEntity {
     public void setGSTNumber(String GSTNumber) {
         this.GSTNumber = GSTNumber;
     }
+
+//    public UserEntity getUser() {
+//        return user;
+//    }
+//
+//    public void setUser(UserEntity user) {
+//        this.user = user;
+//    }
+//
+//    public AddressDetailsEntity getAddressDetailsEntity() {
+//        return addressDetailsEntity;
+//    }
+//
+//    public void setAddressDetailsEntity(AddressDetailsEntity addressDetailsEntity) {
+//        this.addressDetailsEntity = addressDetailsEntity;
+//    }
 }

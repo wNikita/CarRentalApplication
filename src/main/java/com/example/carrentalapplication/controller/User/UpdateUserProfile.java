@@ -33,23 +33,17 @@ public class UpdateUserProfile extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         UserDAO userDAO = new UserDAO();
         UserDTO userDTO = new UserDTO();
-        String firstname = request.getParameter("firstname");
-        String lastname = request.getParameter("lastname");
-        String address = request.getParameter("address");
-        String mobileNumber = request.getParameter("mobilenumber");
-        String email = request.getParameter("email");
-
         try {
             HttpSession session = request.getSession();
             UserEntity user = (UserEntity) session.getAttribute("CurrentUser");
 
 
             // Update the user profile
-            userDTO.setFirstName(firstname);
-            userDTO.setLastName(lastname);
-            userDTO.setAddress(address);
-            userDTO.setMobileNO(mobileNumber);
-            userDTO.setEmailId(email);
+            userDTO.setFirstName(request.getParameter("firstname"));
+            userDTO.setLastName(request.getParameter("lastname"));
+            userDTO.setAddress(request.getParameter("address"));
+            userDTO.setMobileNO(request.getParameter("mobilenumber"));
+            userDTO.setEmailId(request.getParameter("email"));
             List<Error> errorList = UserValidation.validateUpdateUser(userDTO);
             if (!errorList.isEmpty()) {
                 request.setAttribute("errorList", errorList);

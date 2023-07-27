@@ -84,8 +84,8 @@ public class UserDAO {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
             EntityManager em = emf.createEntityManager();
             em.getTransaction().begin();
-            em.createNativeQuery("UPDATE user SET verification_code =:verficationCode WHERE user_id = :userId")
-                    .setParameter("verficationCode", verificationCode)
+            em.createNativeQuery("UPDATE user SET verification_code =:verificationCode WHERE user_id = :userId")
+                    .setParameter("verificationCode", verificationCode)
                     .setParameter("userId", userId).executeUpdate();
             em.getTransaction().commit();
         } catch (Exception ex) {

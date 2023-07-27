@@ -1,6 +1,7 @@
 package com.example.carrentalapplication.jpamodel;
 
 import javax.persistence.*;
+
 @Entity
 @Table(name = "address")
 public class AddressDetailsEntity {
@@ -20,6 +21,10 @@ public class AddressDetailsEntity {
 
     @Column(name = "city_id ")
     private int cityId;
+
+//    @OneToOne
+//    @JoinColumn(name = "city_id")
+//    private CityEntity cityEntity;
 
     public String getPinCode() {
         return pinCode;

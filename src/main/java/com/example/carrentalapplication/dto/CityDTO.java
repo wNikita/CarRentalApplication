@@ -3,8 +3,8 @@ package com.example.carrentalapplication.dto;
 
 public class CityDTO {
 
-    public String cityId;
-    public String cityName;
+    private String cityId;
+    private String cityName;
 
     public String getCityId() {
         return cityId;
