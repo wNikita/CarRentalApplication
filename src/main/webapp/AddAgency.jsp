@@ -1,6 +1,8 @@
 <%@ page import="com.example.carrentalapplication.model.State" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.example.carrentalapplication.model.City" %>
+<%@ page import="com.example.carrentalapplication.jpamodel.StateEntity" %>
+<%@ page import="com.example.carrentalapplication.jpamodel.CityEntity" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -94,8 +96,8 @@
     <select id="state" name="state" >
         <option value="none" selected disabled hidden>Select an State</option>
         <%
-            List<State> stateList = (List<State>) request.getAttribute("states");
-            for (State state : stateList) {
+            List<StateEntity> stateList = (List<StateEntity>) request.getAttribute("states");
+            for (StateEntity state : stateList) {
         %>
         <option value="<%= state.getStateId() %>"><%= state.getStateName() %>
         </option>
@@ -106,8 +108,8 @@
         <option value="none" selected disabled hidden>Select an City</option>
         <%
             if (request.getAttribute("cityList") != null) {
-                List<City> cityList = (List<City>) request.getAttribute("cityList");
-                for (City city : cityList) {
+                List<CityEntity> cityList = (List<CityEntity>) request.getAttribute("cityList");
+                for (CityEntity city : cityList) {
         %>
         <option value="<%= city.getCityId()%>"><%= city.getCityName() %>
         </option>

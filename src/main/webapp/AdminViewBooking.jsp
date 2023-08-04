@@ -1,5 +1,6 @@
 <%@ page import="com.example.carrentalapplication.model.Book" %>
 <%@ page import="java.util.List" %>
+<%@ page import="com.example.carrentalapplication.jpamodel.BookEntity" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -63,21 +64,21 @@
         <th>Actions</th>
     </tr>
 
-    <% List<Book> BookingDetails = (List<Book>) request.getAttribute("bookingDetails");
+    <% List<BookEntity> BookingDetails = (List<BookEntity>) request.getAttribute("bookingDetails");
 
-        for (Book book : BookingDetails) { %>
+        for (BookEntity book : BookingDetails) { %>
     <tr>
         <td><%= book.getBookingId() %></td>
-        <td><%=book.getUser().getFirstName()%></td>
-        <td><%=book.getUser().getEmailId()%></td>
-        <td><%=book.getUser().getMobileNO()%></td>
+        <td><%=book.getUserEntity().getFirstName()%></td>
+        <td><%=book.getUserEntity().getEmailId()%></td>
+        <td><%=book.getUserEntity().getMobileNumber()%></td>
         <td><%= book.getPickupDate() %></td>
         <td><%= book.getReturnDate()%></td>
         <td><%= book.getRentalDays()%></td>
         <td><%= book.getTotalCost()%></td>
-        <td><%= book.getCarDetails().getName()%></td>
-        <td><%= book.getCarDetails().getRegistrationNumber()%></td>
-        <td><%=book.getCreatedDate()%></td>
+        <td><%= book.getCarDetailsEntity().getName()%></td>
+        <td><%= book.getCarDetailsEntity().getRegistrationNumber()%></td>
+<%--        <td><%=book.getCreatedDate()%></td>--%>
         <td><a href="#" class="view-button">View</a></td>
 
     </tr>

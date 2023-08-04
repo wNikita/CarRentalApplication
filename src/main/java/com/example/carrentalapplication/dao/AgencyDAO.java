@@ -3,6 +3,7 @@ package com.example.carrentalapplication.dao;
 import com.example.carrentalapplication.dto.AddressDetailsDTO;
 import com.example.carrentalapplication.dto.AgencyDetailsDTO;
 import com.example.carrentalapplication.exception.DAOException;
+import com.example.carrentalapplication.jpamodel.AddressDetailsEntity;
 import com.example.carrentalapplication.jpamodel.AgencyDetailsEntity;
 import com.example.carrentalapplication.jpamodel.UserEntity;
 import com.example.carrentalapplication.model.AddressDetails;
@@ -40,9 +41,14 @@ public class AgencyDAO {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
             EntityManager em = emf.createEntityManager();
             em.getTransaction().begin();
-            Query query = em.createQuery("Select s from AgencyDetailsEntity s where s.user.userId=:userId");
-            query.setParameter("userId", userId);
+            Query query = em.createQuery("Select s from AgencyDetailsEntity s where s.user.userId=:user_Id");
+            query.setParameter("user_Id", userId);
             List<AgencyDetailsEntity> list = query.getResultList();
+            for (AgencyDetailsEntity agencyDetailsEntity:list)
+            {
+                System.out.println(agencyDetailsEntity.getAddressDetailsEntity().getAddressLine());
+                System.out.println(agencyDetailsEntity.getUser().getFirstName());
+            }
             em.getTransaction().commit();
             return list;
         } catch (Exception ex) {
@@ -50,6 +56,44 @@ public class AgencyDAO {
         }
     }
 
+    public AgencyDetailsEntity userAgencyProfile(AgencyDetailsEntity agencyDetailsEntity) throws DAOException {
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
+            EntityManager em = emf.createEntityManager();
+            em.getTransaction().begin();
+            AgencyDetailsEntity agencyDetails = em.find(agencyDetailsEntity.getClass(), agencyDetailsEntity.getAgencyDetailsId());
+            if (agencyDetails != null) {
+                agencyDetails.setAgencyName(agencyDetailsEntity.getAgencyName());
+                agencyDetails.setGSTNumber(agencyDetailsEntity.getGSTNumber());
+                agencyDetails.setMobileNumber(agencyDetailsEntity.getMobileNumber());
+                em.merge(agencyDetails);
+            }
+            em.getTransaction().commit();
+            return agencyDetailsEntity;
+        } catch (Exception ex) {
+            throw new DAOException("Exception while adding user", ex);
+        }
+    }
+//    public AddressDetailsEntity updateAddress( int userId) throws DAOException {
+//        try {
+//            EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
+//            EntityManager em = emf.createEntityManager();
+//            em.getTransaction().begin();
+//            UserEntity user = em.find(userEntity.getClass(), userId);
+//            if (user != null) {
+//                user.setFirstName(userEntity.getFirstName());
+//                user.setLastName(userEntity.getLastName());
+//                user.setMobileNumber(userEntity.getMobileNumber());
+//                user.setEmailId(userEntity.getEmailId());
+//                user.setAddress(userEntity.getAddress());
+//                em.merge(user);
+//            }
+//            em.getTransaction().commit();
+//            return userEntity;
+//        } catch (Exception ex) {
+//            throw new DAOException("Exception while adding user", ex);
+//        }
+//    }
     public void addAgency(int UserId, AgencyDetails agencyDetails, int addressId) throws DAOException {
         try {
             String sql = "insert into agency(agency_Name,GST_Number,mobile_number,user_Id,address_id) values (?,?,?,?,?)";
@@ -163,26 +207,26 @@ public class AgencyDAO {
     }
 
 
-    public void updateCity(String agencyId,String cityId) throws DAOException {
+    public void updateCity(String agencyId, String cityId) throws DAOException {
 
-        AddressDetails addressDetails=new AddressDetails();
+        AddressDetails addressDetails = new AddressDetails();
         try {
             String findAddressIdQuery = "SELECT address_id FROM agency WHERE agency_details_id = ?";
             PreparedStatement stmt = DBConnection.getInstance().getConnection().prepareStatement(findAddressIdQuery);
             stmt.setInt(1, Integer.parseInt(agencyId));
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                   addressDetails.setAddressID( rs.getInt("address_id"));
-                }
-            } catch (SQLException e) {
+                addressDetails.setAddressID(rs.getInt("address_id"));
+            }
+        } catch (SQLException e) {
             throw new DAOException("Error occurred while retrieving agencies by user ID", e);
 
         }
 
         // Update the city_id in the address table
         String updateCityIdQuery = "UPDATE address SET city_id = ? WHERE address_id = ?";
-        try{
-        PreparedStatement stmt = DBConnection.getInstance().getConnection().prepareStatement(updateCityIdQuery);
+        try {
+            PreparedStatement stmt = DBConnection.getInstance().getConnection().prepareStatement(updateCityIdQuery);
             stmt.setInt(1, Integer.parseInt(cityId));
             stmt.setInt(2, addressDetails.getAddressID());
             stmt.executeUpdate();
@@ -192,6 +236,7 @@ public class AgencyDAO {
         }
     }
 }
+
 
 
 

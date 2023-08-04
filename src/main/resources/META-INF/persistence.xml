@@ -12,8 +12,8 @@
             <property name="javax.persistence.jdbc.password" value=""/>
 
             <!-- Hibernate dialect for the database -->
-            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
-
+            <property name="hibernate.dialect" value="MySQL5InnoDB"/>
+            <property name="hibernate.format_sql" value="true" />
             <!-- Set the hbm2ddl.auto property to create/update database tables automatically -->
             <property name="hibernate.hbm2ddl.auto" value="none"/>
 

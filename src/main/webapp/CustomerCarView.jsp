@@ -1,5 +1,6 @@
 <%@ page import="com.example.carrentalapplication.model.CarDetails" %>
-<%@ page import="java.util.List" %><%--<%@ page import="com.example.carrentalapplication.model.CarDetails" %>--%>
+<%@ page import="java.util.List" %>
+<%@ page import="com.example.carrentalapplication.jpamodel.CarDetailsEntity" %><%--<%@ page import="com.example.carrentalapplication.model.CarDetails" %>--%>
 
 
 <!DOCTYPE html>
@@ -104,7 +105,7 @@
 <body>
 <h1>View Cars</h1>
 <%
-    List<CarDetails> carDetails = (List<CarDetails>) request.getAttribute("carDetails");
+    List<CarDetailsEntity> carDetails = (List<CarDetailsEntity>) request.getAttribute("carDetails");
     if (carDetails != null) {
 %>
 <%--<form action="car-details?carDetailsID="<%=carDetails1.getCarId()%>>--%>
@@ -114,7 +115,7 @@
 <%--    <button type="submit"  class="book-button" >View Deal</button>--%>
 <%--</form>--%>
 <div class="car-container">
-    <% for (CarDetails carDetails1 : carDetails) { %>
+    <% for (CarDetailsEntity carDetails1 : carDetails) { %>
     <div class="car-block">
         <img src="<%=carDetails1.getImage()%>" alt="Car Image">
         <h2><%=carDetails1.getName() %></h2>

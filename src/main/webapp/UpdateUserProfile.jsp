@@ -1,4 +1,5 @@
 <%@ page import="com.example.carrentalapplication.model.User" %>
+<%@ page import="com.example.carrentalapplication.jpamodel.UserEntity" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -61,7 +62,7 @@
     <h2>Update User Profile</h2>
     <form action="user-update" method="POST">
         <%
-            User user = (User) request.getAttribute("user");
+            UserEntity user = (UserEntity) request.getAttribute("user");
         %>
         <div class="form-group">
             <label for="firstname">First Name:</label>
@@ -77,7 +78,7 @@
         </div>
         <div class="form-group">
             <label for="mobilenumber">Mobile Number:</label>
-            <input type="tel" id="mobilenumber" name="mobilenumber" value="<%= user.getMobileNO() %>" >
+            <input type="tel" id="mobilenumber" name="mobilenumber" value="<%= user.getMobileNumber() %>" >
         </div>
 <%--        <div class="form-group">--%>
 <%--            <label for="password">Password:</label>--%>

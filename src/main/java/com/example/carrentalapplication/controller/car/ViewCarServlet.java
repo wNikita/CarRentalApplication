@@ -3,6 +3,8 @@ package com.example.carrentalapplication.controller.car;
 import com.example.carrentalapplication.dao.AgencyDAO;
 import com.example.carrentalapplication.dao.CarDAO;
 import com.example.carrentalapplication.exception.DAOException;
+import com.example.carrentalapplication.jpamodel.AgencyDetailsEntity;
+import com.example.carrentalapplication.jpamodel.CarDetailsEntity;
 import com.example.carrentalapplication.jpamodel.UserEntity;
 import com.example.carrentalapplication.model.*;
 
@@ -18,24 +20,22 @@ import java.util.List;
 public class ViewCarServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        AgencyDAO agencyDAO=new AgencyDAO();
-
-        HttpSession session = req.getSession();
-        UserEntity user = (UserEntity) session.getAttribute("CurrentUser");
-        AgencyDetails agencyDetails1=agencyDAO.viewAgencyDetails(user.getUserId());
-
-        CarDAO carDAO=new CarDAO();
+        AgencyDAO agencyDAO = new AgencyDAO();
         try {
-            List<CarDetails> carDetails = carDAO.viewAllCar(agencyDetails1.getAgencyDetailsId());
-
-
-            req.setAttribute("carDetails", carDetails);
+            HttpSession session = req.getSession();
+            UserEntity user = (UserEntity) session.getAttribute("CurrentUser");
+            List<AgencyDetailsEntity> agencyDetails1 = agencyDAO.viewAgencyByUserId(user.getUserId());
+            for (AgencyDetailsEntity agencyDetailsEntity : agencyDetails1) {
+                CarDAO carDAO = new CarDAO();
+                List<CarDetailsEntity> carDetails = carDAO.viewAllCarByAgency(agencyDetailsEntity.getAgencyDetailsId());
+                req.setAttribute("carDetails", carDetails);
+            }
         } catch (DAOException e) {
             e.printStackTrace();
         }
 
-        RequestDispatcher requestDispatcher=req.getRequestDispatcher("ViewCar.jsp");
-        requestDispatcher.forward(req,resp);
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("ViewCar.jsp");
+        requestDispatcher.forward(req, resp);
     }
 
 }

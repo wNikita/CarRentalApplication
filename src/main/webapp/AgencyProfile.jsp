@@ -1,3 +1,4 @@
+<%@ page import="com.example.carrentalapplication.jpamodel.AgencyDetailsEntity" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,34 +38,36 @@
 </head>
 <body>
 <h1>Agency Details</h1>
-<table>
+<table><%
+    AgencyDetailsEntity agencyDetails = (AgencyDetailsEntity) request.getAttribute("agency");
+%>
     <tr>
         <th>Agency Name:</th>
-        <td>${agency.agencyName}</td>
+        <td><%=agencyDetails.getAgencyName()%></td>
     </tr>
     <tr>
         <th>GST-Number:</th>
-        <td>${agency.GSTNumber}</td>
+        <td><%=agencyDetails.getGSTNumber()%></td>
     </tr>
     <tr>
         <th>Mobile Number:</th>
-        <td>${agency.mobileNumber}</td>
+        <td><%=agencyDetails.getMobileNumber()%></td>
     </tr>
     <tr>
         <th>Address Line:</th>
-        <td>${agency.addressDetails.addressLine}</td>
+        <td><%=agencyDetails.getAddressDetailsEntity().getAddressLine()%></td>
     </tr>
     <tr>
         <th>Pin Code:</th>
-        <td>${agency.addressDetails.pinCode}</td>
-    </tr>
-    <tr>
-        <th>State:</th>
-        <td>${agency.addressDetails.state.stateName}</td>
+        <td><%=agencyDetails.getAddressDetailsEntity().getPinCode()%></td>
     </tr>
     <tr>
         <th>City:</th>
-        <td>${agency.addressDetails.city.cityName}</td>
+        <td><%=agencyDetails.getAddressDetailsEntity().getCityId().getCityName()%></td>
+    </tr>
+    <tr>
+        <th>State:</th>
+        <td><%=agencyDetails.getAddressDetailsEntity().getCityId().getStateEntity().getStateName()%></td>
     </tr>
     <tr>
         <td colspan="2" align="center">

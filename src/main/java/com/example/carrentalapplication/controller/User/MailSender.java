@@ -5,7 +5,6 @@ import com.example.carrentalapplication.common.Utility;
 import com.example.carrentalapplication.dao.UserDAO;
 import com.example.carrentalapplication.exception.DAOException;
 import com.example.carrentalapplication.jpamodel.UserEntity;
-import com.example.carrentalapplication.model.User;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;

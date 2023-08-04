@@ -2,7 +2,9 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.example.carrentalapplication.model.City" %>
 <%@ page import="com.example.carrentalapplication.model.User" %>
-<%@ page import="com.example.carrentalapplication.jpamodel.UserEntity" %><%--<!DOCTYPE html>--%>
+<%@ page import="com.example.carrentalapplication.jpamodel.UserEntity" %>
+<%@ page import="com.example.carrentalapplication.jpamodel.StateEntity" %>
+<%@ page import="com.example.carrentalapplication.jpamodel.CityEntity" %><%--<!DOCTYPE html>--%>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
         crossorigin="anonymous">
@@ -39,8 +41,8 @@
             <select id="state" name="state" required>
                 <option value="none" selected disabled hidden>Select an State</option>
                 <%
-                    List<State> stateList = (List<State>) request.getAttribute("states");
-                    for (State state : stateList) {
+                    List<StateEntity> stateList = (List<StateEntity>) request.getAttribute("states");
+                    for (StateEntity state : stateList) {
                 %>
                 <option value="<%= state.getStateId() %>"><%= state.getStateName() %>
                 </option>
@@ -53,8 +55,8 @@
             <option value="none" selected disabled hidden>Select an City</option>
             <%
                 if (request.getAttribute("cityList") != null) {
-                    List<City> cityList = (List<City>) request.getAttribute("cityList");
-                    for (City city : cityList) {
+                    List<CityEntity> cityList = (List<CityEntity>) request.getAttribute("cityList");
+                    for (CityEntity city : cityList) {
             %>
             <option value="<%= city.getCityId()%>"><%= city.getCityName() %>
             </option>

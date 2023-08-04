@@ -4,6 +4,8 @@ import com.example.carrentalapplication.dao.BookDao;
 import com.example.carrentalapplication.dao.CarDAO;
 import com.example.carrentalapplication.dto.BookDTO;
 import com.example.carrentalapplication.exception.DAOException;
+import com.example.carrentalapplication.jpamodel.BookEntity;
+import com.example.carrentalapplication.jpamodel.CarDetailsEntity;
 import com.example.carrentalapplication.jpamodel.UserEntity;
 import com.example.carrentalapplication.model.CarDetails;
 import com.example.carrentalapplication.model.User;
@@ -19,6 +21,7 @@ import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @MultipartConfig
@@ -26,32 +29,38 @@ public class CarDetailsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException {
         CarDAO carDAO = new CarDAO();
-
+        double totalCharge;
         String carID = req.getParameter("carId");
         String PickupDate = req.getParameter("pickUpDate");
         String ReturnDate = req.getParameter("returnDate");
-        CarDetails carDetails = null;
+        List<CarDetailsEntity> carDetails = null;
         try {
-            carDetails = carDAO.getAllCarDetails(carID);
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            carDetails = carDAO.viewAllCarByCarId(carID);
+            //carDAO.getAllCarDetails(carID);
+            for (CarDetailsEntity carDetailsEntity : carDetails) {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-            req.setAttribute("carDetails", carDetails);
-            req.setAttribute("PickupDate", PickupDate);
-            req.setAttribute("ReturnDate", ReturnDate);
-            Date startDate = sdf.parse(PickupDate);
-            Date endDate = sdf.parse(ReturnDate);
 
-            long differenceInMillis = endDate.getTime() - startDate.getTime();
-            long differenceInDays = TimeUnit.MILLISECONDS.toDays(differenceInMillis);
-            req.setAttribute("TotalNumberOfDays", differenceInDays);
-            double totalCharge = differenceInDays * carDetails.getChargePerDay();
-            req.setAttribute("totalCharge", totalCharge);
+                Date startDate = sdf.parse(PickupDate);
+                Date endDate = sdf.parse(ReturnDate);
+
+                long differenceInMillis = endDate.getTime() - startDate.getTime();
+                long differenceInDays = TimeUnit.MILLISECONDS.toDays(differenceInMillis);
+                totalCharge = differenceInDays * carDetailsEntity.getChargePerDay();
+                req.setAttribute("carDetails", carDetails);
+                req.setAttribute("PickupDate", PickupDate);
+                req.setAttribute("ReturnDate", ReturnDate);
+                req.setAttribute("TotalNumberOfDays", differenceInDays);
+                req.setAttribute("totalCharge", totalCharge);
+
+                req.getRequestDispatcher("CarDetails.jsp").forward(req, response);
+            }
         } catch (DAOException ex) {
             ex.printStackTrace();
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        req.getRequestDispatcher("CarDetails.jsp").forward(req, response);
+
     }
 
     @Override
@@ -91,8 +100,7 @@ public class CarDetailsServlet extends HttpServlet {
             req.setAttribute("razorpay_order_id", orderId);
             req.setAttribute("TotalAmount", bookDTO.getTotalCostDTO());
             bookDTO.setRazorpayOrderId(orderId);
-            bookDao.BookCar(bookDTO);
-
+            addBookData(bookDTO);
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("Payment.jsp");
             requestDispatcher.forward(req, resp);
         } catch (DAOException e) {
@@ -135,6 +143,23 @@ public class CarDetailsServlet extends HttpServlet {
         return imagePath;
     }
 
+    public void addBookData(BookDTO bookDTO) throws DAOException {
+        BookEntity bookEntity = new BookEntity();
+        bookEntity.setPickupDate(bookDTO.getPickupDateDTO());
+        bookEntity.setReturnDate(bookDTO.getReturnDateDTO());
+        bookEntity.setLicense(bookDTO.getLicenseDTO());
+        bookEntity.setRentalDays(bookDTO.getRentalDaysDTO());
+        bookEntity.setTotalCost(bookDTO.getTotalCostDTO());
+        bookEntity.setRazorpayOrderId(bookDTO.getRazorpayOrderId());
+        CarDetailsEntity carDetails = new CarDetailsEntity();
+        carDetails.setCarId(bookDTO.getCarIdDTO());
+        bookEntity.setCarDetailsEntity(carDetails);
+        UserEntity user = new UserEntity();
+        user.setUserId(bookDTO.getUserIdDTO());
+        bookEntity.setUserEntity(user);
+        BookDao bookDao = new BookDao();
+        bookDao.bookCar(bookEntity);
+    }
 }
 
 

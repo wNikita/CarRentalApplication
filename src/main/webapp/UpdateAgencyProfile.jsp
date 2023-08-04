@@ -2,6 +2,9 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.example.carrentalapplication.model.City" %>
 <%@ page import="com.example.carrentalapplication.model.AgencyDetails" %>
+<%@ page import="com.example.carrentalapplication.jpamodel.AgencyDetailsEntity" %>
+<%@ page import="com.example.carrentalapplication.jpamodel.StateEntity" %>
+<%@ page import="com.example.carrentalapplication.jpamodel.CityEntity" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -75,7 +78,7 @@
     </div>
 <table>
     <%
-        AgencyDetails agencyDetails = (AgencyDetails) request.getAttribute("agency");
+        AgencyDetailsEntity agencyDetails = (AgencyDetailsEntity) request.getAttribute("agency");
     %>
     <tr>
         <th><label for="agencyName">Agency Name:</label></th>
@@ -87,16 +90,16 @@
     </tr>
     <tr>
         <th><label for="mobileNumber">Mobile Number:</label></th>
-        <td><input type="tel" id="mobileNumber" name="mobileNumber" value=" <%=agencyDetails.getMobileNumber()%>" ></td>
+        <td><input type="text" id="mobileNumber" name="mobileNumber" value=" <%=agencyDetails.getMobileNumber()%>" ></td>
     </tr>
     <tr>
         <th><label for="Addressline">AddressLine:</label></th>
-        <td><input type="text" id="Addressline" name="Addressline" value=" <%=agencyDetails.getAddressDetails().getAddressLine()%>"
+        <td><input type="text" id="Addressline" name="Addressline" value=" <%=agencyDetails.getAddressDetailsEntity().getAddressLine()%>"
                    ></td>
     </tr>
     <tr>
         <th><label for="PinCode">Pin Code:</label></th>
-        <td><input type="text" id="PinCode" name="PinCode" value="<%=agencyDetails.getAddressDetails().getPinCode()%>" ></td>
+        <td><input type="text" id="PinCode" name="PinCode" value="<%=agencyDetails.getAddressDetailsEntity().getPinCode()%>" ></td>
     </tr>
     <tr>
 
@@ -104,8 +107,8 @@
         <td>
             <select id="state" name="state" required>
                 <option>Select a State</option>
-                <% List<State> stateList = (List<State>) request.getAttribute("states");
-                    for (State state : stateList) {
+                <% List<StateEntity> stateList = (List<StateEntity>) request.getAttribute("states");
+                    for (StateEntity state : stateList) {
                         String selected = (state.getStateId()==(int)request.getAttribute("stateID")) ? "selected" : "";
                 %>
                 <option value="<%= state.getStateId() %>"<%=selected%>><%= state.getStateName() %></option>
@@ -120,8 +123,8 @@
             <select id="city" name="city" required>
                 <option>Select a City</option>
                 <% if (request.getAttribute("cityList") != null) {
-                    List<City> cityList = (List<City>) request.getAttribute("cityList");
-                    for (City city : cityList) {
+                    List<CityEntity> cityList = (List<CityEntity>) request.getAttribute("cityList");
+                    for (CityEntity city : cityList) {
                         String selected = (city.getCityId() == (int) request.getAttribute("cityId")) ? "selected" : "";
                 %>
                 <option value="<%= city.getCityId() %>" <%= selected %>><%= city.getCityName() %></option>

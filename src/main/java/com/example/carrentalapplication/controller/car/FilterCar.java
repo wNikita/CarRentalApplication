@@ -3,6 +3,8 @@ package com.example.carrentalapplication.controller.car;
 import com.example.carrentalapplication.dao.AgencyDAO;
 import com.example.carrentalapplication.dao.CarDAO;
 import com.example.carrentalapplication.exception.DAOException;
+import com.example.carrentalapplication.jpamodel.AgencyDetailsEntity;
+import com.example.carrentalapplication.jpamodel.CarDetailsEntity;
 import com.example.carrentalapplication.jpamodel.UserEntity;
 import com.example.carrentalapplication.model.AgencyDetails;
 import com.example.carrentalapplication.model.CarDetails;
@@ -26,21 +28,26 @@ public class FilterCar extends HttpServlet {
 
         HttpSession session = req.getSession();
         UserEntity user = (UserEntity) session.getAttribute("CurrentUser");
-        AgencyDetails agencyDetails1 = agencyDAO.viewAgencyDetails(user.getUserId());
+//        AgencyDetails agencyDetails1 = agencyDAO.viewAgencyDetails(user.getUserId());
         try {
-            String fuelTypeFilter = req.getParameter("fuelType");
-            List<CarDetails> carDetails=carDAO.getCarsByFuelType(fuelTypeFilter,agencyDetails1.getAgencyDetailsId());
-            req.setAttribute("carDetails",carDetails);
+            List<AgencyDetailsEntity> agencyDetailsEntities = agencyDAO.viewAgencyByUserId(user.getUserId());
+            {
+                for (AgencyDetailsEntity agencyDetailsEntity : agencyDetailsEntities) {
+                    String fuelTypeFilter = req.getParameter("fuelType");
+                    List<CarDetailsEntity> carDetails = carDAO.viewCarByFuelType(fuelTypeFilter, agencyDetailsEntity.getAgencyDetailsId());
+                    req.setAttribute("carDetails", carDetails);
 
-            if(req.getParameter("transmission")!=null) {
-                String transmissionFilter = req.getParameter("transmission");
+                    if (req.getParameter("transmission") != null) {
+                        String transmissionFilter = req.getParameter("transmission");
 
-                List<CarDetails> filteredCars = carDAO.getCarsByFuelTypeAndTransmission(fuelTypeFilter, transmissionFilter, agencyDetails1.getAgencyDetailsId());
+                        List<CarDetailsEntity> filteredCars = carDAO.viewCarByFuelTypeAndTransmissionType(fuelTypeFilter, transmissionFilter, agencyDetailsEntity.getAgencyDetailsId());
 
-                req.setAttribute("carDetails", filteredCars);
+                        req.setAttribute("carDetails", filteredCars);
+                    }
+                    RequestDispatcher requestDispatcher = req.getRequestDispatcher("ViewCar.jsp");
+                    requestDispatcher.forward(req, resp);
+                }
             }
-            RequestDispatcher requestDispatcher = req.getRequestDispatcher("ViewCar.jsp");
-            requestDispatcher.forward(req, resp);
         } catch (DAOException e) {
             e.printStackTrace();
         }

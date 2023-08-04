@@ -2,10 +2,16 @@ package com.example.carrentalapplication.dao;
 
 import com.example.carrentalapplication.dto.CarDetailsDTO;
 import com.example.carrentalapplication.exception.DAOException;
+import com.example.carrentalapplication.jpamodel.CarDetailsEntity;
+import com.example.carrentalapplication.jpamodel.UserEntity;
 import com.example.carrentalapplication.model.CarDetails;
 import com.example.carrentalapplication.model.City;
 
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,30 +19,193 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CarDAO {
-    public void add(CarDetailsDTO carDetailsDTO) throws DAOException {
+
+    public CarDetailsEntity addCar(CarDetailsEntity carDetailsEntity) throws DAOException {
         try {
-            String insertQuery = "insert into car(name,number,color,model,insurance_no,no_of_seats," +
-                    "km_travelled,fuel_type,car_agency_id,transmission_type,rental_rate_per_day,image )" +
-                    "values (?,?,?,?,?,?,?,?,?,?,?,?)";
-            PreparedStatement stmt = DBConnection.getInstance().getConnection().prepareStatement(insertQuery);
-            stmt.setString(1, carDetailsDTO.getName());
-            stmt.setInt(2, Integer.parseInt(carDetailsDTO.getRegistrationNumber()));
-            stmt.setString(3, carDetailsDTO.getColor());
-            stmt.setInt(4, Integer.parseInt(carDetailsDTO.getModel()));
-            stmt.setInt(5, Integer.parseInt(carDetailsDTO.getInsurancePolicyNumber()));
-            stmt.setInt(6, Integer.parseInt(carDetailsDTO.getNoOfSeats()));
-            stmt.setInt(7, Integer.parseInt(carDetailsDTO.getKmTravelled()));
-            stmt.setString(8, carDetailsDTO.getFuelType());
-            stmt.setInt(9, carDetailsDTO.getAgencyId());
-            stmt.setString(10, carDetailsDTO.getTransmissionType());
-            stmt.setInt(11, Integer.parseInt(carDetailsDTO.getChargePerDay()));
-            stmt.setString(12, carDetailsDTO.getImage());
-            stmt.executeUpdate();
-            System.out.println("-----Car register successfully-----");
-        } catch (SQLException e) {
-            throw new DAOException("Error while connecting");
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
+            EntityManager em = emf.createEntityManager();
+            em.getTransaction().begin();
+            em.persist(carDetailsEntity);
+            em.getTransaction().commit();
+            return carDetailsEntity;
+        } catch (Exception ex) {
+            throw new DAOException("Exception while adding user", ex);
         }
     }
+
+    public List<CarDetailsEntity> viewAllCarByAgency(int AgencyId) throws DAOException {
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
+            EntityManager em = emf.createEntityManager();
+            em.getTransaction().begin();
+            Query query = em.createQuery("Select s from CarDetailsEntity s where s.agencyDetailsEntity.agencyDetailsId=:AgencyId");
+            query.setParameter("AgencyId", AgencyId);
+            List<CarDetailsEntity> list = query.getResultList();
+            em.getTransaction().commit();
+            return list;
+        } catch (Exception ex) {
+            throw new DAOException("Exception while adding user", ex);
+        }
+    }
+    public List<CarDetailsEntity> viewAllCarByCarId(String CarId) throws DAOException {
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
+            EntityManager em = emf.createEntityManager();
+            em.getTransaction().begin();
+            Query query = em.createQuery("Select s from CarDetailsEntity s where s.carId=:CarId");
+            query.setParameter("CarId", CarId);
+            List<CarDetailsEntity> list = query.getResultList();
+            em.getTransaction().commit();
+            return list;
+        } catch (Exception ex) {
+            throw new DAOException("Exception while adding user", ex);
+        }
+    }
+
+    public List<CarDetailsEntity> carNameByAscending(int agencyID ) throws DAOException {
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
+            EntityManager em = emf.createEntityManager();
+            Query query = em.createQuery("Select s from CarDetailsEntity s where s.agencyDetailsEntity.agencyDetailsId=:agencyId order by s.name asc ");
+            query.setParameter("agencyId", agencyID);
+            List<CarDetailsEntity> list = query.getResultList();
+            return list;
+        } catch (Exception ex) {
+            throw new DAOException("Exception while adding user", ex);
+        }
+    }
+
+    public List<CarDetailsEntity> carNameByDesc(int agencyID ) throws DAOException {
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
+            EntityManager em = emf.createEntityManager();
+            Query query = em.createQuery("Select s from CarDetailsEntity s where s.agencyDetailsEntity.agencyDetailsId=:agencyId order by s.name desc ");
+            query.setParameter("agencyId", agencyID);
+            List<CarDetailsEntity> list = query.getResultList();return list;
+        } catch (Exception ex) {
+            throw new DAOException("Exception while adding user", ex);
+        }
+    }
+    public List<CarDetailsEntity> carRatePerDayByAsc(int agencyID ) throws DAOException {
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
+            EntityManager em = emf.createEntityManager();
+            Query query = em.createQuery("Select s from CarDetailsEntity s where s.agencyDetailsEntity.agencyDetailsId=:agencyId order by s.chargePerDay asc ");
+            query.setParameter("agencyId", agencyID);
+            List<CarDetailsEntity> list = query.getResultList();
+            return list;
+        } catch (Exception ex) {
+            throw new DAOException("Exception while adding user", ex);
+        }
+    }
+    public List<CarDetailsEntity> carRatePerDayByDesc(int agencyID ) throws DAOException {
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
+            EntityManager em = emf.createEntityManager();
+            Query query = em.createQuery("Select s from CarDetailsEntity s where s.agencyDetailsEntity.agencyDetailsId=:agencyId order by s.chargePerDay desc ");
+            query.setParameter("agencyId", agencyID);
+            List<CarDetailsEntity> list = query.getResultList();
+            return list;
+        } catch (Exception ex) {
+            throw new DAOException("Exception while adding user", ex);
+        }
+    }
+    public List<CarDetailsEntity> viewCarByCity(int cityId) throws DAOException {
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
+            EntityManager em = emf.createEntityManager();
+            em.getTransaction().begin();
+            Query query = em.createQuery("Select s from CarDetailsEntity s where s.agencyDetailsEntity.addressDetailsEntity.cityId.cityId=:cityId");
+            query.setParameter("cityId", cityId);
+            List<CarDetailsEntity> list = query.getResultList();
+            em.getTransaction().commit();
+            return list;
+        } catch (Exception ex) {
+            throw new DAOException("Exception while adding user", ex);
+        }
+    }
+
+    public List<CarDetailsEntity> viewCarByFuelType(String fuelType,int agencyId) throws DAOException {
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
+            EntityManager em = emf.createEntityManager();
+            em.getTransaction().begin();
+            Query query = em.createQuery("Select s from CarDetailsEntity s where s.agencyDetailsEntity.agencyDetailsId=:agencyId and s.fuelType=:fuelType");
+            query.setParameter("agencyId", agencyId);
+            query.setParameter("fuelType",fuelType);
+            List<CarDetailsEntity> list = query.getResultList();
+            em.getTransaction().commit();
+            return list;
+        } catch (Exception ex) {
+            throw new DAOException("Exception while adding user", ex);
+        }
+    }
+
+    public List<CarDetailsEntity> viewCarByFuelTypeAndTransmissionType(String fuelType,String transmissionType,int agencyId) throws DAOException {
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
+            EntityManager em = emf.createEntityManager();
+            em.getTransaction().begin();
+            Query query = em.createQuery("Select s from CarDetailsEntity s where s.agencyDetailsEntity.agencyDetailsId=:agencyId and s.fuelType=:fuelType and s.transmissionType=:transmissionType");
+            query.setParameter("agencyId", agencyId);
+            query.setParameter("fuelType",fuelType);
+            query.setParameter("transmissionType",transmissionType);
+            List<CarDetailsEntity> list = query.getResultList();
+            em.getTransaction().commit();
+            return list;
+        } catch (Exception ex) {
+            throw new DAOException("Exception while adding user", ex);
+        }
+    }
+    public CarDetailsEntity carUpdate(CarDetailsDTO carDetailsDTO, String carId) throws DAOException {
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
+            EntityManager em = emf.createEntityManager();
+            em.getTransaction().begin();
+            CarDetailsEntity carDetailsEntity1 = em.find(CarDetailsEntity.class, carId);
+            if (carDetailsEntity1 != null) {
+                carDetailsEntity1.setName(carDetailsDTO.getName());
+                carDetailsEntity1.setRegistrationNumber(Integer.valueOf(carDetailsDTO.getRegistrationNumber()));
+                carDetailsEntity1.setChargePerDay(Integer.valueOf(carDetailsDTO.getChargePerDay()));
+                carDetailsEntity1.setFuelType(carDetailsDTO.getFuelType());
+                carDetailsEntity1.setInsurancePolicyNumber(Integer.valueOf(carDetailsDTO.getInsurancePolicyNumber()));
+                carDetailsEntity1.setKmTravelled(Integer.valueOf(carDetailsDTO.getKmTravelled()));
+                carDetailsEntity1.setNoOfSeats(Integer.valueOf(carDetailsDTO.getNoOfSeats()));
+                carDetailsEntity1.setModel(Integer.valueOf(carDetailsDTO.getModel()));
+                carDetailsEntity1.setTransmissionType(carDetailsDTO.getTransmissionType());
+                carDetailsEntity1.setColor(carDetailsDTO.getColor());
+                em.merge(carDetailsEntity1);
+            }
+            em.getTransaction().commit();
+            return carDetailsEntity1;
+        } catch (Exception ex) {
+            throw new DAOException("Exception while adding user", ex);
+        }
+    }
+//    public void add(CarDetailsDTO carDetailsDTO) throws DAOException {
+//        try {
+//            String insertQuery = "insert into car(name,number,color,model,insurance_no,no_of_seats," +
+//                    "km_travelled,fuel_type,car_agency_id,transmission_type,rental_rate_per_day,image )" +
+//                    "values (?,?,?,?,?,?,?,?,?,?,?,?)";
+//            PreparedStatement stmt = DBConnection.getInstance().getConnection().prepareStatement(insertQuery);
+//            stmt.setString(1, carDetailsDTO.getName());
+//            stmt.setInt(2, Integer.parseInt(carDetailsDTO.getRegistrationNumber()));
+//            stmt.setString(3, carDetailsDTO.getColor());
+//            stmt.setInt(4, Integer.parseInt(carDetailsDTO.getModel()));
+//            stmt.setInt(5, Integer.parseInt(carDetailsDTO.getInsurancePolicyNumber()));
+//            stmt.setInt(6, Integer.parseInt(carDetailsDTO.getNoOfSeats()));
+//            stmt.setInt(7, Integer.parseInt(carDetailsDTO.getKmTravelled()));
+//            stmt.setString(8, carDetailsDTO.getFuelType());
+//            stmt.setInt(9, carDetailsDTO.getAgencyId());
+//            stmt.setString(10, carDetailsDTO.getTransmissionType());
+//            stmt.setInt(11, Integer.parseInt(carDetailsDTO.getChargePerDay()));
+//            stmt.setString(12, carDetailsDTO.getImage());
+//            stmt.executeUpdate();
+//            System.out.println("-----Car register successfully-----");
+//        } catch (SQLException e) {
+//            throw new DAOException("Error while connecting");
+//        }
+//   }
 
     public List<CarDetails> viewAllCar(int car_agency_id) throws DAOException {
         List<CarDetails> carDetails1 = new ArrayList<>();
@@ -66,6 +235,7 @@ public class CarDAO {
         }
         return carDetails1;
     }
+
 
     public List<CarDetails> getCarByCityId(int cityId) throws DAOException {
         List<CarDetails> carDetails1 = new ArrayList<>();
@@ -127,7 +297,7 @@ public class CarDAO {
     }
 
 
-    public void UpdateCar(int carId, CarDetailsDTO carDetailsDTO) throws DAOException {
+    public void UpdateCar(String carId, CarDetailsDTO carDetailsDTO) throws DAOException {
         try {
             String selectQuery = "UPDATE car SET name=?, number=?, color=?, model=?, insurance_no=?, no_of_seats=?, km_travelled=?, fuel_type=?, transmission_type=?, rental_rate_per_day=? ,image=? WHERE car_id=?";
             PreparedStatement stmt = DBConnection.getInstance().getConnection().prepareStatement(selectQuery);
@@ -143,7 +313,7 @@ public class CarDAO {
             stmt.setString(9, carDetailsDTO.getTransmissionType());
             stmt.setInt(10, Integer.parseInt(carDetailsDTO.getChargePerDay()));
             stmt.setString(11,carDetailsDTO.getImage());
-            stmt.setInt(12, carId);
+            stmt.setInt(12, Integer.parseInt(carId));
             stmt.executeUpdate();
         } catch (SQLException e) {
             throw new DAOException("Something went wrong");

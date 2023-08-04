@@ -4,6 +4,8 @@ import com.example.carrentalapplication.Validation.CarDetailsValidation;
 import com.example.carrentalapplication.dao.CarDAO;
 import com.example.carrentalapplication.dto.CarDetailsDTO;
 import com.example.carrentalapplication.exception.DAOException;
+import com.example.carrentalapplication.jpamodel.AgencyDetailsEntity;
+import com.example.carrentalapplication.jpamodel.CarDetailsEntity;
 import com.example.carrentalapplication.model.CarDetails;
 
 import javax.servlet.RequestDispatcher;
@@ -24,22 +26,22 @@ public class UpdateCarServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-         CarDAO carDAO = new CarDAO();
+        CarDAO carDAO = new CarDAO();
 
         String carId = req.getParameter("carId");
         try {
-            CarDetails carDetails = carDAO.getAllCarDetails(carId);
-            req.setAttribute("carDetails",carDetails);
-        }catch (DAOException e) {
+            List<CarDetailsEntity> carDetails = carDAO.viewAllCarByCarId(carId);
+            req.setAttribute("carDetails", carDetails);
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher("UpdateCar.jsp");
+            requestDispatcher.forward(req, resp);
+        } catch (DAOException e) {
             e.printStackTrace();
         }
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("UpdateCar.jsp");
-        requestDispatcher.forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        CarDetailsDTO carDetailsDTO=new CarDetailsDTO();
+        CarDetailsDTO carDetailsDTO = new CarDetailsDTO();
 
 
         ServletContext servletContext = getServletContext();
@@ -48,7 +50,7 @@ public class UpdateCarServlet extends HttpServlet {
         String uploadDirectory = uploadFileAndGetImagePath(imagePart, imageFileName, servletContext);
 
 
-        int carId = Integer.parseInt(req.getParameter("carId"));
+        String carId = req.getParameter("carId");
 
         carDetailsDTO.setName(req.getParameter("name"));
         carDetailsDTO.setRegistrationNumber(req.getParameter("registrationNumber"));
@@ -61,23 +63,23 @@ public class UpdateCarServlet extends HttpServlet {
         carDetailsDTO.setTransmissionType(req.getParameter("transmissionType"));
         carDetailsDTO.setColor(req.getParameter("carColor"));
         carDetailsDTO.setImage(uploadDirectory);
-        CarDAO carDAO = new CarDAO();
         List<Error> errorList = CarDetailsValidation.validateCarDetails(carDetailsDTO);
         if (!errorList.isEmpty()) {
             req.setAttribute("errorList", errorList);
-            req.setAttribute("carId",carId);
-            req.setAttribute("carDetails",carDetailsDTO);
+            req.setAttribute("carId", carId);
+            req.setAttribute("carDetails", carDetailsDTO);
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("UpdateCar.jsp");
             requestDispatcher.forward(req, resp);
         } else {
             try {
-                carDAO.UpdateCar(carId, carDetailsDTO);
-                resp.sendRedirect("view-car");
+                UpdateCar(carId, carDetailsDTO);
+                resp.sendRedirect("view-car?carId:" + carId);
             } catch (DAOException e) {
                 e.printStackTrace();
             }
         }
     }
+
     public static String getFileName(Part part) {
         String contentDisposition = part.getHeader("content-disposition");
         String[] elements = contentDisposition.split(";");
@@ -109,5 +111,21 @@ public class UpdateCarServlet extends HttpServlet {
         return imagePath;
     }
 
+    public void UpdateCar(String carId, CarDetailsDTO carDetailsDTO) throws DAOException {
+        CarDAO carDAO = new CarDAO();
+//        CarDetailsEntity carDetailsEntity=new CarDetailsEntity();
+//        carDetailsEntity.setName(carDetailsDTO.getName());
+//        carDetailsEntity.setRegistrationNumber(Integer.valueOf(carDetailsDTO.getRegistrationNumber()));
+//        carDetailsEntity.setChargePerDay(Integer.valueOf(carDetailsDTO.getChargePerDay()));
+//        carDetailsEntity.setFuelType(carDetailsDTO.getFuelType());
+//        carDetailsEntity.setInsurancePolicyNumber(Integer.valueOf(carDetailsDTO.getInsurancePolicyNumber()));
+//        carDetailsEntity.setKmTravelled(Integer.valueOf(carDetailsDTO.getKmTravelled()));
+//        carDetailsEntity.setNoOfSeats(Integer.valueOf(carDetailsDTO.getNoOfSeats()));
+//        carDetailsEntity.setModel(Integer.valueOf(carDetailsDTO.getModel()));
+//        carDetailsEntity.setTransmissionType(carDetailsDTO.getTransmissionType());
+//        carDetailsEntity.setColor(carDetailsDTO.getColor());
+//                carDetailsEntity.setImage(carDetailsDTO.getImage());
+        carDAO.carUpdate(carDetailsDTO, carId);
+    }
 }
 

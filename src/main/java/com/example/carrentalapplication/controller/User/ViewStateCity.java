@@ -2,6 +2,8 @@ package com.example.carrentalapplication.controller.User;
 
 import com.example.carrentalapplication.dao.AddressDAO;
 import com.example.carrentalapplication.exception.DAOException;
+import com.example.carrentalapplication.jpamodel.CityEntity;
+import com.example.carrentalapplication.jpamodel.StateEntity;
 import com.example.carrentalapplication.model.City;
 import com.example.carrentalapplication.model.State;
 
@@ -19,11 +21,11 @@ public class ViewStateCity extends HttpServlet {
         AddressDAO addressDAO = new AddressDAO();
 
         try {
-            List<State> states = addressDAO.getState();
+            List<StateEntity> states = addressDAO.getAllState();
             req.setAttribute("states", states);
             if (req.getParameter("stateID") != null) {
                 int stateID = Integer.parseInt(req.getParameter("stateID"));
-                List<City> cityList = addressDAO.getCityByState(stateID);
+                List<CityEntity> cityList = addressDAO.getAllCityByState(stateID);
                 req.setAttribute("cityList", cityList);
             }
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("Customer.jsp");

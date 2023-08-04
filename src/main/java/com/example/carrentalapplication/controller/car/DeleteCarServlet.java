@@ -13,7 +13,7 @@ public class DeleteCarServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-          CarDAO carDAO=new CarDAO();
+        CarDAO carDAO = new CarDAO();
 
         int carId = Integer.parseInt(req.getParameter("carId"));
         try {

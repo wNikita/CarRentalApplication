@@ -35,7 +35,7 @@ public class LoginServlet extends HttpServlet {
             try {
                 //  User user = userDAO.getUserByCredentials(userDTO.getEmailId(), userDTO.getPassword());
                 List<UserEntity> user2 = userDAO.loginCredentials(userDTO.getEmailId(), userDTO.getPassword());
-                if (user2.size()!=0) {
+                if (user2.size() != 0) {
                     HttpSession session = req.getSession();
                     for (UserEntity user : user2)
                         session.setAttribute("CurrentUser", user);

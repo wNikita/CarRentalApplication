@@ -8,6 +8,7 @@ public class AddressDetailsEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="address_id ")
     private int addressID;
 
     @Column(name = "address_line", length = 30, nullable = false)
@@ -18,9 +19,9 @@ public class AddressDetailsEntity {
 
 //    @Column(name = "state_id ")
 
-
-    @Column(name = "city_id ")
-    private int cityId;
+    @ManyToOne
+    @JoinColumn(name = "city_id ")
+    private CityEntity cityId;
 
 //    @OneToOne
 //    @JoinColumn(name = "city_id")
@@ -34,11 +35,11 @@ public class AddressDetailsEntity {
         this.pinCode = pinCode;
     }
 
-    public int getCityId() {
+    public CityEntity getCityId() {
         return cityId;
     }
 
-    public void setCityId(int cityId) {
+    public void setCityId(CityEntity cityId) {
         this.cityId = cityId;
     }
 

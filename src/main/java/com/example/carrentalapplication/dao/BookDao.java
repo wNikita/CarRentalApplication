@@ -2,10 +2,16 @@ package com.example.carrentalapplication.dao;
 
 import com.example.carrentalapplication.dto.BookDTO;
 import com.example.carrentalapplication.exception.DAOException;
+import com.example.carrentalapplication.jpamodel.BookEntity;
+import com.example.carrentalapplication.jpamodel.UserEntity;
 import com.example.carrentalapplication.model.Book;
 import com.example.carrentalapplication.model.CarDetails;
 import com.example.carrentalapplication.model.User;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,6 +20,57 @@ import java.util.List;
 
 public class BookDao {
 
+    public BookEntity bookCar(BookEntity bookEntity) throws DAOException {
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
+            EntityManager em = emf.createEntityManager();
+            em.getTransaction().begin();
+            em.persist(bookEntity);
+            em.getTransaction().commit();
+            return bookEntity;
+        } catch (Exception ex) {
+            throw new DAOException("Exception while adding user", ex);
+        }
+    }
+    public List<BookEntity> viewBookingData(int userid) throws DAOException {
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
+            EntityManager em = emf.createEntityManager();
+            Query query = em.createQuery("Select s from BookEntity s where s.userEntity.userId=:userid");
+            query.setParameter("userid", userid);
+            List<BookEntity> list = query.getResultList();
+            return list;
+        } catch (Exception ex) {
+            throw new DAOException("Exception while adding user", ex);
+        }
+    }
+    public List<BookEntity> viewBookingDataForAgencyAdmin(int agencyId) throws DAOException {
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
+            EntityManager em = emf.createEntityManager();
+            Query query = em.createQuery("Select s from BookEntity s where s.carDetailsEntity.agencyDetailsEntity.agencyDetailsId=:agencyID");
+            query.setParameter("agencyID", agencyId);
+            List<BookEntity> list = query.getResultList();
+            return list;
+        } catch (Exception ex) {
+            throw new DAOException("Exception while adding user", ex);
+        }
+    }
+
+    public void updatePayment(String orderId, String razorPaymentId, int paymentId) throws DAOException {
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
+            EntityManager em = emf.createEntityManager();
+            em.getTransaction().begin();
+            em.createNativeQuery("UPDATE book  SET razorpay_payment_id = :razorpayId,payment_id=:paymentId WHERE razorpay_order_id = :orderId")
+                    .setParameter("razorpayId",razorPaymentId)
+                    .setParameter("paymentId", paymentId)
+                    .setParameter("orderId",orderId).executeUpdate();
+            em.getTransaction().commit();
+        } catch (Exception ex) {
+            throw new DAOException("Exception while adding user", ex);
+        }
+    }
 
     public void BookCar(BookDTO bookDTO) throws DAOException {
         try {
@@ -35,20 +92,20 @@ public class BookDao {
         }
     }
 
-    public void updatePaymentId(String orderId, String razorPaymentId, int paymentId) throws DAOException {
-
-        try {
-            String sql = "UPDATE book SET razorpay_payment_id = ?,payment_id=? WHERE razorpay_order_id = ?";
-            PreparedStatement stmt = DBConnection.getInstance().getConnection().prepareStatement(sql);
-            stmt.setString(1, razorPaymentId);
-            stmt.setString(2, String.valueOf(paymentId));
-            stmt.setString(3, orderId);
-            stmt.executeUpdate();
-
-        } catch (SQLException e) {
-            throw new DAOException("Error while connecting", e);
-        }
-    }
+//    public void updatePaymentId(String orderId, String razorPaymentId, int paymentId) throws DAOException {
+//
+//        try {
+//            String sql = "UPDATE book SET razorpay_payment_id = ?,payment_id=? WHERE razorpay_order_id = ?";
+//            PreparedStatement stmt = DBConnection.getInstance().getConnection().prepareStatement(sql);
+//            stmt.setString(1, razorPaymentId);
+//            stmt.setString(2, String.valueOf(paymentId));
+//            stmt.setString(3, orderId);
+//            stmt.executeUpdate();
+//
+//        } catch (SQLException e) {
+//            throw new DAOException("Error while connecting", e);
+//        }
+//    }
 
 
     public List<Book> BookingData(int userId) throws DAOException {
@@ -74,6 +131,7 @@ public class BookDao {
                 carDetails.setRegistrationNumber(resultSet.getInt(8));
                 book1.setCarDetails(carDetails);
                 book.add(book1);
+                System.out.println("add successfullyt");
             }
         } catch (SQLException e) {
             throw new DAOException("Error while connecting", e);

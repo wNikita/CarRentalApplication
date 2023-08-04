@@ -60,7 +60,7 @@
             <p>Payment Status: ${paymentDetails.get("status")}</p>
             <p>Currency: ${paymentDetails.get("currency")}</p>
 
-            <button onclick="redirectToHome()">OK</button> <!-- Add this button -->
+            <button onclick="redirectToHome()"></button> <!-- Add this button -->
 
         </div>
     </div>

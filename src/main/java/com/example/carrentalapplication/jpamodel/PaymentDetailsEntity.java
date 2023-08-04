@@ -8,9 +8,13 @@ import javax.persistence.*;
 public class PaymentDetailsEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Payment_id")
     private int paymentId;
 
-    @Column(name = "Payment_name",nullable = false,length = 20)
+    @Column(name = "Payment_type",nullable = false,length = 20)
+
+
+
     private String paymentStatus;
 
     public int getPaymentId() {
@@ -28,4 +32,5 @@ public class PaymentDetailsEntity {
     public void setPaymentStatus(String paymentStatus) {
         this.paymentStatus = paymentStatus;
     }
+
 }

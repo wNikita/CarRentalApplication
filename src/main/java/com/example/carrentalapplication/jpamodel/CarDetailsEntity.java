@@ -1,6 +1,7 @@
 package com.example.carrentalapplication.jpamodel;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "car")
@@ -8,7 +9,8 @@ import javax.persistence.*;
 public class CarDetailsEntity implements Comparable<CarDetailsEntity> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer carId;
+    @Column(name="car_id")
+    private String carId;
 
     @Column(name = "name",length = 10,nullable = false)
     private String name;
@@ -40,10 +42,30 @@ public class CarDetailsEntity implements Comparable<CarDetailsEntity> {
     @Column(name = "rental_rate_per_day",length = 10,nullable = false)
     private Integer chargePerDay;
 
-    @Column(name = "car_agency_id ",length = 20,nullable = false)
-    private Integer agencyId;
+//    @Column(name = "car_agency_id ",length = 20,nullable = false)
+//    private Integer agencyId;
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name="car_agency_id")
+        private AgencyDetailsEntity agencyDetailsEntity;
 
+        @OneToMany(mappedBy = "carDetailsEntity")
+        private List<BookEntity> bookEntity;
 
+    public List<BookEntity> getBookEntity() {
+        return bookEntity;
+    }
+
+    public void setBookEntity(List<BookEntity> bookEntity) {
+        this.bookEntity = bookEntity;
+    }
+
+    public AgencyDetailsEntity getAgencyDetailsEntity() {
+        return agencyDetailsEntity;
+    }
+
+    public void setAgencyDetailsEntity(AgencyDetailsEntity agencyDetailsEntity) {
+        this.agencyDetailsEntity = agencyDetailsEntity;
+    }
 
     @Column(name = "image")
     private String image;
@@ -58,20 +80,12 @@ public class CarDetailsEntity implements Comparable<CarDetailsEntity> {
 
 
 
-    public Integer getCarId() {
+    public String getCarId() {
         return carId;
     }
 
-    public void setCarId(Integer carId) {
+    public void setCarId(String carId) {
         this.carId = carId;
-    }
-
-    public Integer getAgencyId() {
-        return agencyId;
-    }
-
-    public void setAgencyId(Integer agencyId) {
-        this.agencyId = agencyId;
     }
 
     public String getFuelType() {
@@ -159,5 +173,7 @@ public class CarDetailsEntity implements Comparable<CarDetailsEntity> {
     public int compareTo(CarDetailsEntity o) {
         return getName().compareTo(o.getName());
     }
+
+
 }
 

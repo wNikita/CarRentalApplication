@@ -4,6 +4,8 @@ import com.example.carrentalapplication.dao.AddressDAO;
 import com.example.carrentalapplication.dao.AgencyDAO;
 import com.example.carrentalapplication.dao.CarDAO;
 import com.example.carrentalapplication.exception.DAOException;
+import com.example.carrentalapplication.jpamodel.AgencyDetailsEntity;
+import com.example.carrentalapplication.jpamodel.CarDetailsEntity;
 import com.example.carrentalapplication.jpamodel.UserEntity;
 import com.example.carrentalapplication.model.AgencyDetails;
 import com.example.carrentalapplication.model.CarDetails;
@@ -28,46 +30,60 @@ public class SortingData extends HttpServlet {
         HttpSession session = req.getSession();
         UserEntity user = (UserEntity) session.getAttribute("CurrentUser");
 
-        AgencyDetails agencyDetails1 = agencyDAO.viewAgencyDetails(user.getUserId());
-        HttpSession httpSession = req.getSession();
-        httpSession.setAttribute("AgencyUser", agencyDetails1);
+//        AgencyDetails agencyDetails1 = agencyDAO.viewAgencyDetails(user.getUserId());
+        try {
+            List<AgencyDetailsEntity> agencyDetailsEntities = agencyDAO.viewAgencyByUserId(user.getUserId());
+            for (AgencyDetailsEntity agencyDetailsEntity : agencyDetailsEntities) {
+                HttpSession httpSession = req.getSession();
+                httpSession.setAttribute("AgencyUser", agencyDetailsEntity);
 
-        String sortOrder = req.getParameter("sort");
+                String sortOrder = req.getParameter("sort");
 
-        List<CarDetails> carList = null;
-        if ("name_asc".equals(sortOrder)) {
-            try {
-                carList = carDAO.getCarsSortedByNameAscending(agencyDetails1.getAgencyDetailsId());
-            } catch (DAOException e) {
-                e.printStackTrace();
-            }
-        } else if ("name_desc".equals(sortOrder)) {
-            try {
-                carList = carDAO.getCarsSortedByNameDesc(agencyDetails1.getAgencyDetailsId());
-            } catch (DAOException e) {
-                e.printStackTrace();
-            }
-        } else if ("rate_max".equals(sortOrder)) {
-            try {
-                carList = carDAO.getCarsSortedByRentalRateDesc(agencyDetails1.getAgencyDetailsId());
-            } catch (DAOException e) {
-                e.printStackTrace();
-            }
-        } else if ("rate_min".equals(sortOrder)) {
-            try {
-                carList = carDAO.getCarsSortedByRentalRate(agencyDetails1.getAgencyDetailsId());
-            } catch (DAOException e) {
-                e.printStackTrace();
-            }
-        }
+                List<CarDetailsEntity> carList = null;
+                if ("name_asc" .equals(sortOrder)) {
+                    try {
+                        carList = carDAO.carNameByAscending(agencyDetailsEntity.getAgencyDetailsId());
+                        req.setAttribute("carDetails", carList);
 
-        //        } else {
+                    } catch (DAOException e) {
+                        e.printStackTrace();
+                    }
+                } else if ("name_desc" .equals(sortOrder)) {
+                    try {
+                        carList = carDAO.carNameByDesc(agencyDetailsEntity.getAgencyDetailsId());
+                        req.setAttribute("carDetails", carList);
+
+                    } catch (DAOException e) {
+                        e.printStackTrace();
+                    }
+                } else if ("rate_max" .equals(sortOrder)) {
+                    try {
+                        carList = carDAO.carRatePerDayByDesc(agencyDetailsEntity.getAgencyDetailsId());
+                        req.setAttribute("carDetails", carList);
+
+                    } catch (DAOException e) {
+                        e.printStackTrace();
+                    }
+                } else if ("rate_min" .equals(sortOrder)) {
+                    try {
+                        carList = carDAO.carRatePerDayByAsc(agencyDetailsEntity.getAgencyDetailsId());
+                        req.setAttribute("carDetails", carList);
+
+                    } catch (DAOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                //        } else {
 //            carList = carDAO.getCarsSortedByNameDescending();
 //        }
 
-        req.setAttribute("carDetails", carList);
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("ViewCar.jsp");
-        requestDispatcher.forward(req, resp);
+                RequestDispatcher requestDispatcher = req.getRequestDispatcher("ViewCar.jsp");
+                requestDispatcher.forward(req, resp);
+            }
+        } catch (DAOException e) {
+            e.printStackTrace();
+        }
     }
     //RequestDispatcher requestDispatcher = req.getRequestDispatcher("AddCar.jsp");
     //requestDispatcher.forward(req, resp);

@@ -2,6 +2,8 @@ package com.example.carrentalapplication.jpamodel;
 
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "agency")
@@ -9,6 +11,7 @@ import javax.persistence.*;
 public class AgencyDetailsEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="agency_details_id",length = 10)
     private int agencyDetailsId;
 
     @Column(name = "agency_Name", length = 30, nullable = false)
@@ -20,20 +23,16 @@ public class AgencyDetailsEntity {
     @Column(name = "mobile_number", length = 12, nullable = false)
     private String mobileNumber;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 
-    @Column(name = "user_id")
-    private int userId;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "address_id")
+    private AddressDetailsEntity addressDetailsEntity;
 
-//    @OneToOne
-//    @JoinColumn(name = "user_id")
-//    private UserEntity user;
-
-//    @OneToOne
-//    @JoinColumn(name = "address_id")
-//    private AddressDetailsEntity addressDetailsEntity;
-
-    @Column(name = "address_id")
-    private int addressId;
+    @OneToMany(mappedBy = "agencyDetailsEntity")
+    private Set<CarDetailsEntity> carDetailsEntities = new HashSet<>();
 
     public String getMobileNumber() {
         return mobileNumber;
@@ -43,21 +42,6 @@ public class AgencyDetailsEntity {
         this.mobileNumber = mobileNumber;
     }
 
-    public int getAddressId() {
-        return addressId;
-    }
-
-    public void setAddressId(int addressId) {
-        this.addressId = addressId;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
 
     public int getAgencyDetailsId() {
         return agencyDetailsId;
@@ -83,19 +67,27 @@ public class AgencyDetailsEntity {
         this.GSTNumber = GSTNumber;
     }
 
-//    public UserEntity getUser() {
-//        return user;
-//    }
-//
-//    public void setUser(UserEntity user) {
-//        this.user = user;
-//    }
-//
-//    public AddressDetailsEntity getAddressDetailsEntity() {
-//        return addressDetailsEntity;
-//    }
-//
-//    public void setAddressDetailsEntity(AddressDetailsEntity addressDetailsEntity) {
-//        this.addressDetailsEntity = addressDetailsEntity;
-//    }
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
+    }
+
+    public AddressDetailsEntity getAddressDetailsEntity() {
+        return addressDetailsEntity;
+    }
+
+    public void setAddressDetailsEntity(AddressDetailsEntity addressDetailsEntity) {
+        this.addressDetailsEntity = addressDetailsEntity;
+    }
+
+    public Set<CarDetailsEntity> getCarDetailsEntities() {
+        return carDetailsEntities;
+    }
+
+    public void setCarDetailsEntities(Set<CarDetailsEntity> carDetailsEntities) {
+        this.carDetailsEntities = carDetailsEntities;
+    }
 }

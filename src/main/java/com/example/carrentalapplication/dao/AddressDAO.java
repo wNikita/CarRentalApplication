@@ -2,6 +2,7 @@ package com.example.carrentalapplication.dao;
 
 
 import com.example.carrentalapplication.exception.DAOException;
+import com.example.carrentalapplication.jpamodel.AddressDetailsEntity;
 import com.example.carrentalapplication.jpamodel.CityEntity;
 import com.example.carrentalapplication.jpamodel.StateEntity;
 import com.example.carrentalapplication.jpamodel.UserEntity;
@@ -35,40 +36,66 @@ public class AddressDAO {
         }
     }
 
-//    public List<CityEntity> getAllCityByState(int stateId) throws DAOException {
-//        try {
-//            EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
-//            EntityManager em = emf.createEntityManager();
-//            em.getTransaction().begin();
-//            Query query = em.createQuery("Select s from CityEntity s where s.");
-//            query.setParameter("stateId", stateId);
-//            List<CityEntity> list = query.getResultList();
-//            em.getTransaction().commit();
-//            return list;
-//        } catch (Exception e) {
-//            throw new DAOException("Something went wrong", e);
-//        }
-//
-//
-//    }
-
-    public List<State> getState() throws DAOException {
+    public List<CityEntity> getAllCityByState(int stateId) throws DAOException {
         try {
-            List<State> stateList = new ArrayList<>();
-            String query = "select state_id,state_name from state";
-            Statement stmt = DBConnection.getInstance().getConnection().createStatement();
-            ResultSet rs = stmt.executeQuery(query);
-            while (rs.next()) {
-                State state = new State();
-                state.setStateId(rs.getInt(1));
-                state.setStateName(rs.getString(2));
-                stateList.add(state);
-            }
-            return stateList;
-        } catch (SQLException e) {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
+            EntityManager em = emf.createEntityManager();
+            em.getTransaction().begin();
+            Query query = em.createQuery("Select s from CityEntity s where s.stateEntity.stateId=:stateId");
+            query.setParameter("stateId", stateId);
+            List<CityEntity> list = query.getResultList();
+            em.getTransaction().commit();
+            return list;
+        } catch (Exception e) {
             throw new DAOException("Something went wrong", e);
         }
     }
+
+    public AddressDetailsEntity addAddress(AddressDetailsEntity addressDetailsEntity) throws DAOException {
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
+            EntityManager em = emf.createEntityManager();
+            em.getTransaction().begin();
+            em.persist(addressDetailsEntity);
+            em.getTransaction().commit();
+            return addressDetailsEntity;
+        } catch (Exception ex) {
+            throw new DAOException("Exception while adding user", ex);
+        }
+    }
+
+    public List<AddressDetailsEntity> getAddress(int addressId) throws DAOException {
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
+            EntityManager em = emf.createEntityManager();
+            em.getTransaction().begin();
+            Query query = em.createQuery("Select s from AddressDetailsEntity s where s.addressID=:addressId");
+            query.setParameter("addressId", addressId);
+            List<AddressDetailsEntity> list = query.getResultList();
+            em.getTransaction().commit();
+            return list;
+        } catch (Exception ex) {
+            throw new DAOException("Exception while adding user", ex);
+        }
+    }
+
+//    public List<State> getState() throws DAOException {
+//        try {
+//            List<State> stateList = new ArrayList<>();
+//            String query = "select state_id,state_name from state";
+//            Statement stmt = DBConnection.getInstance().getConnection().createStatement();
+//            ResultSet rs = stmt.executeQuery(query);
+//            while (rs.next()) {
+//                State state = new State();
+//                state.setStateId(rs.getInt(1));
+//                state.setStateName(rs.getString(2));
+//                stateList.add(state);
+//            }
+//            return stateList;
+//        } catch (SQLException e) {
+//            throw new DAOException("Something went wrong", e);
+//        }
+//    }
 
     public List<City> getCityByState(int stateId) throws DAOException {
         try {
@@ -84,8 +111,7 @@ public class AddressDAO {
                 cityList.add(city);
             }
             return cityList;
-        } catch (
-                SQLException e) {
+        } catch (SQLException e) {
             throw new DAOException("Something went wrong", e);
         }
 
@@ -106,7 +132,7 @@ public class AddressDAO {
         }
     }
 
-    public AddressDetails getAddress() throws DAOException {
+    public AddressDetails getAddressById() throws DAOException {
         AddressDetails addressDetails = new AddressDetails();
         try {
             String selectQuery = "select * from address";
@@ -121,7 +147,7 @@ public class AddressDAO {
         }
     }
 
-    public AddressDetails getAddress(int addressId) throws DAOException {
+    public AddressDetails getAddressByAddressId(int addressId) throws DAOException {
         try {
 
             AddressDetails addressDetails = new AddressDetails();
@@ -145,5 +171,6 @@ public class AddressDAO {
             throw new DAOException("Something went wrong", e);
         }
     }
-
 }
+
+

@@ -1,5 +1,6 @@
 <%@ page import="com.example.carrentalapplication.model.Book" %>
 <%@ page import="java.util.List" %>
+<%@ page import="com.example.carrentalapplication.jpamodel.BookEntity" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -60,18 +61,18 @@
         <!-- Add more table headers as needed -->
     </tr>
 
-    <% List<Book> BookingDetails = (List<Book>) request.getAttribute("bookingDetails");
+    <% List<BookEntity> BookingDetails = (List<BookEntity>) request.getAttribute("bookingDetails");
 
-        for (Book book : BookingDetails) { %>
+        for (BookEntity book : BookingDetails) { %>
     <tr>
         <td><%= book.getBookingId() %></td>
         <td><%= book.getPickupDate() %></td>
         <td><%= book.getReturnDate()%></td>
         <td><%= book.getRentalDays()%></td>
         <td><%= book.getTotalCost()%></td>
-        <td><%= book.getCarDetails().getName()%></td>
-        <td><%= book.getCarDetails().getRegistrationNumber()%></td>
-        <td><%=book.getCreatedDate()%></td>
+        <td><%= book.getCarDetailsEntity().getName()%></td>
+        <td><%= book.getCarDetailsEntity().getRegistrationNumber()%></td>
+<%--        <td><%=book.getCreatedDate()%></td>--%>
 
     </tr>
     <% } %>

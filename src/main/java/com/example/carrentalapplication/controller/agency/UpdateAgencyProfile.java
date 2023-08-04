@@ -7,6 +7,9 @@ import com.example.carrentalapplication.dto.AddressDetailsDTO;
 import com.example.carrentalapplication.dto.AgencyDetailsDTO;
 import com.example.carrentalapplication.dto.CityDTO;
 import com.example.carrentalapplication.exception.DAOException;
+import com.example.carrentalapplication.jpamodel.AgencyDetailsEntity;
+import com.example.carrentalapplication.jpamodel.CityEntity;
+import com.example.carrentalapplication.jpamodel.StateEntity;
 import com.example.carrentalapplication.jpamodel.UserEntity;
 import com.example.carrentalapplication.model.*;
 
@@ -29,33 +32,33 @@ public class UpdateAgencyProfile extends HttpServlet {
         HttpSession session = req.getSession();
         UserEntity user = (UserEntity) session.getAttribute("CurrentUser");
 
-        AgencyDetails agencyDetails = null;
+        List<AgencyDetailsEntity> agencyDetails1 = null;
         try {
-            agencyDetails = agencyDAO.getAgenciesByUserId(user.getUserId());
-        } catch (DAOException e) {
-            e.printStackTrace();
-        }
-        try {
-            List<State> states = addressDAO.getState();
-            req.setAttribute("states", states);
-            req.setAttribute("stateID", agencyDetails.getAddressDetails().getState().getStateId());
-            if (req.getParameter("stateID") != null) {
-                int stateID = Integer.parseInt(req.getParameter("stateID"));
-                List<City> cityList = addressDAO.getCityByState(stateID);
-                req.setAttribute("cityList", cityList);
-                req.setAttribute("cityId", agencyDetails.getAddressDetails().getCity().getCityId());
+            agencyDetails1 = agencyDAO.viewAgencyByUserId(user.getUserId());
+            for (AgencyDetailsEntity agencyDetailsEntity : agencyDetails1) {
+                List<StateEntity> states = addressDAO.getAllState();
+                req.setAttribute("states", states);
+                req.setAttribute("stateID", agencyDetailsEntity.getAddressDetailsEntity().getCityId().getStateEntity().getStateId());
+                if (req.getParameter("stateID") != null) {
+                    int stateID = Integer.parseInt(req.getParameter("stateID"));
+                    List<CityEntity> cityList = addressDAO.getAllCityByState(stateID);
+                    req.setAttribute("cityList", cityList);
+                    req.setAttribute("cityId", agencyDetailsEntity.getAddressDetailsEntity().getCityId().getCityId());
+
+                }
+                req.setAttribute("agency", agencyDetailsEntity);
 
             }
-
         } catch (DAOException e) {
             e.printStackTrace();
         }
-        req.setAttribute("agency", agencyDetails);
+
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("UpdateAgencyProfile.jsp?userId=" + user.getUserId());
         requestDispatcher.forward(req, resp);
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws
+            ServletException, IOException {
         String agencyId = request.getParameter("agencyId");
         String cityId = request.getParameter("city");
         AgencyDetailsDTO agencyDetailsDTO = new AgencyDetailsDTO();
@@ -81,7 +84,8 @@ public class UpdateAgencyProfile extends HttpServlet {
 
             AgencyDAO agencyDAO = new AgencyDAO();
             try {
-                agencyDAO.updateAgency(agencyDetailsDTO, agencyId);
+//                agencyDAO.updateAgency(agencyDetailsDTO, agencyId);
+                setDataOfAgency(agencyDetailsDTO);
                 agencyDAO.updateAddress(addressDetailsDTO, agencyId);
                 agencyDAO.updateCity(agencyId, addressDetailsDTO.getCity().getCityId());
                 RequestDispatcher requestDispatcher = request.getRequestDispatcher("Admin.jsp");
@@ -90,6 +94,17 @@ public class UpdateAgencyProfile extends HttpServlet {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void setDataOfAgency(AgencyDetailsDTO agency) throws DAOException {
+        AgencyDAO agencyDAO = new AgencyDAO();
+        AgencyDetailsEntity agencyDetailsEntity = new AgencyDetailsEntity();
+        agencyDetailsEntity.setAgencyDetailsId(Integer.parseInt(agency.getAgencyDetailsId()));
+        agencyDetailsEntity.setAgencyName(agency.getAgencyName());
+        agencyDetailsEntity.setMobileNumber(agency.getMobileNumber());
+        agencyDetailsEntity.setGSTNumber(agency.getGSTNumber());
+        agencyDAO.userAgencyProfile(agencyDetailsEntity);
+
     }
 }
 

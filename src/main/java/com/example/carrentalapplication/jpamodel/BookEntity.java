@@ -2,39 +2,47 @@ package com.example.carrentalapplication.jpamodel;
 
 
 import javax.persistence.*;
-import java.util.Date;
 
+@Entity
 @Table(name = "book")
 
 public class BookEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "booking_Id")
     private int bookingId;
 
     @Column(name = "pickupDate", nullable = false)
-    private Date pickupDate;
+    private String pickupDate;
 
     @Column(name = "returnDate", nullable = false)
-    private Date returnDate;
+    private String returnDate;
 
     @Column(name = "rentaldays", nullable = false, length = 10)
-    private int rentalDays;
+    private String rentalDays;
 
     @Column(name = "totalcost", nullable = false, length = 10)
-    private int totalCost;
+    private String totalCost;
 
     @Column(name = "license", nullable = false)
     private String license;
 
-    @Column(name = "car_id ", nullable = false)
-    private int carId;
+    //    @Column(name = "car_id ", nullable = false)
+//    private int carId;
+    @OneToOne
+    @JoinColumn(name = "payment_id")
+    private PaymentDetailsEntity paymentDetailsEntity;
+    @ManyToOne
+    @JoinColumn(name = "car_id")
+    private CarDetailsEntity carDetailsEntity;
 
-    @Column(name = "user_id ", nullable = false)
-    private int userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity userEntity;
 
 
-    @Column(name = "payment_id ")
-    private int paymentId;
+//    @Column(name = "payment_id ")
+//    private int paymentId;
 
     @Column(name = "razorpay_order_id")
     private String razorpayOrderId;
@@ -42,26 +50,31 @@ public class BookEntity {
     @Column(name = "razorpay_payment_id")
     private String razorpayPaymentId;
 
-
-    Date createdDate;
-    CarDetailsEntity carDetails;
-
-
-    public CarDetailsEntity getCarDetails() {
-        return carDetails;
+    public PaymentDetailsEntity getPaymentDetailsEntity() {
+        return paymentDetailsEntity;
     }
 
-    public void setCarDetails(CarDetailsEntity carDetails) {
-        this.carDetails = carDetails;
+    public void setPaymentDetailsEntity(PaymentDetailsEntity paymentDetailsEntity) {
+        this.paymentDetailsEntity = paymentDetailsEntity;
+    }
+//    CarDetailsEntity carDetails;
+
+
+    //    public CarDetailsEntity getCarDetails() {
+//        return carDetails;
+//    }
+//
+//    public void setCarDetails(CarDetailsEntity carDetails) {
+//        this.carDetails = carDetails;
+//    }
+    public CarDetailsEntity getCarDetailsEntity() {
+        return carDetailsEntity;
     }
 
-    public Date getCreatedDate() {
-        return createdDate;
+    public void setCarDetailsEntity(CarDetailsEntity carDetailsEntity) {
+        this.carDetailsEntity = carDetailsEntity;
     }
 
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
 
     public int getBookingId() {
         return bookingId;
@@ -87,35 +100,36 @@ public class BookEntity {
         this.razorpayPaymentId = razorpayPaymentId;
     }
 
-    public Date getPickupDate() {
+    public String getPickupDate() {
         return pickupDate;
     }
 
-    public void setPickupDate(Date pickupDate) {
+    public void setPickupDate(String pickupDate) {
         this.pickupDate = pickupDate;
     }
 
-    public Date getReturnDate() {
+    public String getReturnDate() {
         return returnDate;
     }
 
-    public void setReturnDate(Date returnDate) {
+    public void setReturnDate(String returnDate) {
         this.returnDate = returnDate;
     }
 
-    public int getRentalDays() {
+    public String getRentalDays() {
         return rentalDays;
     }
 
-    public void setRentalDays(int rentalDays) {
+    public void setRentalDays(String rentalDays) {
         this.rentalDays = rentalDays;
     }
 
-    public int getTotalCost() {
+    public String getTotalCost() {
         return totalCost;
     }
 
-    public void setTotalCost(int totalCost) {
+    public void setTotalCost(String totalCost) {
+
         this.totalCost = totalCost;
     }
 
@@ -127,28 +141,22 @@ public class BookEntity {
         this.license = license;
     }
 
-    public int getCarId() {
-        return carId;
-    }
-
-    public void setCarId(int carId) {
-        this.carId = carId;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
+//    public int getCarId() {
+//        return carId;
+//    }
+//
+//    public void setCarId(int carId) {
+//        this.carId = carId;
+//    }
 
 
-    public int getPaymentId() {
-        return paymentId;
+    public UserEntity getUserEntity() {
+        return userEntity;
     }
 
-    public void setPaymentId(int paymentId) {
-        this.paymentId = paymentId;
+    public void setUserEntity(UserEntity userEntity) {
+        this.userEntity = userEntity;
     }
+
+
 }

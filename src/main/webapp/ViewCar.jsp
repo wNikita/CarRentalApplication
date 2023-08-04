@@ -1,5 +1,6 @@
 <%@ page import="com.example.carrentalapplication.model.CarDetails" %>
 <%@ page import="java.util.List" %>
+<%@ page import="com.example.carrentalapplication.jpamodel.CarDetailsEntity" %>
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <html>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"
@@ -65,9 +66,9 @@
     <tbody>
     <%-- Iterate over the car list and populate the table rows --%>
 
-    <% List<CarDetails> carDetails = (List<CarDetails>) request.getAttribute("carDetails");
+    <% List<CarDetailsEntity> carDetails = (List<CarDetailsEntity>) request.getAttribute("carDetails");
 
-        for (CarDetails carDetails1 : carDetails) { %>
+        for (CarDetailsEntity carDetails1 : carDetails) { %>
     <tr>
         <td><%= carDetails1.getCarId() %>
         </td>

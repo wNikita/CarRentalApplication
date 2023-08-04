@@ -3,6 +3,7 @@ package com.example.carrentalapplication.controller.car;
 import com.example.carrentalapplication.dao.BookDao;
 import com.example.carrentalapplication.dao.PaymentDao;
 import com.example.carrentalapplication.exception.DAOException;
+import com.example.carrentalapplication.jpamodel.PaymentDetailsEntity;
 import com.example.carrentalapplication.model.PaymentDetails;
 import com.razorpay.*;
 import org.json.JSONObject;
@@ -46,10 +47,12 @@ public class PaymentResult extends HttpServlet {
                         PaymentDao paymentDao = new PaymentDao();
                         PaymentDetails paymentDetails1 = new PaymentDetails();
                         paymentDetails1.setPaymentStatus(payment.get("method"));
-                        PaymentDetails paymentDetails = paymentDao.addPaymentDetails(paymentDetails1);
+                        PaymentDetailsEntity paymentDetailsEntity = new PaymentDetailsEntity();
+                        paymentDetailsEntity.setPaymentStatus(paymentDetails1.getPaymentStatus());
+                        paymentDao.addPayment(paymentDetailsEntity);
 
                         BookDao bookDAO = new BookDao();
-                        bookDAO.updatePaymentId(orderId, paymentId, paymentDetails.getPaymentId());
+                        bookDAO.updatePayment(orderId, paymentId, paymentDetailsEntity.getPaymentId());
 
                     } catch (RazorpayException e) {
                         e.printStackTrace();

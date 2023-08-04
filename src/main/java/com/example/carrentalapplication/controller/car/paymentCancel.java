@@ -11,8 +11,8 @@ public class paymentCancel extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher requestDispatcher= req.getRequestDispatcher("CancelPayment.jsp");
-        requestDispatcher.forward(req,resp);
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("CancelPayment.jsp");
+        requestDispatcher.forward(req, resp);
         System.out.println("Cancel Payment");
     }
 }

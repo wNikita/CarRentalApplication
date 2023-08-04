@@ -4,7 +4,7 @@ import com.example.carrentalapplication.dao.AddressDAO;
 import com.example.carrentalapplication.dao.AgencyDAO;
 import com.example.carrentalapplication.dao.UserDAO;
 import com.example.carrentalapplication.exception.DAOException;
-import com.example.carrentalapplication.jpamodel.UserEntity;
+import com.example.carrentalapplication.jpamodel.*;
 import com.example.carrentalapplication.model.*;
 
 import javax.servlet.RequestDispatcher;
@@ -24,11 +24,11 @@ public class AddAgencyServlet extends HttpServlet {
         try {
             AddressDAO addressDAO = new AddressDAO();
 
-            List<State> states = addressDAO.getState();
+            List<StateEntity> states = addressDAO.getAllState();
             req.setAttribute("states", states);
             if (req.getParameter("stateID") != null) {
                 int stateID = Integer.parseInt(req.getParameter("stateID"));
-                List<City> cityList = addressDAO.getCityByState(stateID);
+                List<CityEntity> cityList = addressDAO.getAllCityByState(stateID);
                 req.setAttribute("cityList", cityList);
             }
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("AddAgency.jsp");
@@ -50,23 +50,37 @@ public class AddAgencyServlet extends HttpServlet {
 
         AddressDAO addressDAO = new AddressDAO();
         try {
-            addressDAO.addAddress(addressDetails, cityId);
-            addressDetails = addressDAO.getAddress();
-        } catch (DAOException e) {
-            e.printStackTrace();
-        }
-        HttpSession session = req.getSession();
-        UserEntity user = (UserEntity) session.getAttribute("CurrentUser");
+            AddressDetailsEntity addressDetailsEntity = new AddressDetailsEntity();
+            addressDetailsEntity.setAddressLine(addressDetails.getAddressLine());
+            addressDetailsEntity.setPinCode(addressDetails.getPinCode());
+            CityEntity cityEntity = new CityEntity();
+            cityEntity.setCityId(cityId);
+            addressDetailsEntity.setCityId(cityEntity);
+            addressDAO.addAddress(addressDetailsEntity);
+            addressDetailsEntity.getAddressID();
 
-        int addressID = addressDetails.getAddressID();
-        AgencyDetails agencyDetails = new AgencyDetails();
-        agencyDetails.setAgencyName(req.getParameter("agencyName"));
-        agencyDetails.setGSTNumber(req.getParameter("gstNumber"));
-        agencyDetails.setMobileNumber(req.getParameter("mobileNumber"));
+            HttpSession session = req.getSession();
+            UserEntity user = (UserEntity) session.getAttribute("CurrentUser");
 
-        AgencyDAO agencyDAO = new AgencyDAO();
-        try {
-            agencyDAO.addAgency(user.getUserId(), agencyDetails, addressID);
+//        int addressID = addressDetails.getAddressID();
+            AgencyDetails agencyDetails = new AgencyDetails();
+            agencyDetails.setAgencyName(req.getParameter("agencyName"));
+            agencyDetails.setGSTNumber(req.getParameter("gstNumber"));
+            agencyDetails.setMobileNumber(req.getParameter("mobileNumber"));
+
+            AgencyDAO agencyDAO = new AgencyDAO();
+            AgencyDetailsEntity agencyDetailsEntity = new AgencyDetailsEntity();
+//            AddressDetailsEntity addressDetailsEntity=new AddressDetailsEntity();
+            addressDetailsEntity.setAddressID(addressDetailsEntity.getAddressID());
+            UserEntity userEntity = new UserEntity();
+            userEntity.setUserId(user.getUserId());
+            agencyDetailsEntity.setAgencyName(agencyDetails.getAgencyName());
+            agencyDetailsEntity.setGSTNumber(agencyDetails.getGSTNumber());
+            agencyDetailsEntity.setMobileNumber(agencyDetails.getGSTNumber());
+            agencyDetailsEntity.setAddressDetailsEntity(addressDetailsEntity);
+            agencyDetailsEntity.setUser(user);
+            agencyDAO.registerAgency(agencyDetailsEntity);
+//            agencyDAO.addAgency(user.getUserId(), agencyDetails, addressID);
 //            userDAO.manageLoginStatus(user.getEmailId(), true);
             userDAO.userLoginStatus(user.getEmailId(), true);
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("Admin.jsp");

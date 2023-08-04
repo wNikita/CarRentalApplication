@@ -3,6 +3,8 @@ package com.example.carrentalapplication.controller.agency;
 import com.example.carrentalapplication.dao.AgencyDAO;
 import com.example.carrentalapplication.dao.BookDao;
 import com.example.carrentalapplication.exception.DAOException;
+import com.example.carrentalapplication.jpamodel.AgencyDetailsEntity;
+import com.example.carrentalapplication.jpamodel.BookEntity;
 import com.example.carrentalapplication.jpamodel.UserEntity;
 import com.example.carrentalapplication.model.AgencyDetails;
 import com.example.carrentalapplication.model.Book;
@@ -25,17 +27,20 @@ public class BookingDetailsForAgency extends HttpServlet {
         UserEntity user = (UserEntity) session.getAttribute("CurrentUser");
         try {
             AgencyDAO agencyDAO = new AgencyDAO();
-            AgencyDetails agencyDetails = agencyDAO.getAgenciesByUserId(user.getUserId());
+            List<AgencyDetailsEntity> agencyDetails = agencyDAO.viewAgencyByUserId(user.getUserId());
+//                    getAgenciesByUserId(user.getUserId());
+            for (AgencyDetailsEntity agencyDetailsEntity : agencyDetails) {
+                BookDao bookDao = new BookDao();
 
-            BookDao bookDao = new BookDao();
+                List<BookEntity> bookList = bookDao.viewBookingDataForAgencyAdmin(agencyDetailsEntity.getAgencyDetailsId());
+                req.setAttribute("bookingDetails", bookList);
 
-            List<Book> bookList = bookDao.BookingDataForAgencyAdmin(agencyDetails.getAgencyDetailsId());
-            req.setAttribute("bookingDetails", bookList);
-
-            RequestDispatcher requestDispatcher = req.getRequestDispatcher("AdminViewBooking.jsp");
-            requestDispatcher.forward(req, resp);
+                RequestDispatcher requestDispatcher = req.getRequestDispatcher("AdminViewBooking.jsp");
+                requestDispatcher.forward(req, resp);
+            }
         } catch (DAOException e) {
             e.printStackTrace();
         }
+
     }
 }

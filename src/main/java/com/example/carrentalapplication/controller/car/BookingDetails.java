@@ -2,6 +2,7 @@ package com.example.carrentalapplication.controller.car;
 
 import com.example.carrentalapplication.dao.BookDao;
 import com.example.carrentalapplication.exception.DAOException;
+import com.example.carrentalapplication.jpamodel.BookEntity;
 import com.example.carrentalapplication.jpamodel.UserEntity;
 import com.example.carrentalapplication.model.Book;
 import com.example.carrentalapplication.model.User;
@@ -25,7 +26,7 @@ public class BookingDetails extends HttpServlet {
 
         BookDao bookDao = new BookDao();
         try {
-            List<Book> book = bookDao.BookingData(user.getUserId());
+            List<BookEntity> book = bookDao.viewBookingData(user.getUserId());
             req.setAttribute("bookingDetails", book);
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("BookingDetails.jsp");
             requestDispatcher.forward(req, resp);

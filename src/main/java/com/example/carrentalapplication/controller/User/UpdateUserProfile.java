@@ -22,7 +22,7 @@ public class UpdateUserProfile extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
-        User user = (User) session.getAttribute("CurrentUser");
+        UserEntity user = (UserEntity) session.getAttribute("CurrentUser");
 
         req.setAttribute("user", user);
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("UpdateUserProfile.jsp");
