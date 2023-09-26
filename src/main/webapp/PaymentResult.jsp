@@ -60,7 +60,7 @@
             <p>Payment Status: ${paymentDetails.get("status")}</p>
             <p>Currency: ${paymentDetails.get("currency")}</p>
 
-            <button onclick="redirectToHome()"></button> <!-- Add this button -->
+            <button onclick="redirectToHome()">OK</button> <!-- Add this button -->
 
         </div>
     </div>
@@ -68,7 +68,7 @@
 
 <script>
     function redirectToHome() {
-        window.location.href = "viewStateCity"; // Replace "home.html" with the URL of the desired page
+        window.location.href = "viewStateCity";
     }
 </script>
 
