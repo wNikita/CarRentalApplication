@@ -10,7 +10,7 @@ public class AgencyValidation {
     public static List<Error> AgencyValidate(AgencyDetailsDTO agencyDetailsDTO) {
         List<Error> errorList = new ArrayList<>();
         if (Validation.isEmpty(agencyDetailsDTO.getAgencyName())) {
-            errorList.add(new Error("Please enter agencyName"));
+            errorList.add(new Error("Please enter agency name"));
         }
         if (Validation.isEmpty(agencyDetailsDTO.getMobileNumber())) {
             errorList.add(new Error("please enter mobile number"));
@@ -20,7 +20,7 @@ public class AgencyValidation {
         }
         if(Validation.isEmpty(agencyDetailsDTO.getAddressDetailsDTO().getPinCode()))
         {
-            errorList.add(new Error("please enter pincode"));
+            errorList.add(new Error("please enter pin code"));
         }
         return errorList;
     }
