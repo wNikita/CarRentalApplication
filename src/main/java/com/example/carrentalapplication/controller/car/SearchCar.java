@@ -3,8 +3,6 @@ package com.example.carrentalapplication.controller.car;
 import com.example.carrentalapplication.dao.CarDAO;
 import com.example.carrentalapplication.exception.DAOException;
 import com.example.carrentalapplication.jpamodel.CarDetailsEntity;
-import com.example.carrentalapplication.model.CarDetails;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

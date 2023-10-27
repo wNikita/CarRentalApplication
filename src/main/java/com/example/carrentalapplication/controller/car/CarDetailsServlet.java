@@ -7,8 +7,6 @@ import com.example.carrentalapplication.exception.DAOException;
 import com.example.carrentalapplication.jpamodel.BookEntity;
 import com.example.carrentalapplication.jpamodel.CarDetailsEntity;
 import com.example.carrentalapplication.jpamodel.UserEntity;
-import com.example.carrentalapplication.model.CarDetails;
-import com.example.carrentalapplication.model.User;
 import com.razorpay.Order;
 import com.razorpay.RazorpayClient;
 import com.razorpay.RazorpayException;
