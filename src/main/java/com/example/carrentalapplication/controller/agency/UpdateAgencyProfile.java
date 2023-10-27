@@ -11,8 +11,6 @@ import com.example.carrentalapplication.jpamodel.AgencyDetailsEntity;
 import com.example.carrentalapplication.jpamodel.CityEntity;
 import com.example.carrentalapplication.jpamodel.StateEntity;
 import com.example.carrentalapplication.jpamodel.UserEntity;
-import com.example.carrentalapplication.model.*;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

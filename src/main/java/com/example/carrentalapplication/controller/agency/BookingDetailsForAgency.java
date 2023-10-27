@@ -6,9 +6,6 @@ import com.example.carrentalapplication.exception.DAOException;
 import com.example.carrentalapplication.jpamodel.AgencyDetailsEntity;
 import com.example.carrentalapplication.jpamodel.BookEntity;
 import com.example.carrentalapplication.jpamodel.UserEntity;
-import com.example.carrentalapplication.model.AgencyDetails;
-import com.example.carrentalapplication.model.Book;
-import com.example.carrentalapplication.model.User;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
