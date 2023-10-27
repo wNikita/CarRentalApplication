@@ -4,9 +4,6 @@ import com.example.carrentalapplication.dao.AddressDAO;
 import com.example.carrentalapplication.exception.DAOException;
 import com.example.carrentalapplication.jpamodel.CityEntity;
 import com.example.carrentalapplication.jpamodel.StateEntity;
-import com.example.carrentalapplication.model.City;
-import com.example.carrentalapplication.model.State;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
