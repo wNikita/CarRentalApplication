@@ -4,10 +4,7 @@ import com.example.carrentalapplication.Validation.CarDetailsValidation;
 import com.example.carrentalapplication.dao.CarDAO;
 import com.example.carrentalapplication.dto.CarDetailsDTO;
 import com.example.carrentalapplication.exception.DAOException;
-import com.example.carrentalapplication.jpamodel.AgencyDetailsEntity;
 import com.example.carrentalapplication.jpamodel.CarDetailsEntity;
-import com.example.carrentalapplication.model.CarDetails;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
