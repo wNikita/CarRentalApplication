@@ -57,8 +57,7 @@ public class UpdateAgencyProfile extends HttpServlet {
         requestDispatcher.forward(req, resp);
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws
-            ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String agencyId = request.getParameter("agencyId");
         String cityId = request.getParameter("city");
         AgencyDetailsDTO agencyDetailsDTO = new AgencyDetailsDTO();

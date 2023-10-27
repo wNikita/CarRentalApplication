@@ -91,10 +91,8 @@ public class CarDetailsServlet extends HttpServlet {
             double totalCost = Double.parseDouble(bookDTO.getTotalCostDTO()); // Assuming this returns the amount in rupees
 
             int amountInPaise = (int) (totalCost * 100); // Convert rupees to paise
-
             orderRequest.put("amount", amountInPaise); // amount in the smallest currency unit
             orderRequest.put("currency", "INR");
-
             Order order = razorpay.Orders.create(orderRequest);
             String orderId = order.get("id");
             req.setAttribute("razorpay_order_id", orderId);
