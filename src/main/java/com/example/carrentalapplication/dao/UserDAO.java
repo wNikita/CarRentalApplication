@@ -25,6 +25,7 @@ public class UserDAO {
             em.getTransaction().begin();
             em.persist(userEntity);
             em.getTransaction().commit();
+            return userEntity;
         } catch (Exception ex) {
             throw new DAOException("Exception while adding user", ex);
         }
